@@ -14,7 +14,11 @@ extension YDMOfflineOrdersViewController {
 
   func createCollectionView() {
     let layoutFlow = UICollectionViewFlowLayout()
-    layoutFlow.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: view.safeAreaInsets.bottom + 20, right: 0)
+    layoutFlow.sectionInset = UIEdgeInsets(top: view.safeAreaInsets.top + 20,
+                                           left: 0,
+                                           bottom: view.safeAreaInsets.bottom + 20,
+                                           right: 0)
+
     layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 177)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16

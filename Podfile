@@ -13,5 +13,6 @@ target 'YDMOfflineOrders' do
 
   pod 'YDUtilities'
   pod 'YDExtensions'
+  pod 'YDB2WAssets'
 
 end

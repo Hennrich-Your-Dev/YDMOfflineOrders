@@ -8,8 +8,10 @@
 import UIKit
 
 import YDExtensions
+import YDB2WAssets
 
 class OrdersCollectionViewCell: UICollectionViewCell {
+  // MARK: Properties
   var titleLabel: UILabel!
   var subTitleLabel: UILabel!
   var photoImageView: UIImageView!
@@ -81,9 +83,10 @@ extension OrdersCollectionViewCell {
 
     subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      subTitleLabel.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 16),
+      subTitleLabel.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 3),
       subTitleLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
-      subTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
+      subTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                              constant: -8),
       subTitleLabel.heightAnchor.constraint(equalToConstant: 16)
     ])
 
@@ -109,6 +112,8 @@ extension OrdersCollectionViewCell {
   func createPhotoImageView(parent: UIView) -> UIImageView {
     let photoImageView = UIImageView()
     photoImageView.contentMode = .scaleAspectFit
+    photoImageView.image = Images.clipboard
+    photoImageView.backgroundColor = UIColor.Zeplin.white
     contentView.addSubview(photoImageView)
 
     photoImageView.translatesAutoresizingMaskIntoConstraints = false

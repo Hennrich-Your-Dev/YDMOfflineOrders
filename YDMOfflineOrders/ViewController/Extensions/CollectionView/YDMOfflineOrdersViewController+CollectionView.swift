@@ -21,6 +21,8 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
             for: indexPath) as? OrdersCollectionViewCell
     else { fatalError("Dequeue OrdersCollectionViewCell") }
 
+    cell.widthAnchor.constraint(equalToConstant: collectionView.frame.size.width).isActive = true
+
     return cell
   }
 }
