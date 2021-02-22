@@ -53,6 +53,10 @@ public extension UIColor {
       return UIColor(white: 1.0, alpha: 1.0) | UIColor(r: 51, g: 51, b: 51)
     }
 
+    public static var separator: UIColor {
+      return UIColor(white: 232.0 / 255.0, alpha: 1.0)
+    }
+
     // MARK: Red
     public static var colorPrimaryLight: UIColor {
       return UIColor(red: 252.0 / 255.0, green: 13.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)

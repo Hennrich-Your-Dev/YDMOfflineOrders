@@ -15,6 +15,9 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   var titleLabel: UILabel!
   var subTitleLabel: UILabel!
   var photoImageView: UIImageView!
+  var dateLabel: UILabel!
+  var productNameLabel: UILabel!
+  var productPriceLabel: UILabel!
 
   // MARK: Life cycle
   override init(frame: CGRect) {
@@ -43,17 +46,26 @@ class OrdersCollectionViewCell: UICollectionViewCell {
 
   // MARK: Actions
   func setUpLayout() {
-    titleLabel = createTitleLabel()
-    subTitleLabel = createSubTitleLabel(parent: titleLabel)
-    let separator = createSeparator(parent: subTitleLabel)
-    photoImageView = createPhotoImageView(parent: separator)
+    createTitleLabel()
+    createSubTitleLabel()
+
+    let separator = createSeparator()
+
+    createPhotoImageView(parent: separator)
+
+    createDateLabel(parent: separator)
+    createProductNameLabel()
+
+    let valueTotalLabel = createValueTotalLabel()
+    createValueLabel(parent: valueTotalLabel)
+    createNoteLabel()
   }
 }
 
 // MARK: Layout
 extension OrdersCollectionViewCell {
-  func createTitleLabel() -> UILabel {
-    let titleLabel = UILabel()
+  func createTitleLabel() {
+    self.titleLabel = UILabel()
     titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
     titleLabel.textAlignment = .left
     titleLabel.textColor = UIColor.Zeplin.black
@@ -68,12 +80,10 @@ extension OrdersCollectionViewCell {
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
       titleLabel.heightAnchor.constraint(equalToConstant: 18)
     ])
-
-    return titleLabel
   }
 
-  func createSubTitleLabel(parent: UIView) -> UILabel {
-    let subTitleLabel = UILabel()
+  func createSubTitleLabel() {
+    self.subTitleLabel = UILabel()
     subTitleLabel.font = .systemFont(ofSize: 14)
     subTitleLabel.textAlignment = .left
     subTitleLabel.textColor = UIColor.Zeplin.grayLight
@@ -83,24 +93,22 @@ extension OrdersCollectionViewCell {
 
     subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      subTitleLabel.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 3),
-      subTitleLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+      subTitleLabel.topAnchor.constraint(equalTo:  self.titleLabel.bottomAnchor, constant: 3),
+      subTitleLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
       subTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                               constant: -8),
       subTitleLabel.heightAnchor.constraint(equalToConstant: 16)
     ])
-
-    return subTitleLabel
   }
 
-  func createSeparator(parent: UIView) -> UIView {
+  func createSeparator() -> UIView {
     let separatorView = UIView()
     separatorView.backgroundColor = UIColor.Zeplin.grayDisabled
     contentView.addSubview(separatorView)
 
     separatorView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      separatorView.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 13),
+      separatorView.topAnchor.constraint(equalTo:  self.subTitleLabel.bottomAnchor, constant: 13),
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       separatorView.heightAnchor.constraint(equalToConstant: 1)
@@ -109,31 +117,140 @@ extension OrdersCollectionViewCell {
     return separatorView
   }
 
-  func createPhotoImageView(parent: UIView) -> UIImageView {
-    let photoImageView = UIImageView()
+  func createPhotoImageView(parent: UIView) {
+    let rect = CGRect(x: 0, y: 0, width: 80, height: 80)
+    self.photoImageView = UIImageView(frame: rect)
     photoImageView.contentMode = .scaleAspectFit
-    photoImageView.image = Images.clipboard
-    photoImageView.backgroundColor = UIColor.Zeplin.white
+    photoImageView.image = Images.basket
     contentView.addSubview(photoImageView)
 
     photoImageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       photoImageView.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 13),
-      photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                              constant: 16),
       photoImageView.heightAnchor.constraint(equalToConstant: 80),
       photoImageView.widthAnchor.constraint(equalToConstant: 80)
     ])
 
     photoImageView.layer.cornerRadius = 8
 
-    let mask = CAShapeLayer()
-    mask.frame = photoImageView.frame
-    mask.cornerRadius = 8
-    mask.backgroundColor = UIColor.gray.withAlphaComponent(0.7).cgColor
-    mask.opacity = 0.7
+    let maskLayer = CALayer()
+    maskLayer.frame = photoImageView.frame
+    maskLayer.cornerRadius = 8
+    maskLayer.opacity = 0.1
+    maskLayer.backgroundColor = UIColor.gray.withAlphaComponent(0.7).cgColor
 
-    photoImageView.layer.mask = mask
+    photoImageView.layer.insertSublayer(maskLayer, at: 0)
+  }
 
-    return photoImageView
+  func createDateLabel(parent: UIView) {
+    self.dateLabel = UILabel()
+    dateLabel.font = .systemFont(ofSize: 13)
+    dateLabel.textAlignment = .left
+    dateLabel.textColor = UIColor.Zeplin.grayLight
+    dateLabel.numberOfLines = 1
+    dateLabel.text = "07/04/2020 às 14:22h"
+    contentView.addSubview(dateLabel)
+
+    dateLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      dateLabel.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 13),
+      dateLabel.leadingAnchor.constraint(equalTo: self.photoImageView.trailingAnchor, constant: 16),
+      dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                              constant: -8),
+      dateLabel.heightAnchor.constraint(equalToConstant: 15)
+    ])
+  }
+
+  func createProductNameLabel() {
+    self.productNameLabel = UILabel()
+    productNameLabel.font = .systemFont(ofSize: 14)
+    productNameLabel.textAlignment = .left
+    productNameLabel.textColor = UIColor.Zeplin.grayLight
+    productNameLabel.numberOfLines = 1
+    productNameLabel.text = .loremIpsum()
+    contentView.addSubview(productNameLabel)
+
+    productNameLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      productNameLabel.topAnchor.constraint(equalTo:  self.dateLabel.bottomAnchor,
+                                            constant: 3),
+      productNameLabel.leadingAnchor.constraint(equalTo: self.dateLabel.leadingAnchor),
+      productNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                              constant: -8),
+      productNameLabel.heightAnchor.constraint(equalToConstant: 16)
+    ])
+  }
+
+  func createValueTotalLabel() -> UILabel {
+    let valueTotalLabel = UILabel()
+    valueTotalLabel.font = .systemFont(ofSize: 12)
+    valueTotalLabel.textAlignment = .left
+    valueTotalLabel.textColor = UIColor.Zeplin.grayLight
+    valueTotalLabel.numberOfLines = 1
+    valueTotalLabel.text = "total:"
+    contentView.addSubview(valueTotalLabel)
+
+    valueTotalLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      valueTotalLabel.topAnchor.constraint(equalTo:  self.productNameLabel.bottomAnchor,
+                                            constant: 7),
+      valueTotalLabel.leadingAnchor.constraint(equalTo: self.productNameLabel.leadingAnchor),
+      valueTotalLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                              constant: -8),
+      valueTotalLabel.heightAnchor.constraint(equalToConstant: 14)
+    ])
+
+    return valueTotalLabel
+  }
+
+  func createValueLabel(parent: UIView) {
+    self.productPriceLabel = UILabel()
+    productPriceLabel.font = .systemFont(ofSize: 24, weight: .bold)
+//    productPriceLabel.minimumScaleFactor = 0.5
+//    productPriceLabel.adjustsFontSizeToFitWidth = true
+    productPriceLabel.textAlignment = .left
+    productPriceLabel.textColor = UIColor.Zeplin.black
+    productPriceLabel.numberOfLines = 1
+    productPriceLabel.text = "R$ 41,91"
+    contentView.addSubview(productPriceLabel)
+
+    let percent = contentView.frame.size.width * 0.27
+
+    productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      productPriceLabel.topAnchor.constraint(equalTo:  parent.bottomAnchor,
+                                            constant: 1),
+      productPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                constant: -16),
+      productPriceLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+      productPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                  constant: -percent),
+      productPriceLabel.heightAnchor.constraint(equalToConstant: 28)
+    ])
+
+    productPriceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+  }
+
+  func createNoteLabel() {
+    let noteLabel = UILabel()
+    noteLabel.font = .systemFont(ofSize: 14)
+    noteLabel.textAlignment = .right
+    noteLabel.textColor = UIColor.Zeplin.redBranding
+    noteLabel.numberOfLines = 1
+    noteLabel.text = "ver nota fiscal"
+    contentView.addSubview(noteLabel)
+
+    noteLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      noteLabel.centerYAnchor.constraint(equalTo: self.productPriceLabel.centerYAnchor),
+      noteLabel.leadingAnchor.constraint(equalTo: self.productPriceLabel.trailingAnchor,
+                                         constant: 1),
+      noteLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                              constant: -8),
+      noteLabel.heightAnchor.constraint(equalToConstant: 16)
+    ])
+    noteLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
   }
 }
