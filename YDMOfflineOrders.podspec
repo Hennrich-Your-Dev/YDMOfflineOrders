@@ -14,10 +14,10 @@ Pod::Spec.new do |spec|
   spec.source           = { :git => "https://github.com/Hennrich-Your-Dev/YDMstoreModeOfflineAccount.git", :tag => "#{spec.version}" }
 
   spec.source_files     = "YDMOfflineOrders/**/*.{h,m,swift}"
-  spec.resources        = [
-    "YDMOfflineOrders/**/*.{xib,storyboard,json,xcassets}",
-    "YDMOfflineOrders/*.{xib,storyboard,json,xcassets}"
-  ]
+#  spec.resources        = [
+#    "YDMOfflineOrders/**/*.{xib,storyboard,json,xcassets}",
+#    "YDMOfflineOrders/*.{xib,storyboard,json,xcassets}"
+#  ]
 
   spec.dependency "YDExtensions"
   spec.dependency "YDUtilities"
