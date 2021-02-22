@@ -11,6 +11,7 @@
 		C129AB8225DEEA5B003D3882 /* YDMOfflineOrders.h in Headers */ = {isa = PBXBuildFile; fileRef = C129AB8025DEEA5B003D3882 /* YDMOfflineOrders.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */; };
 		C1CD12C825E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12C725E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift */; };
+		C1CD12DE25E3E5F800BB578F /* OrdersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */; };
 		C1DEC5FD25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DEC5FC25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift */; };
 		C1DEC60325E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DEC60225E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift */; };
 		C1DEC60725E3001300CA7405 /* YDMOfflineOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DEC60625E3001300CA7405 /* YDMOfflineOrdersViewModel.swift */; };
@@ -25,6 +26,7 @@
 		C129AB8125DEEA5B003D3882 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+Layout.swift"; sourceTree = "<group>"; };
 		C1CD12C725E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+CollectionView.swift"; sourceTree = "<group>"; };
+		C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1DEC5FC25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDMOfflineOrdersCoordinator.swift; sourceTree = "<group>"; };
 		C1DEC60225E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDMOfflineOrdersViewController.swift; sourceTree = "<group>"; };
 		C1DEC60625E3001300CA7405 /* YDMOfflineOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDMOfflineOrdersViewModel.swift; sourceTree = "<group>"; };
@@ -101,6 +103,22 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		C1CD12DB25E3E5B700BB578F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C1CD12DC25E3E5BC00BB578F /* Cell */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C1CD12DC25E3E5BC00BB578F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		C1DEC5FB25E2FBBB00CA7405 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +139,7 @@
 		C1DEC60025E2FDA400CA7405 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C1CD12DB25E3E5B700BB578F /* Extensions */,
 				C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */,
 			);
 			path = View;
@@ -283,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1DEC60325E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift in Sources */,
+				C1CD12DE25E3E5F800BB578F /* OrdersCollectionViewCell.swift in Sources */,
 				C1CD12C825E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift in Sources */,
 				C1DEC5FD25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift in Sources */,
 				C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */,

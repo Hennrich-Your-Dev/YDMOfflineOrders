@@ -33,5 +33,8 @@ extension YDMOfflineOrdersViewController {
       collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
+
+    collectionView.register(OrdersCollectionViewCell.self,
+                            forCellWithReuseIdentifier: OrdersCollectionViewCell.identifier)
   }
 }

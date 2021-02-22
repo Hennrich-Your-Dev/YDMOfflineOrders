@@ -13,7 +13,7 @@ public protocol YDMSOfflineOrdersDelegate: AnyObject {
 
 public class YDMOfflineOrdersViewController: UIViewController {
   // MARK: Properties
-  weak var delegate: YDMSOfflineOrdersDelegate?
+  public weak var delegate: YDMSOfflineOrdersDelegate?
   var navBarShadowOff = false
   var collectionView: UICollectionView!
 

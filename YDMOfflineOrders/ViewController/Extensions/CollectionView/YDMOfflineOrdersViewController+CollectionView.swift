@@ -7,18 +7,23 @@
 
 import UIKit
 
+import YDExtensions
+
 // MARK: Data Source
 extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 0
+    return 1
   }
 
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    return UICollectionViewCell()
+    guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: OrdersCollectionViewCell.identifier,
+            for: indexPath) as? OrdersCollectionViewCell
+    else { fatalError("Dequeue OrdersCollectionViewCell") }
+
+    return cell
   }
 }
 
 // MARK: Delegate
-extension YDMOfflineOrdersViewController: UICollectionViewDelegate {
-
-}
+extension YDMOfflineOrdersViewController: UICollectionViewDelegate {}
