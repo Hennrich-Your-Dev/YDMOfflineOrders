@@ -12,6 +12,7 @@
 		C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */; };
 		C1CD12C825E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12C725E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift */; };
 		C1CD12DE25E3E5F800BB578F /* OrdersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */; };
+		C1DBB6EE25E6C13F008E835B /* OrdersCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DBB6ED25E6C13F008E835B /* OrdersCollectionReusableView.swift */; };
 		C1DEC5FD25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DEC5FC25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift */; };
 		C1DEC60325E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DEC60225E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift */; };
 		C1DEC60725E3001300CA7405 /* YDMOfflineOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DEC60625E3001300CA7405 /* YDMOfflineOrdersViewModel.swift */; };
@@ -27,6 +28,7 @@
 		C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+Layout.swift"; sourceTree = "<group>"; };
 		C1CD12C725E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCollectionViewCell.swift; sourceTree = "<group>"; };
+		C1DBB6ED25E6C13F008E835B /* OrdersCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCollectionReusableView.swift; sourceTree = "<group>"; };
 		C1DEC5FC25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDMOfflineOrdersCoordinator.swift; sourceTree = "<group>"; };
 		C1DEC60225E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDMOfflineOrdersViewController.swift; sourceTree = "<group>"; };
 		C1DEC60625E3001300CA7405 /* YDMOfflineOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YDMOfflineOrdersViewModel.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		C1CD12DB25E3E5B700BB578F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C1DBB6EC25E6C003008E835B /* Header */,
 				C1CD12DC25E3E5BC00BB578F /* Cell */,
 			);
 			path = Extensions;
@@ -117,6 +120,14 @@
 				C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		C1DBB6EC25E6C003008E835B /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				C1DBB6ED25E6C13F008E835B /* OrdersCollectionReusableView.swift */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		C1DEC5FB25E2FBBB00CA7405 /* Coordinator */ = {
@@ -307,6 +318,7 @@
 				C1DEC5FD25E2FBCF00CA7405 /* YDMOfflineOrdersCoordinator.swift in Sources */,
 				C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */,
 				C1DEC61325E306FB00CA7405 /* YDMOfflineOrdersViewController+ScrollView.swift in Sources */,
+				C1DBB6EE25E6C13F008E835B /* OrdersCollectionReusableView.swift in Sources */,
 				C1DEC60725E3001300CA7405 /* YDMOfflineOrdersViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -40,5 +40,9 @@ extension YDMOfflineOrdersViewController {
 
     collectionView.register(OrdersCollectionViewCell.self,
                             forCellWithReuseIdentifier: OrdersCollectionViewCell.identifier)
+
+    collectionView.register(OrdersCollectionReusableView.self,
+                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                            withReuseIdentifier: OrdersCollectionReusableView.identifier)
   }
 }
