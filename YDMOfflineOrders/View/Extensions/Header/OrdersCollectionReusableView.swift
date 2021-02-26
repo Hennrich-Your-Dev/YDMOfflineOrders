@@ -60,7 +60,7 @@ extension OrdersCollectionReusableView {
       dateLabel.leadingAnchor.constraint(equalTo: dateContainer.leadingAnchor,
                                          constant: 27),
       dateLabel.trailingAnchor.constraint(equalTo: dateContainer.trailingAnchor,
-                                         constant: -27),
+                                         constant: -27)
     ])
   }
 }

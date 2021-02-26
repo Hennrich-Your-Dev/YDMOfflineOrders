@@ -32,7 +32,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     ])
 
     contentView.backgroundColor = UIColor.Zeplin.white
-    contentView.layer.applyShadow(alpha: 0.08, y: 6, blur: 20, spread: -1)
+    contentView.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
     contentView.layer.cornerRadius = 6
     contentView.layer.masksToBounds = false
 
@@ -75,7 +75,7 @@ extension OrdersCollectionViewCell {
 
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo:  contentView.topAnchor, constant: 16),
+      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
       titleLabel.heightAnchor.constraint(equalToConstant: 18)
@@ -93,7 +93,7 @@ extension OrdersCollectionViewCell {
 
     subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      subTitleLabel.topAnchor.constraint(equalTo:  self.titleLabel.bottomAnchor, constant: 3),
+      subTitleLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 3),
       subTitleLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor),
       subTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
                                               constant: -8),
@@ -108,7 +108,7 @@ extension OrdersCollectionViewCell {
 
     separatorView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      separatorView.topAnchor.constraint(equalTo:  self.subTitleLabel.bottomAnchor, constant: 13),
+      separatorView.topAnchor.constraint(equalTo: self.subTitleLabel.bottomAnchor, constant: 13),
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       separatorView.heightAnchor.constraint(equalToConstant: 1)
@@ -126,7 +126,7 @@ extension OrdersCollectionViewCell {
 
     photoImageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      photoImageView.topAnchor.constraint(equalTo:  parent.bottomAnchor, constant: 13),
+      photoImageView.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 13),
       photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                               constant: 16),
       photoImageView.heightAnchor.constraint(equalToConstant: 80),
@@ -174,7 +174,7 @@ extension OrdersCollectionViewCell {
 
     productNameLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productNameLabel.topAnchor.constraint(equalTo:  self.dateLabel.bottomAnchor,
+      productNameLabel.topAnchor.constraint(equalTo: self.dateLabel.bottomAnchor,
                                             constant: 3),
       productNameLabel.leadingAnchor.constraint(equalTo: self.dateLabel.leadingAnchor),
       productNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
@@ -208,8 +208,6 @@ extension OrdersCollectionViewCell {
   func createValueLabel(parent: UIView) {
     self.productPriceLabel = UILabel()
     productPriceLabel.font = .systemFont(ofSize: 24, weight: .bold)
-//    productPriceLabel.minimumScaleFactor = 0.5
-//    productPriceLabel.adjustsFontSizeToFitWidth = true
     productPriceLabel.textAlignment = .left
     productPriceLabel.textColor = UIColor.Zeplin.black
     productPriceLabel.numberOfLines = 1

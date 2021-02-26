@@ -14,11 +14,14 @@ extension YDMOfflineOrdersViewController {
 
   func createCollectionView() {
     let layoutFlow = UICollectionViewFlowLayout()
-    layoutFlow.sectionInset = UIEdgeInsets(top: view.safeAreaInsets.top + 20,
-                                           left: 0,
-                                           bottom: view.safeAreaInsets.bottom + 20,
-                                           right: 0)
+    layoutFlow.sectionInset = UIEdgeInsets(
+      top: view.safeAreaInsets.top + 20,
+      left: 0,
+      bottom: view.safeAreaInsets.bottom + 20,
+      right: 0
+    )
 
+    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 20)
     layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 177)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16
@@ -29,6 +32,7 @@ extension YDMOfflineOrdersViewController {
     collectionView.delegate = self
     collectionView.dataSource = self
     collectionView.backgroundColor = .clear
+    collectionView.alwaysBounceVertical = true
 
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -38,11 +42,15 @@ extension YDMOfflineOrdersViewController {
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
 
-    collectionView.register(OrdersCollectionViewCell.self,
-                            forCellWithReuseIdentifier: OrdersCollectionViewCell.identifier)
+    collectionView.register(
+      OrdersCollectionViewCell.self,
+      forCellWithReuseIdentifier: OrdersCollectionViewCell.identifier
+    )
 
-    collectionView.register(OrdersCollectionReusableView.self,
-                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                            withReuseIdentifier: OrdersCollectionReusableView.identifier)
+    collectionView.register(
+      OrdersCollectionReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: OrdersCollectionReusableView.identifier
+    )
   }
 }
