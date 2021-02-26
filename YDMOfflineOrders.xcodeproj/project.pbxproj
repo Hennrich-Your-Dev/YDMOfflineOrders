@@ -10,6 +10,8 @@
 		0C3F4D0C12F619F69EDCA0BD /* Pods_YDMOfflineOrders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70287360930BDEB419B41D16 /* Pods_YDMOfflineOrders.framework */; };
 		C129AB8225DEEA5B003D3882 /* YDMOfflineOrders.h in Headers */ = {isa = PBXBuildFile; fileRef = C129AB8025DEEA5B003D3882 /* YDMOfflineOrders.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C168172125E970B3009B7114 /* OrderDetailsProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168172025E970B3009B7114 /* OrderDetailsProductCard.swift */; };
+		C168175825E9838D009B7114 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168175725E9838D009B7114 /* OrderDetailsViewController.swift */; };
+		C168175C25E98446009B7114 /* OrderDetailsViewController+Layouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168175B25E98446009B7114 /* OrderDetailsViewController+Layouts.swift */; };
 		C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */; };
 		C1CD12C825E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12C725E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift */; };
 		C1CD12DE25E3E5F800BB578F /* OrdersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */; };
@@ -27,6 +29,8 @@
 		C129AB8025DEEA5B003D3882 /* YDMOfflineOrders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YDMOfflineOrders.h; sourceTree = "<group>"; };
 		C129AB8125DEEA5B003D3882 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C168172025E970B3009B7114 /* OrderDetailsProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsProductCard.swift; sourceTree = "<group>"; };
+		C168175725E9838D009B7114 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
+		C168175B25E98446009B7114 /* OrderDetailsViewController+Layouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderDetailsViewController+Layouts.swift"; sourceTree = "<group>"; };
 		C1CD12C325E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+Layout.swift"; sourceTree = "<group>"; };
 		C1CD12C725E3DF2300BB578F /* YDMOfflineOrdersViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		C1CD12DD25E3E5F800BB578F /* OrdersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				C168171F25E9709E009B7114 /* ProductCard */,
+				C168175B25E98446009B7114 /* OrderDetailsViewController+Layouts.swift */,
 			);
 			path = OrderDetails;
 			sourceTree = "<group>";
@@ -113,6 +118,14 @@
 				C168172025E970B3009B7114 /* OrderDetailsProductCard.swift */,
 			);
 			path = ProductCard;
+			sourceTree = "<group>";
+		};
+		C168175625E9835C009B7114 /* OrderDetails */ = {
+			isa = PBXGroup;
+			children = (
+				C168175725E9838D009B7114 /* OrderDetailsViewController.swift */,
+			);
+			path = OrderDetails;
 			sourceTree = "<group>";
 		};
 		C1CD12C625E3DF1200BB578F /* CollectionView */ = {
@@ -159,6 +172,7 @@
 		C1DEC5FF25E2FDA000CA7405 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C168175625E9835C009B7114 /* OrderDetails */,
 				C1DEC61025E306E600CA7405 /* Extensions */,
 				C1DEC60225E2FEA000CA7405 /* YDMOfflineOrdersViewController.swift */,
 			);
@@ -338,7 +352,9 @@
 				C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */,
 				C168172125E970B3009B7114 /* OrderDetailsProductCard.swift in Sources */,
 				C1DEC61325E306FB00CA7405 /* YDMOfflineOrdersViewController+ScrollView.swift in Sources */,
+				C168175C25E98446009B7114 /* OrderDetailsViewController+Layouts.swift in Sources */,
 				C1DBB6EE25E6C13F008E835B /* OrdersCollectionReusableView.swift in Sources */,
+				C168175825E9838D009B7114 /* OrderDetailsViewController.swift in Sources */,
 				C1DEC60725E3001300CA7405 /* YDMOfflineOrdersViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,16 +13,15 @@ import YDB2WAssets
 
 class OrderDetailsProductCard: UIView {
   // MARK: Properties
-  var titleLabel: UILabel!
-  var subTitleLabel: UILabel!
   var photoImageView: UIImageView!
-  var dateLabel: UILabel!
   var productNameLabel: UILabel!
   var productPriceLabel: UILabel!
+  var ratingView: CosmosView!
 
   // MARK: Life cycle
   override init(frame: CGRect) {
     super.init(frame: frame)
+    backgroundColor = UIColor.Zeplin.white
     setUpLayout()
   }
 
@@ -38,6 +37,7 @@ extension OrderDetailsProductCard {
   func setUpLayout() {
     createPhotoImageView()
     createProductNameLabel()
+    createRatingView()
   }
 
   func createPhotoImageView() {
@@ -50,8 +50,10 @@ extension OrderDetailsProductCard {
     photoImageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       photoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-      photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                              constant: 16),
+      photoImageView.leadingAnchor.constraint(
+        equalTo: leadingAnchor,
+        constant: 16
+      ),
       photoImageView.heightAnchor.constraint(equalToConstant: 80),
       photoImageView.widthAnchor.constraint(equalToConstant: 80)
     ])
@@ -78,12 +80,77 @@ extension OrderDetailsProductCard {
 
     productNameLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productNameLabel.topAnchor.constraint(equalTo: topAnchor,
-                                            constant: 12),
-      productNameLabel.leadingAnchor.constraint(equalTo: self.photoImageView.trailingAnchor,
-                                                constant: 16),
-      productNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                              constant: -8)
+      productNameLabel.topAnchor.constraint(
+        equalTo: topAnchor,
+        constant: 12
+      ),
+      productNameLabel.leadingAnchor.constraint(
+        equalTo: self.photoImageView.trailingAnchor,
+        constant: 16
+      ),
+      productNameLabel.trailingAnchor.constraint(
+        equalTo: trailingAnchor,
+        constant: -8
+      )
     ])
+  }
+
+  func createRatingView() {
+    ratingView = CosmosView()
+    addSubview(ratingView)
+
+    var settings = CosmosSettings()
+    settings.emptyImage = Images.starGrey
+    settings.filledImage = Images.starYellow
+    settings.fillMode = .half
+    settings.starMargin = 0
+    settings.starSize = 12
+    settings.totalStars = 5
+    settings.textMargin = 6
+    settings.textColor = UIColor.Zeplin.grayLight
+    settings.textFont = .systemFont(ofSize: 12)
+
+    ratingView.settings = settings
+
+    ratingView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      ratingView.leadingAnchor.constraint(
+        equalTo: self.photoImageView.trailingAnchor,
+        constant: 16
+      ),
+      ratingView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+      ratingView.heightAnchor.constraint(equalToConstant: 15),
+      ratingView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 31)
+    ])
+  }
+
+  func createValueLabel() {
+    self.productPriceLabel = UILabel()
+    productPriceLabel.font = .systemFont(ofSize: 24, weight: .bold)
+    productPriceLabel.textAlignment = .left
+    productPriceLabel.textColor = UIColor.Zeplin.black
+    productPriceLabel.numberOfLines = 1
+    productPriceLabel.text = "R$ 41,91"
+    addSubview(productPriceLabel)
+
+    productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      productPriceLabel.topAnchor.constraint(
+        equalTo: self.ratingView.bottomAnchor,
+        constant: 1
+      ),
+      productPriceLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+      productPriceLabel.leadingAnchor.constraint(
+        equalTo: self.photoImageView.trailingAnchor,
+        constant: 16
+      ),
+      productPriceLabel.trailingAnchor.constraint(
+        equalTo: trailingAnchor,
+        constant: -8
+      ),
+      productPriceLabel.heightAnchor.constraint(equalToConstant: 28)
+    ])
+
+    productPriceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
 }
