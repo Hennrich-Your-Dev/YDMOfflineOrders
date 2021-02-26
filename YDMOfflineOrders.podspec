@@ -19,6 +19,7 @@ Pod::Spec.new do |spec|
 #    "YDMOfflineOrders/*.{xib,storyboard,json,xcassets}"
 #  ]
 
+  spec.dependency "Cosmos"
   spec.dependency "YDExtensions"
   spec.dependency "YDUtilities"
   spec.dependency "YDB2WAssets"

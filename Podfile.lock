@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.9.1)
+  - Cosmos (23.0.0)
   - Kingfisher (5.15.8):
     - Kingfisher/Core (= 5.15.8)
   - Kingfisher/Core (5.15.8)
@@ -23,6 +24,7 @@ PODS:
     - Alamofire (~> 4.0)
 
 DEPENDENCIES:
+  - Cosmos
   - YDB2WAssets
   - YDExtensions
   - YDUtilities
@@ -34,12 +36,14 @@ SPEC REPOS:
     - YDUtilities
   trunk:
     - Alamofire
+    - Cosmos
     - Kingfisher
     - KingfisherWebP
     - libwebp
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
@@ -47,6 +51,6 @@ SPEC CHECKSUMS:
   YDExtensions: abc400297edfc6424c7a63b743a14076cb396753
   YDUtilities: 7e56ee0f48101c8bf487ad03135730dbefac70bf
 
-PODFILE CHECKSUM: 981edb54308121d7412df7fc597897e6a560ee73
+PODFILE CHECKSUM: 93ac52fa16a139bcef24a306c15481347eed009d
 
 COCOAPODS: 1.10.1
