@@ -14,6 +14,7 @@ public protocol YDMSOfflineOrdersDelegate: AnyObject {
 public class YDMOfflineOrdersViewController: UIViewController {
   // MARK: Properties
   public weak var delegate: YDMSOfflineOrdersDelegate?
+  var viewModel: YDMOfflineOrdersViewModelDelegate?
   var navBarShadowOff = false
   var collectionView: UICollectionView!
 
@@ -22,6 +23,8 @@ public class YDMOfflineOrdersViewController: UIViewController {
     super.viewDidLoad()
 
     setUpLayout()
+    setUpBinds()
+    viewModel?.getOrderList()
   }
 }
 

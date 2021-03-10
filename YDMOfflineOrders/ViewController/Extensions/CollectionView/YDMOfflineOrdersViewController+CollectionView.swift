@@ -11,18 +11,19 @@ import YDExtensions
 
 // MARK: Data Source
 extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
-  public func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
-  }
+//  public func numberOfSections(in collectionView: UICollectionView) -> Int {
+//    return 1
+//  }
 
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 1
+    return viewModel?.orderList.value.count ?? 0
   }
 
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: OrdersCollectionViewCell.identifier,
-            for: indexPath) as? OrdersCollectionViewCell
+      withReuseIdentifier: OrdersCollectionViewCell.identifier,
+      for: indexPath
+    ) as? OrdersCollectionViewCell
     else { fatalError("Dequeue OrdersCollectionViewCell") }
 
     cell.widthAnchor.constraint(equalToConstant: collectionView.frame.size.width).isActive = true
