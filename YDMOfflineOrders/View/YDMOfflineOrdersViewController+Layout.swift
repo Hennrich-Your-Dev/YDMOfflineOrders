@@ -17,7 +17,7 @@ extension YDMOfflineOrdersViewController {
     layoutFlow.sectionInset = UIEdgeInsets(
       top: view.safeAreaInsets.top + 20,
       left: 0,
-      bottom: view.safeAreaInsets.bottom + 20,
+      bottom: 16,
       right: 0
     )
 

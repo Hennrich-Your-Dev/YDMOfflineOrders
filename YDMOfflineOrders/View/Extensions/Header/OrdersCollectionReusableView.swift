@@ -31,7 +31,8 @@ extension OrdersCollectionReusableView {
     header.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       header.leadingAnchor.constraint(equalTo: leadingAnchor),
-      header.trailingAnchor.constraint(equalTo: trailingAnchor)
+      header.trailingAnchor.constraint(equalTo: trailingAnchor),
+      header.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
     ])
 
     let dateContainer = UIView()

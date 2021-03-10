@@ -55,13 +55,18 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 }
 
 // MARK: Delegate
-extension YDMOfflineOrdersViewController: UICollectionViewDelegate {}
+extension YDMOfflineOrdersViewController: UICollectionViewDelegate {
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let vc = OrderDetailsViewController()
+    navigationController?.pushViewController(vc, animated: true)
+  }
+}
 
 // MARK: Data Flow Delegate
 extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     return section == 0 ?
       CGSize(width: view.frame.size.width, height: 40) :
-      CGSize(width: view.frame.size.width, height: 20)
+      CGSize(width: view.frame.size.width, height: 30)
   }
 }
