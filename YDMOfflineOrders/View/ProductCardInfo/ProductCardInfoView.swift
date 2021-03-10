@@ -1,5 +1,5 @@
 //
-//  ProductCardInfo.swift
+//  ProductCardInfoView.swift
 //  YDMOfflineOrders
 //
 //  Created by Douglas Hennrich on 10/03/21.
@@ -11,7 +11,7 @@ import YDExtensions
 import YDB2WAssets
 
 // MARK: Product Info
-class ProductCardInfo: UIView {
+class ProductCardInfoView: UIView {
   // MARK: Properties
   var photo = UIImageView()
   var name = UILabel()
@@ -27,10 +27,21 @@ class ProductCardInfo: UIView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  // MARK: Actions
+  func config(with product: Product) {
+    photo.setImage(product.image)
+    name.text = product.name
+
+    if product.howMany > 1 {
+      badgeContainer.isHidden = false
+      badgeCount.text = "\(product.howMany)"
+    }
+  }
 }
 
 // MARK: Layout
-extension ProductCardInfo {
+extension ProductCardInfoView {
   func setUpLayout() {
     createPhoto()
     createBadge()
@@ -69,6 +80,7 @@ extension ProductCardInfo {
   func createBadge() {
     badgeContainer.backgroundColor = UIColor.Zeplin.redBranding
     badgeContainer.layer.cornerRadius = 8.5
+    badgeContainer.isHidden = true
     addSubview(badgeContainer)
 
     badgeContainer.translatesAutoresizingMaskIntoConstraints = false

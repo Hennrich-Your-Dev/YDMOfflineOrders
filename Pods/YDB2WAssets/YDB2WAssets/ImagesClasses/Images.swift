@@ -21,6 +21,8 @@ public class Icons {
 
   public static let chevronDown = UIImage(named: "chevron-down", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
+  public static let chevronRight = UIImage(named: "iconChevronRight", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+
   public static let circleDefault = UIImage(named: "iconCircleDefault", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
   public static let circleDefaultOff = UIImage(named: "iconCircleDefaultOff", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -35,7 +37,7 @@ public class Icons {
 
   public static let logo = UIImage(named: "logoAcom", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
-  public static let rightArrow = UIImage(named: "rightArrow", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+  public static let rightArrow = UIImage(named: "iconRightArrow", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
   
   public static let map = UIImage(named: "iconMap", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 

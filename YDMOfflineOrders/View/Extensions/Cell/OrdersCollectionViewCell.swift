@@ -12,8 +12,8 @@ import YDB2WAssets
 
 class OrdersCollectionViewCell: UICollectionViewCell {
   // MARK: Properties
+  var storeNameLabel = UILabel()
   var addressLabel = UILabel()
-  var subAddressLabel = UILabel()
   var dateLabel = UILabel()
   var topStackView = UIStackView()
   var productsCount = UILabel()
@@ -51,69 +51,100 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
+  override func prepareForReuse() {
+    if topStackView.subviews.count > 1 {
+      topStackView.arrangedSubviews.last?.removeFromSuperview()
+    }
+
+    stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+    storeNameLabel.text = nil
+    addressLabel.text = nil
+    dateLabel.text = nil
+    productsCount.text = nil
+    priceLabel.text = nil
+
+    super.prepareForReuse()
+  }
+
   // MARK: Actions
-  func config() {}
+  func config(with order: Order) {
+    storeNameLabel.text = order.storeName
+    addressLabel.text = order.formatedAddress
+    dateLabel.text = order.formatedDate
+    priceLabel.text = order.formatedPrice
+
+    if let products = order.products {
+      productsCount.text = "total de produtos: \(products.count)"
+
+      if products.count > 3 {
+        createProductsDetailsButton()
+      }
+
+      for product in products.prefix(3) {
+        let productView = ProductCardInfoView()
+        productView.config(with: product)
+
+        stackView.addArrangedSubview(productView)
+      }
+    }
+  }
 }
 
 // MARK: Layout
 extension OrdersCollectionViewCell {
   func setUpLayout() {
+    createStoreNameLabel()
     createAddressLabel()
-    createSubAddressLabel()
     createDateLabel()
     createTopStackView()
     createProductsCount()
-    createProductsDetailsButton()
 
     let separatorView = createSeparator(firstSeparator: true)
     createStackView(parent: separatorView)
-
-    for _ in 0...[1, 2].randomElement()! {
-      stackView.addArrangedSubview(ProductCardInfo())
-    }
 
     let separatorUnderStack = createSeparator(firstSeparator: false)
     createNoteButton(parent: separatorUnderStack)
     createValueLabel(parent: separatorUnderStack)
   }
 
+  func createStoreNameLabel() {
+    storeNameLabel.font = .systemFont(ofSize: 16, weight: .bold)
+    storeNameLabel.textAlignment = .left
+    storeNameLabel.textColor = UIColor.Zeplin.black
+    storeNameLabel.numberOfLines = 1
+    storeNameLabel.text = .loremIpsum(ofLength: 50)
+    contentView.addSubview(storeNameLabel)
+
+    storeNameLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      storeNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+      storeNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+      storeNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      storeNameLabel.heightAnchor.constraint(equalToConstant: 18)
+    ])
+  }
+
   func createAddressLabel() {
-    addressLabel.font = .systemFont(ofSize: 16, weight: .bold)
+    addressLabel.font = .systemFont(ofSize: 14)
     addressLabel.textAlignment = .left
-    addressLabel.textColor = UIColor.Zeplin.black
+    addressLabel.textColor = UIColor.Zeplin.grayLight
     addressLabel.numberOfLines = 1
     addressLabel.text = .loremIpsum(ofLength: 50)
     contentView.addSubview(addressLabel)
 
     addressLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      addressLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-      addressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-      addressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-      addressLabel.heightAnchor.constraint(equalToConstant: 18)
-    ])
-  }
-
-  func createSubAddressLabel() {
-    subAddressLabel.font = .systemFont(ofSize: 14)
-    subAddressLabel.textAlignment = .left
-    subAddressLabel.textColor = UIColor.Zeplin.grayLight
-    subAddressLabel.numberOfLines = 1
-    subAddressLabel.text = .loremIpsum(ofLength: 50)
-    contentView.addSubview(subAddressLabel)
-
-    subAddressLabel.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      subAddressLabel.topAnchor.constraint(
+      addressLabel.topAnchor.constraint(
         equalTo: addressLabel.bottomAnchor,
         constant: 3
       ),
-      subAddressLabel.leadingAnchor.constraint(equalTo: addressLabel.leadingAnchor),
-      subAddressLabel.trailingAnchor.constraint(
+      addressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
+      addressLabel.trailingAnchor.constraint(
         equalTo: contentView.trailingAnchor,
         constant: -8
       ),
-      subAddressLabel.heightAnchor.constraint(equalToConstant: 16)
+      addressLabel.heightAnchor.constraint(equalToConstant: 16)
     ])
   }
 
@@ -127,10 +158,10 @@ extension OrdersCollectionViewCell {
     dateLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       dateLabel.topAnchor.constraint(
-        equalTo: subAddressLabel.bottomAnchor,
+        equalTo: addressLabel.bottomAnchor,
         constant: 21
       ),
-      dateLabel.leadingAnchor.constraint(equalTo: subAddressLabel.leadingAnchor),
+      dateLabel.leadingAnchor.constraint(equalTo: addressLabel.leadingAnchor),
       dateLabel.heightAnchor.constraint(equalToConstant: 16)
     ])
     dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -147,7 +178,7 @@ extension OrdersCollectionViewCell {
 
     topStackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      topStackView.topAnchor.constraint(equalTo: subAddressLabel.bottomAnchor, constant: 12),
+      topStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 12),
       topStackView.leadingAnchor.constraint(greaterThanOrEqualTo: dateLabel.trailingAnchor, constant: 24),
       topStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
       topStackView.heightAnchor.constraint(equalToConstant: 35)
@@ -167,7 +198,7 @@ extension OrdersCollectionViewCell {
   }
 
   func createProductsDetailsButton() {
-    productsDetailsButton.setImage(Icons.leftArrow, for: .normal)
+    productsDetailsButton.setImage(Icons.chevronRight, for: .normal)
     productsDetailsButton.tintColor = UIColor.Zeplin.black
     topStackView.addArrangedSubview(productsDetailsButton)
 
@@ -191,13 +222,13 @@ extension OrdersCollectionViewCell {
       NSLayoutConstraint.activate([
         separatorView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 13),
         separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
       ])
     } else {
       NSLayoutConstraint.activate([
         separatorView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 12),
         separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
       ])
     }
 
@@ -280,6 +311,5 @@ extension OrdersCollectionViewCell {
       priceLabel.heightAnchor.constraint(equalToConstant: 24)
     ])
     priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
   }
 }
