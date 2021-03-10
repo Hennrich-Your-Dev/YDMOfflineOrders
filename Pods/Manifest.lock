@@ -17,7 +17,7 @@ PODS:
     - libwebp/demux
   - libwebp/webp (1.2.0)
   - YDB2WAssets (1.0.31)
-  - YDExtensions (1.0.37):
+  - YDExtensions (1.0.38):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDUtilities (1.0.10):
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   YDB2WAssets: ebc70c706037613128d99eab2eea7b19c9841830
-  YDExtensions: abc400297edfc6424c7a63b743a14076cb396753
+  YDExtensions: 7ece9b98667bce4d0df2e459df28e3547ecd465d
   YDUtilities: 7e56ee0f48101c8bf487ad03135730dbefac70bf
 
 PODFILE CHECKSUM: 93ac52fa16a139bcef24a306c15481347eed009d

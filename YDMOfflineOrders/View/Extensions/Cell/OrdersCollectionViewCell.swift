@@ -15,8 +15,12 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   var addressLabel = UILabel()
   var subAddressLabel = UILabel()
   var dateLabel = UILabel()
+  var topStackView = UIStackView()
   var productsCount = UILabel()
+  var productsDetailsButton = UIButton()
   var stackView = UIStackView()
+  var noteButton = UIButton()
+  var priceLabel = UILabel()
 
   // MARK: Init
   override init(frame: CGRect) {
@@ -29,6 +33,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
       contentView.topAnchor.constraint(equalTo: topAnchor),
+      contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
       contentView.heightAnchor.constraint(equalToConstant: 235)
     ])
 
@@ -38,7 +43,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     contentView.layer.masksToBounds = false
 
     layer.masksToBounds = false
-    
+
     setUpLayout()
   }
 
@@ -56,8 +61,20 @@ extension OrdersCollectionViewCell {
     createAddressLabel()
     createSubAddressLabel()
     createDateLabel()
+    createTopStackView()
+    createProductsCount()
+    createProductsDetailsButton()
 
-    _ = createSeparator()
+    let separatorView = createSeparator(firstSeparator: true)
+    createStackView(parent: separatorView)
+
+    for _ in 0...[1, 2].randomElement()! {
+      stackView.addArrangedSubview(ProductCardInfo())
+    }
+
+    let separatorUnderStack = createSeparator(firstSeparator: false)
+    createNoteButton(parent: separatorUnderStack)
+    createValueLabel(parent: separatorUnderStack)
   }
 
   func createAddressLabel() {
@@ -104,7 +121,6 @@ extension OrdersCollectionViewCell {
     dateLabel.font = .systemFont(ofSize: 13)
     dateLabel.textAlignment = .left
     dateLabel.textColor = UIColor.Zeplin.grayLight
-    dateLabel.numberOfLines = 1
     dateLabel.text = "18/04/2020 às 16:42h"
     contentView.addSubview(dateLabel)
 
@@ -117,69 +133,153 @@ extension OrdersCollectionViewCell {
       dateLabel.leadingAnchor.constraint(equalTo: subAddressLabel.leadingAnchor),
       dateLabel.heightAnchor.constraint(equalToConstant: 16)
     ])
+    dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
 
-  func createSeparator() -> UIView {
+  func createTopStackView() {
+    topStackView.axis = .horizontal
+    topStackView.alignment = .trailing
+    topStackView.spacing = 2
+    topStackView.distribution = .fillProportionally
+    topStackView.backgroundColor = .random
+    contentView.addSubview(topStackView)
+
+    topStackView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      topStackView.topAnchor.constraint(equalTo: subAddressLabel.bottomAnchor, constant: 12),
+      topStackView.leadingAnchor.constraint(greaterThanOrEqualTo: dateLabel.trailingAnchor, constant: 24),
+      topStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      topStackView.heightAnchor.constraint(equalToConstant: 35)
+    ])
+    topStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+  }
+
+  func createProductsCount() {
+    productsCount.font = .systemFont(ofSize: 13)
+    productsCount.textAlignment = .right
+    productsCount.textColor = UIColor.Zeplin.black
+    productsCount.text = "total de produtos: 6"
+    topStackView.addArrangedSubview(productsCount)
+
+    productsCount.translatesAutoresizingMaskIntoConstraints = false
+    productsCount.heightAnchor.constraint(equalToConstant: 35).isActive = true
+  }
+
+  func createProductsDetailsButton() {
+    productsDetailsButton.setImage(Icons.leftArrow, for: .normal)
+    productsDetailsButton.tintColor = UIColor.Zeplin.black
+    topStackView.addArrangedSubview(productsDetailsButton)
+
+    productsDetailsButton.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      productsDetailsButton.heightAnchor.constraint(equalToConstant: 35),
+      productsDetailsButton.widthAnchor.constraint(equalToConstant: 35)
+    ])
+  }
+
+  func createSeparator(firstSeparator: Bool) -> UIView {
     let separatorView = UIView()
-    separatorView.backgroundColor = UIColor.Zeplin.grayDisabled
+    separatorView.backgroundColor = firstSeparator ?
+      UIColor.Zeplin.grayDisabled : UIColor.Zeplin.grayOpaque
     contentView.addSubview(separatorView)
 
     separatorView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      separatorView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 13),
-      separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-      separatorView.heightAnchor.constraint(equalToConstant: 1)
-    ])
+    separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+
+    if firstSeparator {
+      NSLayoutConstraint.activate([
+        separatorView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 13),
+        separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      ])
+    } else {
+      NSLayoutConstraint.activate([
+        separatorView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 12),
+        separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      ])
+    }
 
     return separatorView
   }
 
-//  func createValueTotalLabel() -> UILabel {
-//    let valueTotalLabel = UILabel()
-//    valueTotalLabel.font = .systemFont(ofSize: 12)
-//    valueTotalLabel.textAlignment = .left
-//    valueTotalLabel.textColor = UIColor.Zeplin.grayLight
-//    valueTotalLabel.numberOfLines = 1
-//    valueTotalLabel.text = "total:"
-//    contentView.addSubview(valueTotalLabel)
-//
-//    valueTotalLabel.translatesAutoresizingMaskIntoConstraints = false
-//    NSLayoutConstraint.activate([
-//      valueTotalLabel.topAnchor.constraint(equalTo:  self.productNameLabel.bottomAnchor,
-//                                            constant: 7),
-//      valueTotalLabel.leadingAnchor.constraint(equalTo: self.productNameLabel.leadingAnchor),
-//      valueTotalLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-//                                              constant: -8),
-//      valueTotalLabel.heightAnchor.constraint(equalToConstant: 14)
-//    ])
-//
-//    return valueTotalLabel
-//  }
-//
-//  func createValueLabel(parent: UIView) {
-//    self.productPriceLabel = UILabel()
-//    productPriceLabel.font = .systemFont(ofSize: 24, weight: .bold)
-//    productPriceLabel.textAlignment = .left
-//    productPriceLabel.textColor = UIColor.Zeplin.black
-//    productPriceLabel.numberOfLines = 1
-//    productPriceLabel.text = "R$ 41,91"
-//    contentView.addSubview(productPriceLabel)
-//
-//    let percent = contentView.frame.size.width * 0.27
-//
-//    productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-//    NSLayoutConstraint.activate([
-//      productPriceLabel.topAnchor.constraint(equalTo:  parent.bottomAnchor,
-//                                            constant: 1),
-//      productPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-//                                                constant: -16),
-//      productPriceLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
-//      productPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-//                                                  constant: -percent),
-//      productPriceLabel.heightAnchor.constraint(equalToConstant: 28)
-//    ])
-//
-//    productPriceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-//  }
+  func createStackView(parent: UIView) {
+    stackView.axis = .horizontal
+    stackView.alignment = .leading
+    stackView.spacing = 1
+    stackView.distribution = .fillEqually
+    stackView.layer.masksToBounds = false
+    contentView.addSubview(stackView)
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      stackView.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 12),
+      stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      stackView.heightAnchor.constraint(equalToConstant: 50)
+    ])
+  }
+
+  func createNoteButton(parent: UIView) {
+    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
+    noteButton.setTitleColor(UIColor.Zeplin.redBranding, for: .normal)
+    noteButton.setTitle("ver nota fiscal", for: .normal)
+    contentView.addSubview(noteButton)
+
+    noteButton.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
+      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+      noteButton.heightAnchor.constraint(equalToConstant: 35)
+    ])
+    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+  }
+
+  func createValueLabel(parent: UIView) {
+    let valueTotalLabel = UILabel()
+    valueTotalLabel.font = .systemFont(ofSize: 12)
+    valueTotalLabel.textAlignment = .left
+    valueTotalLabel.textColor = UIColor.Zeplin.grayLight
+    valueTotalLabel.numberOfLines = 1
+    valueTotalLabel.text = "total -"
+    contentView.addSubview(valueTotalLabel)
+
+    valueTotalLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      valueTotalLabel.topAnchor.constraint(
+        equalTo: parent.bottomAnchor,
+        constant: 17
+      ),
+      valueTotalLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+      valueTotalLabel.heightAnchor.constraint(equalToConstant: 24)
+    ])
+    valueTotalLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    valueTotalLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+    //
+    priceLabel.font = .systemFont(ofSize: 24, weight: .bold)
+    priceLabel.textAlignment = .left
+    priceLabel.textColor = UIColor.Zeplin.black
+    priceLabel.numberOfLines = 1
+    priceLabel.text = "R$ 41,91"
+    contentView.addSubview(priceLabel)
+
+    priceLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      priceLabel.topAnchor.constraint(
+        equalTo: parent.bottomAnchor,
+        constant: 13
+      ),
+      priceLabel.leadingAnchor.constraint(equalTo: valueTotalLabel.trailingAnchor, constant: 3),
+      priceLabel.trailingAnchor.constraint(
+        equalTo: noteButton.leadingAnchor,
+        constant: -10
+      ),
+      priceLabel.heightAnchor.constraint(equalToConstant: 24)
+    ])
+    priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+  }
 }
