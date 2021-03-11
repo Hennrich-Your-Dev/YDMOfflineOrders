@@ -7,6 +7,8 @@
 
 import UIKit
 
+import YDB2WIntegration
+
 public typealias YDMOfflineOrders = YDMOfflineOrdersCoordinator
 
 public class YDMOfflineOrdersCoordinator {
@@ -14,15 +16,17 @@ public class YDMOfflineOrdersCoordinator {
 
   public init() {}
 
-  public func start(navController: UINavigationController?) {
+  public func start(userToken: String, navController: UINavigationController?) {
     let vc = YDMOfflineOrdersViewController()
-    vc.viewModel = YDMOfflineOrdersViewModel()
+    let viewModel = YDMOfflineOrdersViewModel(userToken: userToken)
+    vc.viewModel = viewModel
     navController?.pushViewController(vc, animated: true)
   }
 
-  public func start() -> YDMOfflineOrdersViewController {
+  public func start(userToken: String) -> YDMOfflineOrdersViewController {
     let vc = YDMOfflineOrdersViewController()
-    vc.viewModel = YDMOfflineOrdersViewModel()
+    let viewModel = YDMOfflineOrdersViewModel(userToken: userToken)
+    vc.viewModel = viewModel
     return vc
   }
 }

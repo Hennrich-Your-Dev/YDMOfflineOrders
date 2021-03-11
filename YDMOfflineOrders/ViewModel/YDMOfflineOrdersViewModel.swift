@@ -9,27 +9,45 @@ import Foundation
 
 import YDUtilities
 import YDExtensions
+import YDB2WServices
+import YDB2WModels
 
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
-  var orderList: Binder<[[String: OrdersList]]> { get }
+  var loading: Binder<Bool> { get }
+  var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> { get }
 
-  subscript(section: Int) -> [Order]? { get }
+  subscript(section: Int) -> YDOfflineOrdersOrdersList? { get }
 
   func getOrderList()
 }
 
 class YDMOfflineOrdersViewModel {
   // MARK: Properties
-  lazy var logger = Logger.forClass(Self.self)
+  lazy var logger = YDUtilities.Logger.forClass(Self.self)
+  let service: YDB2WServiceDelegate = YDB2WService()
 
   var error: Binder<String> = Binder("")
-  var orderList: Binder<[[String: OrdersList]]> = Binder([])
-  var orders: OrdersList = []
+  var loading: Binder<Bool> = Binder(false)
+  var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> = Binder([])
+  var orders: YDOfflineOrdersOrdersList = []
+
+  var userToken: String
+
+  // MARK: Init
+  init(userToken: String) {
+    self.userToken = userToken
+  }
 
   // MARK: Actions
+  private func fromMock() {
+    orders = YDOfflineOrdersOrder.mock()
+    sortOrdersList()
+    loading.value = false
+  }
+
   private func sortOrdersList() {
-    let sorted = orders.sorted { (lhs, rhs) -> Bool in
+    let sorted = orders.sorted { lhs, rhs -> Bool in
       guard let dateLhs = lhs.dateWithDateType else { return false }
       guard let dateRhs = rhs.dateWithDateType else { return true }
 
@@ -53,13 +71,30 @@ class YDMOfflineOrdersViewModel {
 
 // MARK: Extension
 extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
-
-  subscript(section: Int) -> [Order]? {
+  subscript(section: Int) -> YDOfflineOrdersOrdersList? {
     return orderList.value.at(section)?.values.first
   }
 
   func getOrderList() {
-    orders = Order.mock()
-    sortOrdersList()
+    loading.value = true
+
+    // Mock
+    // fromMock()
+    service.offlineOrdersGetOrders(
+      userToken: userToken,
+      page: 1,
+      limit: 10
+    ) { [weak self] (result: Result<YDOfflineOrdersOrdersList, YDB2WServices.YDServiceError>) in
+      self?.loading.value = false
+
+      switch result {
+        case .success(let orders):
+          self?.orders = orders
+          self?.sortOrdersList()
+
+        case .failure(let error):
+          self?.error.value = error.message
+      }
+    }
   }
 }

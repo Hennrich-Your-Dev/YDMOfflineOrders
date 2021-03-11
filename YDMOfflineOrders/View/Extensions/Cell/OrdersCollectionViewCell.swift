@@ -9,6 +9,7 @@ import UIKit
 
 import YDExtensions
 import YDB2WAssets
+import YDB2WModels
 
 class OrdersCollectionViewCell: UICollectionViewCell {
   // MARK: Properties
@@ -68,7 +69,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   }
 
   // MARK: Actions
-  func config(with order: Order) {
+  func config(with order: YDOfflineOrdersOrder) {
     storeNameLabel.text = order.storeName
     addressLabel.text = order.formatedAddress
     dateLabel.text = order.formatedDate

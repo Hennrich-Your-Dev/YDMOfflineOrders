@@ -1,35 +1,35 @@
 //
-//  ProductsList.swift
-//  YDMOfflineOrders
+//  YDOfflineOrdersOrders.swift
+//  YDB2WModels
 //
-//  Created by Douglas Hennrich on 10/03/21.
+//  Created by Douglas Hennrich on 11/03/21.
 //
 
-import UIKit
+import Foundation
 
 import YDUtilities
 
-typealias OrdersList = [Order]
+public typealias YDOfflineOrdersOrdersList = [YDOfflineOrdersOrder]
 
-class Order: Decodable {
-  var cupom: Int?
-  var nfe: String?
-  var date: String?
-  var totalPrice: Double?
-  var storeId: Int?
-  var storeName: String?
+public class YDOfflineOrdersOrder: Decodable {
+  public var cupom: Int?
+  public var nfe: String?
+  public var date: String?
+  public var totalPrice: Double?
+  public var storeId: Int?
+  public var storeName: String?
 
   // address
-  var addressStreet: String?
-  var addressCity: String?
-  var addressZipcode: String?
-  var addressState: String?
+  public var addressStreet: String?
+  public var addressCity: String?
+  public var addressZipcode: String?
+  public var addressState: String?
 
   // products
-  var products: [Product]?
+  public var products: [YDOfflineOrdersProduct]?
 
   // computed variables
-  var formatedAddress: String? {
+  public var formatedAddress: String? {
     guard var address = addressStreet else { return nil }
 
     if let city = addressCity,
@@ -50,15 +50,15 @@ class Order: Decodable {
     return address
   }
 
-  var formatedDate: String? {
+  public var formatedDate: String? {
     return date?.date(withFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toFormat("dd/MM/YYYY 'às' HH:mm'h'")
   }
 
-  var formatedDateSection: String? {
+  public var formatedDateSection: String? {
     return date?.date(withFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toFormat("MMM 'de' YYYY")
   }
 
-  var dateWithDateType: Date? {
+  public var dateWithDateType: Date? {
     guard let date = date else { return nil }
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-DD'T'HH:mm:ss"
@@ -66,7 +66,7 @@ class Order: Decodable {
     return formatter.date(from: date)
   }
 
-  var formatedPrice: String? {
+  public var formatedPrice: String? {
     guard let total = totalPrice else { return nil }
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
@@ -92,12 +92,12 @@ class Order: Decodable {
 }
 
 // MARK: Mock
-extension Order {
-  static func mock() -> [Order] {
+extension YDOfflineOrdersOrder {
+  public static func mock() -> YDOfflineOrdersOrdersList {
     let bundle = Bundle(for: Self.self)
 
-    guard let file = getLocalFile(bundle, fileName: "orders", fileType: "json"),
-          let orders = try? JSONDecoder().decode([Order].self, from: file)
+    guard let file = getLocalFile(bundle, fileName: "offlineOrders", fileType: "json"),
+          let orders = try? JSONDecoder().decode(YDOfflineOrdersOrdersList.self, from: file)
       else {
       fatalError()
     }

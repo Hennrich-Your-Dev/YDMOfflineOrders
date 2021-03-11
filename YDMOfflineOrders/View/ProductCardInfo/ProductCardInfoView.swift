@@ -9,6 +9,7 @@ import UIKit
 
 import YDExtensions
 import YDB2WAssets
+import YDB2WModels
 
 // MARK: Product Info
 class ProductCardInfoView: UIView {
@@ -29,7 +30,7 @@ class ProductCardInfoView: UIView {
   }
 
   // MARK: Actions
-  func config(with product: Product) {
+  func config(with product: YDOfflineOrdersProduct) {
     photo.setImage(product.image)
     name.text = product.name
 
