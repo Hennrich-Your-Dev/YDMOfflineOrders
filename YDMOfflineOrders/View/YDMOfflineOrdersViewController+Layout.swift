@@ -17,12 +17,12 @@ extension YDMOfflineOrdersViewController {
     layoutFlow.sectionInset = UIEdgeInsets(
       top: view.safeAreaInsets.top + 20,
       left: 0,
-      bottom: 16,
+      bottom: 0,
       right: 0
     )
 
     layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 20)
-    layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 177)
+    layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16
 
@@ -51,6 +51,12 @@ extension YDMOfflineOrdersViewController {
       OrdersCollectionReusableView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
       withReuseIdentifier: OrdersCollectionReusableView.identifier
+    )
+
+    collectionView.register(
+      OrdersCollectionFooterReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
   }
 }

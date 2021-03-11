@@ -22,13 +22,4 @@ class Product: Decodable {
     case howMany = "qtde"
     case totalPrice = "valorTotalItem"
   }
-
-  // MARK: Mock
-  init(mock: Bool = true) {
-    self.image = "https://images-americanas.b2w.io/produtos/01/00/img/2416847/5/2416847547_1GG.jpg"
-    self.name = .loremIpsum()
-    self.howMany = [1, 3].randomElement()!
-    self.ean = "7891010249403"
-    self.totalPrice = 4.59
-  }
 }

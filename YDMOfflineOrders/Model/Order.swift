@@ -54,11 +54,23 @@ class Order: Decodable {
     return date?.date(withFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toFormat("dd/MM/YYYY 'às' HH:mm'h'")
   }
 
+  var formatedDateSection: String? {
+    return date?.date(withFormat: "yyyy-MM-dd'T'HH:mm:ss")?.toFormat("MMM 'de' YYYY")
+  }
+
+  var dateWithDateType: Date? {
+    guard let date = date else { return nil }
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-DD'T'HH:mm:ss"
+
+    return formatter.date(from: date)
+  }
+
   var formatedPrice: String? {
     guard let total = totalPrice else { return nil }
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
-    formatter.locale = Locale(identifier: "BR_pt")
+    formatter.locale = Locale(identifier: "pt_BR")
 
     return formatter.string(from: NSNumber(value: total))
   }

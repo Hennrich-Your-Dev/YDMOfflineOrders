@@ -22,7 +22,7 @@
 		C1F4C0D525F80758002FE760 /* OrdersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F4C0D425F80758002FE760 /* OrdersCollectionViewCell.swift */; };
 		C1F4C16B25F90A24002FE760 /* ProductCardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F4C16A25F90A24002FE760 /* ProductCardInfoView.swift */; };
 		C1F4C1E725F92C7F002FE760 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F4C1E625F92C7E002FE760 /* Product.swift */; };
-		C1F4C1EB25F9318E002FE760 /* ProductsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F4C1EA25F9318E002FE760 /* ProductsList.swift */; };
+		C1F4C1EB25F9318E002FE760 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F4C1EA25F9318E002FE760 /* Order.swift */; };
 		C1F4C1EF25F94445002FE760 /* orders.json in Resources */ = {isa = PBXBuildFile; fileRef = C1F4C1EE25F94445002FE760 /* orders.json */; };
 		C1F4C1FF25F95566002FE760 /* YDMOfflineOrdersViewController+Binds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F4C1FE25F95566002FE760 /* YDMOfflineOrdersViewController+Binds.swift */; };
 /* End PBXBuildFile section */
@@ -46,7 +46,7 @@
 		C1F4C0D425F80758002FE760 /* OrdersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1F4C16A25F90A24002FE760 /* ProductCardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardInfoView.swift; sourceTree = "<group>"; };
 		C1F4C1E625F92C7E002FE760 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		C1F4C1EA25F9318E002FE760 /* ProductsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsList.swift; sourceTree = "<group>"; };
+		C1F4C1EA25F9318E002FE760 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		C1F4C1EE25F94445002FE760 /* orders.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = orders.json; sourceTree = "<group>"; };
 		C1F4C1FE25F95566002FE760 /* YDMOfflineOrdersViewController+Binds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+Binds.swift"; sourceTree = "<group>"; };
 		E90B28EFC46A7F1A991A7CC4 /* Pods-YDMOfflineOrders.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YDMOfflineOrders.release.xcconfig"; path = "Target Support Files/Pods-YDMOfflineOrders/Pods-YDMOfflineOrders.release.xcconfig"; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 		C1CD12DB25E3E5B700BB578F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C1DBB6EC25E6C003008E835B /* Header */,
+				C1DBB6EC25E6C003008E835B /* ReusableViews */,
 				C1CD12DC25E3E5BC00BB578F /* Cell */,
 			);
 			path = Extensions;
@@ -164,12 +164,12 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		C1DBB6EC25E6C003008E835B /* Header */ = {
+		C1DBB6EC25E6C003008E835B /* ReusableViews */ = {
 			isa = PBXGroup;
 			children = (
 				C1DBB6ED25E6C13F008E835B /* OrdersCollectionReusableView.swift */,
 			);
-			path = Header;
+			path = ReusableViews;
 			sourceTree = "<group>";
 		};
 		C1DEC5FB25E2FBBB00CA7405 /* Coordinator */ = {
@@ -213,7 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				C1F4C1E625F92C7E002FE760 /* Product.swift */,
-				C1F4C1EA25F9318E002FE760 /* ProductsList.swift */,
+				C1F4C1EA25F9318E002FE760 /* Order.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -392,7 +392,7 @@
 				C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */,
 				C168172125E970B3009B7114 /* OrderDetailsProductCard.swift in Sources */,
 				C1DEC61325E306FB00CA7405 /* YDMOfflineOrdersViewController+ScrollView.swift in Sources */,
-				C1F4C1EB25F9318E002FE760 /* ProductsList.swift in Sources */,
+				C1F4C1EB25F9318E002FE760 /* Order.swift in Sources */,
 				C168175C25E98446009B7114 /* OrderDetailsViewController+Layouts.swift in Sources */,
 				C1F4C1FF25F95566002FE760 /* YDMOfflineOrdersViewController+Binds.swift in Sources */,
 				C1DBB6EE25E6C13F008E835B /* OrdersCollectionReusableView.swift in Sources */,

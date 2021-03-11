@@ -10,6 +10,9 @@ import UIKit
 import YDExtensions
 
 class OrdersCollectionReusableView: UICollectionReusableView {
+  // MARK: Properties
+  var dateLabel = UILabel()
+
   // MARK: Init
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -48,11 +51,9 @@ extension OrdersCollectionReusableView {
       dateContainer.centerYAnchor.constraint(equalTo: header.centerYAnchor)
     ])
 
-    let dateLabel = UILabel()
     dateLabel.font = .systemFont(ofSize: 12)
     dateLabel.textColor = UIColor.Zeplin.grayLight
     dateLabel.textAlignment = .center
-    dateLabel.text = "abril de 2020"
     dateContainer.addSubview(dateLabel)
 
     dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -65,3 +66,6 @@ extension OrdersCollectionReusableView {
     ])
   }
 }
+
+//
+class OrdersCollectionFooterReusableView: UICollectionReusableView {}
