@@ -17,6 +17,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   var addressLabel = UILabel()
   var dateLabel = UILabel()
   var topStackView = UIStackView()
+  var topStackTrailingConstraint: NSLayoutConstraint!
   var productsCount = UILabel()
   var productsDetailsButton = UIButton()
   var stackView = UIStackView()
@@ -59,11 +60,21 @@ class OrdersCollectionViewCell: UICollectionViewCell {
 
     stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
+    if topStackTrailingConstraint != nil {
+      topStackTrailingConstraint.constant = -16
+    }
+
     storeNameLabel.text = nil
     addressLabel.text = nil
     dateLabel.text = nil
     productsCount.text = nil
     priceLabel.text = nil
+
+    storeNameLabel.layer.removeAllAnimations()
+    addressLabel.layer.removeAllAnimations()
+    dateLabel.layer.removeAllAnimations()
+    productsCount.layer.removeAllAnimations()
+    priceLabel.layer.removeAllAnimations()
 
     super.prepareForReuse()
   }
@@ -89,6 +100,14 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(productView)
       }
     }
+  }
+
+  func startShimmerForCell() {
+    storeNameLabel.startShimmer()
+    addressLabel.startShimmer()
+    dateLabel.startShimmer()
+    productsCount.startShimmer()
+    priceLabel.startShimmer()
   }
 }
 
@@ -137,7 +156,7 @@ extension OrdersCollectionViewCell {
     addressLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       addressLabel.topAnchor.constraint(
-        equalTo: addressLabel.bottomAnchor,
+        equalTo: storeNameLabel.bottomAnchor,
         constant: 3
       ),
       addressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
@@ -153,7 +172,6 @@ extension OrdersCollectionViewCell {
     dateLabel.font = .systemFont(ofSize: 13)
     dateLabel.textAlignment = .left
     dateLabel.textColor = UIColor.Zeplin.grayLight
-    dateLabel.text = "18/04/2020 às 16:42h"
     contentView.addSubview(dateLabel)
 
     dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -163,7 +181,8 @@ extension OrdersCollectionViewCell {
         constant: 21
       ),
       dateLabel.leadingAnchor.constraint(equalTo: addressLabel.leadingAnchor),
-      dateLabel.heightAnchor.constraint(equalToConstant: 16)
+      dateLabel.heightAnchor.constraint(equalToConstant: 16),
+      dateLabel.widthAnchor.constraint(equalToConstant: 137)
     ])
     dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -174,14 +193,17 @@ extension OrdersCollectionViewCell {
     topStackView.alignment = .trailing
     topStackView.spacing = 2
     topStackView.distribution = .fillProportionally
-    topStackView.backgroundColor = .random
     contentView.addSubview(topStackView)
 
     topStackView.translatesAutoresizingMaskIntoConstraints = false
+
+    topStackTrailingConstraint = topStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+
+    topStackTrailingConstraint.isActive = true
+
     NSLayoutConstraint.activate([
-      topStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 12),
-      topStackView.leadingAnchor.constraint(greaterThanOrEqualTo: dateLabel.trailingAnchor, constant: 24),
-      topStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      topStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 11),
+      topStackView.leadingAnchor.constraint(greaterThanOrEqualTo: dateLabel.trailingAnchor, constant: 12),
       topStackView.heightAnchor.constraint(equalToConstant: 35)
     ])
     topStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -202,6 +224,8 @@ extension OrdersCollectionViewCell {
     productsDetailsButton.setImage(Icons.chevronRight, for: .normal)
     productsDetailsButton.tintColor = UIColor.Zeplin.black
     topStackView.addArrangedSubview(productsDetailsButton)
+
+    topStackTrailingConstraint.constant = 0
 
     productsDetailsButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([

@@ -17,6 +17,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
   var viewModel: YDMOfflineOrdersViewModelDelegate?
   var navBarShadowOff = false
   var collectionView: UICollectionView!
+  var shimmerCollectionView: UICollectionView!
 
   // MARK: Life cycle
   public override func viewDidLoad() {
