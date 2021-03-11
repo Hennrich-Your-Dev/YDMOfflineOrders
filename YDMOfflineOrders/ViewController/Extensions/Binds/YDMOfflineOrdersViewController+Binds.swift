@@ -12,5 +12,14 @@ extension YDMOfflineOrdersViewController {
     viewModel?.orderList.bind { [weak self] _ in
       self?.collectionView.reloadData()
     }
+
+    viewModel?.loading.bind { [weak self] isLoading in
+      if isLoading {
+        self?.shimmerCollectionView.reloadData()
+      } else {
+        self?.shimmerCollectionView.removeFromSuperview()
+        self?.collectionView.isHidden = false
+      }
+    }
   }
 }

@@ -87,6 +87,7 @@ extension OrdersShimmerCollectionViewCell {
     createStoreNameView()
     createAddressView()
     createDateView()
+    createView()
 
     let separatorView = createSeparator(firstSeparator: true)
     createMiddleView(parent: separatorView)
@@ -99,33 +100,35 @@ extension OrdersShimmerCollectionViewCell {
 
   func createStoreNameView() {
     storeNameView.backgroundColor = UIColor.Zeplin.black
-    storeNameView.layer.cornerRadius = 3
+    storeNameView.layer.cornerRadius = 6
+    storeNameView.clipsToBounds = true
     contentView.addSubview(storeNameView)
 
     storeNameView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       storeNameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
       storeNameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-      storeNameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      storeNameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -54),
       storeNameView.heightAnchor.constraint(equalToConstant: 13)
     ])
   }
 
   func createAddressView() {
     addressView.backgroundColor = UIColor.Zeplin.grayLight
-    addressView.layer.cornerRadius = 3
+    addressView.layer.cornerRadius = 6
+    addressView.clipsToBounds = true
     contentView.addSubview(addressView)
 
     addressView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       addressView.topAnchor.constraint(
         equalTo: storeNameView.bottomAnchor,
-        constant: 3
+        constant: 7
       ),
       addressView.leadingAnchor.constraint(equalTo: storeNameView.leadingAnchor),
       addressView.trailingAnchor.constraint(
         equalTo: contentView.trailingAnchor,
-        constant: -8
+        constant: -16
       ),
       addressView.heightAnchor.constraint(equalToConstant: 13)
     ])
@@ -133,7 +136,8 @@ extension OrdersShimmerCollectionViewCell {
 
   func createDateView() {
     dateView.backgroundColor = UIColor.Zeplin.grayLight
-    dateView.layer.cornerRadius = 3
+    dateView.layer.cornerRadius = 6
+    dateView.clipsToBounds = true
     contentView.addSubview(dateView)
 
     dateView.translatesAutoresizingMaskIntoConstraints = false
@@ -146,25 +150,24 @@ extension OrdersShimmerCollectionViewCell {
       dateView.heightAnchor.constraint(equalToConstant: 13),
       dateView.widthAnchor.constraint(equalToConstant: 137)
     ])
-    dateView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    dateView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
 
   func createView() {
-    topView.backgroundColor = UIColor.Zeplin.white
+    topView.backgroundColor = UIColor.Zeplin.grayLight
+    topView.layer.cornerRadius = 6
+    topView.clipsToBounds = true
     contentView.addSubview(topView)
 
     topView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      topView.topAnchor.constraint(equalTo: addressView.bottomAnchor, constant: 23),
+      topView.topAnchor.constraint(equalTo: addressView.bottomAnchor, constant: 21),
       topView.leadingAnchor.constraint(
-        greaterThanOrEqualTo: dateView.trailingAnchor,
+        equalTo: dateView.trailingAnchor,
         constant: 38
       ),
       topView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
       topView.heightAnchor.constraint(equalToConstant: 13)
     ])
-    topView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
 
   func createSeparator(firstSeparator: Bool) -> UIView {
@@ -195,14 +198,13 @@ extension OrdersShimmerCollectionViewCell {
 
   func createMiddleView(parent: UIView) {
     middleView.backgroundColor = UIColor.Zeplin.white
-    middleView.layer.masksToBounds = false
     contentView.addSubview(middleView)
 
     middleView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       middleView.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 12),
-      middleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      middleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      middleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+      middleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
       middleView.heightAnchor.constraint(equalToConstant: 50)
     ])
   }
@@ -210,6 +212,7 @@ extension OrdersShimmerCollectionViewCell {
   func createProductCard() {
     photoView.backgroundColor = UIColor.Zeplin.white
     photoView.layer.cornerRadius = 8
+    photoView.clipsToBounds = true
     middleView.addSubview(photoView)
 
     photoView.translatesAutoresizingMaskIntoConstraints = false
@@ -221,19 +224,21 @@ extension OrdersShimmerCollectionViewCell {
     ])
 
     productNameView.backgroundColor = UIColor.Zeplin.white
-    productNameView.layer.cornerRadius = 3
+    productNameView.layer.cornerRadius = 6
+    productNameView.clipsToBounds = true
     middleView.addSubview(productNameView)
 
     productNameView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productNameView.topAnchor.constraint(equalTo: middleView.topAnchor, constant: 5),
+      productNameView.topAnchor.constraint(equalTo: middleView.topAnchor, constant: 8),
       productNameView.leadingAnchor.constraint(equalTo: photoView.trailingAnchor, constant: 10),
       productNameView.trailingAnchor.constraint(equalTo: middleView.trailingAnchor),
       productNameView.heightAnchor.constraint(equalToConstant: 13)
     ])
 
     productSubNameView.backgroundColor = UIColor.Zeplin.white
-    productSubNameView.layer.cornerRadius = 3
+    productSubNameView.layer.cornerRadius = 6
+    productSubNameView.clipsToBounds = true
     middleView.addSubview(productSubNameView)
 
     productSubNameView.translatesAutoresizingMaskIntoConstraints = false
@@ -257,28 +262,29 @@ extension OrdersShimmerCollectionViewCell {
       noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
       noteButton.heightAnchor.constraint(equalToConstant: 35)
     ])
-    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+//    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
 
   func createValueLabel(parent: UIView) {
     priceView.backgroundColor = UIColor.Zeplin.black
-    priceView.layer.cornerRadius = 3
+    priceView.layer.cornerRadius = 6
+    priceView.clipsToBounds = true
     contentView.addSubview(priceView)
 
     priceView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       priceView.topAnchor.constraint(
         equalTo: parent.bottomAnchor,
-        constant: 13
+        constant: 22
       ),
-      priceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
+      priceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       priceView.trailingAnchor.constraint(
         equalTo: noteButton.leadingAnchor,
-        constant: -10
+        constant: -50
       ),
       priceView.heightAnchor.constraint(equalToConstant: 13)
     ])
-    priceView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//    priceView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
 }
