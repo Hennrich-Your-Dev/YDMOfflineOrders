@@ -70,12 +70,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     productsCount.text = nil
     priceLabel.text = nil
 
-    storeNameLabel.layer.removeAllAnimations()
-    addressLabel.layer.removeAllAnimations()
-    dateLabel.layer.removeAllAnimations()
-    productsCount.layer.removeAllAnimations()
-    priceLabel.layer.removeAllAnimations()
-
     super.prepareForReuse()
   }
 
@@ -100,14 +94,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(productView)
       }
     }
-  }
-
-  func startShimmerForCell() {
-    storeNameLabel.startShimmer()
-    addressLabel.startShimmer()
-    dateLabel.startShimmer()
-    productsCount.startShimmer()
-    priceLabel.startShimmer()
   }
 }
 

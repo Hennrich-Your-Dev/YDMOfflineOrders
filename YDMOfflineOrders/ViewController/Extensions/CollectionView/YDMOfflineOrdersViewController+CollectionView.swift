@@ -28,16 +28,24 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
   }
 
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: OrdersCollectionViewCell.identifier,
-        for: indexPath
-      ) as? OrdersCollectionViewCell
-    else { fatalError("Dequeue OrdersCollectionViewCell") }
-
     if collectionView == shimmerCollectionView {
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: OrdersShimmerCollectionViewCell.identifier,
+        for: indexPath
+      ) as? OrdersShimmerCollectionViewCell
+      else {
+        fatalError("Dequeue OrdersShimmerCollectionViewCell")
+      }
+
       cell.startShimmerForCell()
       return cell
     }
+
+    guard let cell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: OrdersCollectionViewCell.identifier,
+      for: indexPath
+    ) as? OrdersCollectionViewCell
+    else { fatalError("Dequeue OrdersCollectionViewCell") }
 
     if let order = viewModel?[indexPath.section]?.at(indexPath.row) {
       cell.config(with: order)
@@ -63,6 +71,8 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 
         if let date = viewModel?[indexPath.section]?.first?.formatedDateSection {
           header.dateLabel.text = date
+        } else {
+          header.dateLabel.text = "--"
         }
         return header
 

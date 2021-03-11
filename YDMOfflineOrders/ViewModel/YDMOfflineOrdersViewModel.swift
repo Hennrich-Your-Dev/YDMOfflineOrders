@@ -83,7 +83,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     service.offlineOrdersGetOrders(
       userToken: userToken,
       page: 1,
-      limit: 10
+      limit: 20
     ) { [weak self] (result: Result<YDOfflineOrdersOrdersList, YDB2WServices.YDServiceError>) in
       self?.loading.value = false
 
@@ -94,6 +94,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
         case .failure(let error):
           self?.error.value = error.message
+          self?.logger.error(error.message)
       }
     }
   }
