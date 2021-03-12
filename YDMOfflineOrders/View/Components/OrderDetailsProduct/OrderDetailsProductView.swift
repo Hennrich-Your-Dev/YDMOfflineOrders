@@ -1,8 +1,8 @@
 //
-//  ProductCardInfoView.swift
+//  OrderDetailsProductView.swift
 //  YDMOfflineOrders
 //
-//  Created by Douglas Hennrich on 10/03/21.
+//  Created by Douglas Hennrich on 12/03/21.
 //
 
 import UIKit
@@ -11,20 +11,24 @@ import YDExtensions
 import YDB2WAssets
 import YDB2WModels
 
-// MARK: Product Info
-class ProductCardInfoView: UIView {
+class OrderDetailsProductView: UIView {
   // MARK: Properties
   var photo = UIImageView()
   var name = UILabel()
+  var price = UILabel()
   var badgeContainer = UIView()
   var badgeCount = UILabel()
-  var phantomButton = UIButton()
-
-  var currentProduct: YDOfflineOrdersProduct?
 
   // MARK: Init
   init() {
     super.init(frame: .zero)
+
+    backgroundColor = .clear
+    layer.masksToBounds = false
+
+    translatesAutoresizingMaskIntoConstraints = true
+    heightAnchor.constraint(equalToConstant: 50).isActive = true
+
     setUpLayout()
   }
 
@@ -34,30 +38,24 @@ class ProductCardInfoView: UIView {
 
   // MARK: Actions
   func config(with product: YDOfflineOrdersProduct) {
-    currentProduct = product
-
     photo.setImage(product.image)
     name.text = product.name
+    price.text = "\(product.totalPrice)"
 
     if product.howMany > 1 {
       badgeContainer.isHidden = false
       badgeCount.text = "\(product.howMany)"
     }
   }
-
-  @objc func onButtonAction(_ sender: UIButton) {
-//    guard let product = currentProduct else { return }
-    print(currentProduct?.ean)
-  }
 }
 
 // MARK: Layout
-extension ProductCardInfoView {
+extension OrderDetailsProductView {
   func setUpLayout() {
     createPhoto()
     createBadge()
     createName()
-    createPhantomButton()
+    createPrice()
   }
 
   func createPhoto() {
@@ -69,7 +67,7 @@ extension ProductCardInfoView {
 
     photo.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      photo.topAnchor.constraint(equalTo: topAnchor, constant: 2),
+      photo.centerYAnchor.constraint(equalTo: centerYAnchor),
       photo.leadingAnchor.constraint(
         equalTo: leadingAnchor,
         constant: 16
@@ -121,29 +119,29 @@ extension ProductCardInfoView {
     name.font = .systemFont(ofSize: 14)
     name.textAlignment = .left
     name.textColor = UIColor.Zeplin.grayLight
-    name.numberOfLines = 2
     name.text = .loremIpsum()
     addSubview(name)
 
     name.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      name.centerYAnchor.constraint(equalTo: photo.centerYAnchor),
+      name.topAnchor.constraint(equalTo: topAnchor, constant: 5),
       name.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
       name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
     ])
   }
 
-  func createPhantomButton() {
-    addSubview(phantomButton)
+  func createPrice() {
+    price.font = .systemFont(ofSize: 14)
+    price.textAlignment = .left
+    price.textColor = UIColor.Zeplin.black
+    price.text = "R$ 15,59"
+    addSubview(price)
 
-    phantomButton.translatesAutoresizingMaskIntoConstraints = false
+    price.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      phantomButton.topAnchor.constraint(equalTo: photo.topAnchor),
-      phantomButton.leadingAnchor.constraint(equalTo: photo.leadingAnchor),
-      phantomButton.trailingAnchor.constraint(equalTo: name.trailingAnchor),
-      phantomButton.bottomAnchor.constraint(equalTo: photo.bottomAnchor)
+      price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 7),
+      price.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
+      price.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
     ])
-//    print("phantomButton \(phantomButton.isUserInteractionEnabled)")
-    phantomButton.addTarget(self, action: #selector(onButtonAction), for: .touchUpInside)
   }
 }

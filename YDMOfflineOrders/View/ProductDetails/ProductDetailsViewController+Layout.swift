@@ -12,6 +12,7 @@ import YDExtensions
 
 extension ProductDetailsViewController {
   func setUpLayout() {
+    view.backgroundColor = UIColor.Zeplin.white
     setUpNavBar()
     createProductCard()
   }
@@ -34,7 +35,7 @@ extension ProductDetailsViewController {
   }
 
   @objc func onBackAction(_ sender: UIButton) {
-    dismiss(animated: true, completion: nil)
+    navigationController?.popViewController(animated: true)
   }
 
   func createProductCard() {

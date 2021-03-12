@@ -10,16 +10,20 @@ import Foundation
 import YDExtensions
 import YDB2WModels
 
-protocol OrderDetailsNavigation {}
+protocol OrderDetailsNavigation {
+  func onBack()
+}
 
 protocol OrderDetailsViewModelDelegate: AnyObject {
-  func getOrder() -> YDOfflineOrdersOrder
+  var order: YDOfflineOrdersOrder { get }
+
+  func goBack()
 }
 
 class OrderDetailsViewModel {
   // MARK: Properties
   let navigation: OrderDetailsNavigation
-  let order: YDOfflineOrdersOrder
+  var order: YDOfflineOrdersOrder
 
   // MARK: Init
   init(navigation: OrderDetailsNavigation,
@@ -30,7 +34,7 @@ class OrderDetailsViewModel {
 }
 
 extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
-  func getOrder() -> YDOfflineOrdersOrder {
-    return order
+  func goBack() {
+    navigation.onBack()
   }
 }

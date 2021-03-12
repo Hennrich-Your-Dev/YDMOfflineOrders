@@ -15,6 +15,7 @@ import YDB2WModels
 protocol OfflineOrdersNavigationDelegate: AnyObject {
   func setNavigationController(_ navigation: UINavigationController?)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
+  func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
 }
 
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
@@ -27,6 +28,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   func setNavigationController(_ navigation: UINavigationController?)
   func getOrderList()
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
+  func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
 }
 
 class YDMOfflineOrdersViewModel {
@@ -93,7 +95,8 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     loading.value = true
 
     // Mock
-//    fromMock()
+    fromMock()
+    return;
 
     service.offlineOrdersGetOrders(
       userToken: userToken,
@@ -116,5 +119,9 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
     navigation.openDetailsForProduct(product)
+  }
+
+  func openDetailsForOrder(_ order: YDOfflineOrdersOrder) {
+    navigation.openDetailsForOrder(order)
   }
 }

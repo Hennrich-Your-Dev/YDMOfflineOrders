@@ -44,12 +44,15 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(
       withReuseIdentifier: OrdersCollectionViewCell.identifier,
       for: indexPath
-    ) as? OrdersCollectionViewCell
+    ) as? OrdersCollectionViewCell,
+    let order = viewModel?[indexPath.section]?.at(indexPath.row)
     else { fatalError("Dequeue OrdersCollectionViewCell") }
 
-    if let order = viewModel?[indexPath.section]?.at(indexPath.row) {
-      cell.config(with: order)
+    cell.config(with: order)
+    cell.productCallback = { [weak self] product in
+      self?.viewModel?.openDetailsForProduct(product)
     }
+
     return cell
   }
 

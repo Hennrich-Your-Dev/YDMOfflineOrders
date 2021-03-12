@@ -26,6 +26,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
 
   var currentOrder: YDOfflineOrdersOrder?
   var productCallback: ((YDOfflineOrdersProduct) -> Void)?
+  var orderDetailsCallback: (() -> Void)?
 
   // MARK: Init
   override init(frame: CGRect) {
@@ -98,14 +99,15 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         productView.phantomButton.tag = index
         productView.config(with: product)
         stackView.addArrangedSubview(productView)
-
-        productView.phantomButton.addTarget(self, action: #selector(onProductTap), for: .touchUpInside)
       }
+
+      let gesture = UITapGestureRecognizer(target: self, action: #selector(onProductTap(_:)))
+      stackView.addGestureRecognizer(gesture)
     }
   }
 
-  @objc func onProductTap(_ sender: UIButton?) {
-    guard let index = sender?.tag,
+  @objc func onProductTap(_ sender: UIGestureRecognizer) {
+    guard let index = sender.view?.tag,
           let product = currentOrder?.products?.at(index)
     else {
       return
@@ -236,6 +238,12 @@ extension OrdersCollectionViewCell {
       productsDetailsButton.heightAnchor.constraint(equalToConstant: 35),
       productsDetailsButton.widthAnchor.constraint(equalToConstant: 35)
     ])
+
+    productsDetailsButton.addTarget(self, action: #selector(onOrderDetailsAction), for: .touchUpInside)
+  }
+
+  @objc func onOrderDetailsAction() {
+    orderDetailsCallback?()
   }
 
   func createSeparator(firstSeparator: Bool) -> UIView {
@@ -269,6 +277,7 @@ extension OrdersCollectionViewCell {
     stackView.alignment = .leading
     stackView.distribution = .fillEqually
     stackView.layer.masksToBounds = false
+    stackView.isUserInteractionEnabled = true
     contentView.addSubview(stackView)
 
     stackView.translatesAutoresizingMaskIntoConstraints = false

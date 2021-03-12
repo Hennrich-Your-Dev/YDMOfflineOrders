@@ -9,7 +9,7 @@ import UIKit
 
 class ProductDetailsViewController: UIViewController {
   // MARK: Properties
-  var productCard = OrderDetailsProductCard()
+  var productCard = ProductDetailsProductCard()
 
   // MARK: Life cycle
   override func viewDidLoad() {

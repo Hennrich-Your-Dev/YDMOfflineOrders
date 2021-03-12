@@ -11,12 +11,12 @@ import Cosmos
 import YDExtensions
 import YDB2WAssets
 
-class OrderDetailsProductCard: UIView {
+class ProductDetailsProductCard: UIView {
   // MARK: Properties
-  var photoImageView: UIImageView!
-  var productNameLabel: UILabel!
-  var productPriceLabel: UILabel!
-  var ratingView: CosmosView!
+  var photoImageView = UIImageView()
+  var productNameLabel = UILabel()
+  var productPriceLabel = UILabel()
+  var ratingView = CosmosView()
 
   // MARK: Life cycle
   override init(frame: CGRect) {
@@ -33,7 +33,7 @@ class OrderDetailsProductCard: UIView {
 }
 
 // MARK: Layout
-extension OrderDetailsProductCard {
+extension ProductDetailsProductCard {
   func setUpLayout() {
     createPhotoImageView()
     createProductNameLabel()
@@ -42,7 +42,7 @@ extension OrderDetailsProductCard {
 
   func createPhotoImageView() {
     let rect = CGRect(x: 0, y: 0, width: 80, height: 80)
-    self.photoImageView = UIImageView(frame: rect)
+    photoImageView.frame = rect
     photoImageView.contentMode = .scaleAspectFit
     photoImageView.image = Images.basket
     addSubview(photoImageView)
@@ -70,7 +70,6 @@ extension OrderDetailsProductCard {
   }
 
   func createProductNameLabel() {
-    self.productNameLabel = UILabel()
     productNameLabel.font = .systemFont(ofSize: 14)
     productNameLabel.textAlignment = .left
     productNameLabel.textColor = UIColor.Zeplin.grayLight
@@ -95,8 +94,32 @@ extension OrderDetailsProductCard {
     ])
   }
 
+  func createValueLabel() {
+    productPriceLabel.font = .systemFont(ofSize: 24, weight: .bold)
+    productPriceLabel.textAlignment = .left
+    productPriceLabel.textColor = UIColor.Zeplin.black
+    productPriceLabel.numberOfLines = 1
+    productPriceLabel.text = "R$ 41,91"
+    addSubview(productPriceLabel)
+
+    productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      productPriceLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+      productPriceLabel.leadingAnchor.constraint(
+        equalTo: self.photoImageView.trailingAnchor,
+        constant: 16
+      ),
+      productPriceLabel.trailingAnchor.constraint(
+        equalTo: trailingAnchor,
+        constant: -8
+      ),
+      productPriceLabel.heightAnchor.constraint(equalToConstant: 28)
+    ])
+
+    productPriceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+  }
+
   func createRatingView() {
-    ratingView = CosmosView()
     addSubview(ratingView)
 
     var settings = CosmosSettings()
@@ -120,37 +143,9 @@ extension OrderDetailsProductCard {
       ),
       ratingView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
       ratingView.heightAnchor.constraint(equalToConstant: 15),
-      ratingView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 31)
-    ])
-  }
-
-  func createValueLabel() {
-    self.productPriceLabel = UILabel()
-    productPriceLabel.font = .systemFont(ofSize: 24, weight: .bold)
-    productPriceLabel.textAlignment = .left
-    productPriceLabel.textColor = UIColor.Zeplin.black
-    productPriceLabel.numberOfLines = 1
-    productPriceLabel.text = "R$ 41,91"
-    addSubview(productPriceLabel)
-
-    productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      productPriceLabel.topAnchor.constraint(
-        equalTo: self.ratingView.bottomAnchor,
-        constant: 1
-      ),
-      productPriceLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-      productPriceLabel.leadingAnchor.constraint(
-        equalTo: self.photoImageView.trailingAnchor,
-        constant: 16
-      ),
-      productPriceLabel.trailingAnchor.constraint(
-        equalTo: trailingAnchor,
-        constant: -8
-      ),
-      productPriceLabel.heightAnchor.constraint(equalToConstant: 28)
+      ratingView.bottomAnchor.constraint(equalTo: productPriceLabel.topAnchor, constant: -9)
     ])
 
-    productPriceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    ratingView.setContentHuggingPriority(.defaultLow, for: .vertical)
   }
 }

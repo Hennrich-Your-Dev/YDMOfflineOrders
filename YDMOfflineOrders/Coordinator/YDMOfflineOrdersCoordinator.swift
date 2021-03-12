@@ -31,6 +31,15 @@ public class YDMOfflineOrdersCoordinator {
     vc.viewModel = viewModel
     return vc
   }
+
+  // MARK: Actions
+  func onBack() {
+    if navigationController?.viewControllers.count == 1 {
+      navigationController?.dismiss(animated: true, completion: nil)
+    } else {
+      navigationController?.popViewController(animated: true)
+    }
+  }
 }
 
 // MARK: Orders Navigation
@@ -47,6 +56,7 @@ extension YDMOfflineOrdersCoordinator: OfflineOrdersNavigationDelegate {
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder) {
     let vc = OrderDetailsViewController()
     let viewModel = OrderDetailsViewModel(navigation: self, order: order)
+    vc.viewModel = viewModel
     navigationController?.pushViewController(vc, animated: true)
   }
 }
