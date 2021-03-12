@@ -40,7 +40,7 @@ class OrderDetailsProductView: UIView {
   func config(with product: YDOfflineOrdersProduct) {
     photo.setImage(product.image)
     name.text = product.name
-    price.text = "\(product.totalPrice)"
+    price.text = product.formatedPrice
 
     if product.howMany > 1 {
       badgeContainer.isHidden = false
@@ -62,7 +62,8 @@ extension OrderDetailsProductView {
     let rect = CGRect(x: 0, y: 0, width: 45, height: 45)
     photo.frame = rect
     photo.contentMode = .scaleAspectFit
-    photo.image = Images.basket
+    photo.image = Icons.imagePlaceHolder
+    photo.tintColor = UIColor.Zeplin.grayLight
     addSubview(photo)
 
     photo.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +120,6 @@ extension OrderDetailsProductView {
     name.font = .systemFont(ofSize: 14)
     name.textAlignment = .left
     name.textColor = UIColor.Zeplin.grayLight
-    name.text = .loremIpsum()
     addSubview(name)
 
     name.translatesAutoresizingMaskIntoConstraints = false
@@ -134,14 +134,14 @@ extension OrderDetailsProductView {
     price.font = .systemFont(ofSize: 14)
     price.textAlignment = .left
     price.textColor = UIColor.Zeplin.black
-    price.text = "R$ 15,59"
     addSubview(price)
 
     price.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 7),
       price.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
-      price.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+      price.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      price.heightAnchor.constraint(equalToConstant: 16)
     ])
   }
 }

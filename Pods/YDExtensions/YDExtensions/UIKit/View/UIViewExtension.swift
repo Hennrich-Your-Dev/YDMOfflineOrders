@@ -132,6 +132,7 @@ public extension UIView {
     gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
     gradientLayer.colors = [colorOne.cgColor, colorTwo.cgColor, colorOne.cgColor]
     gradientLayer.locations = [0.0, 0.5, 1.0]
+    gradientLayer.name = "shimmerAnimation"
 
     let animation = CABasicAnimation(keyPath: "locations")
     animation.fromValue = [-1.0, -0.5, 0.0]
@@ -140,6 +141,12 @@ public extension UIView {
     animation.duration = speed
     animation.beginTime = CFTimeInterval() + delay
 
-    gradientLayer.add(animation, forKey: animation.keyPath)
+    gradientLayer.add(animation, forKey: "shimmerAnimation")
+    layer.addSublayer(gradientLayer)
+  }
+
+  func stopShimmer() {
+    layer.removeAnimation(forKey: "shimmerAnimation")
+    layer.sublayers?.first(where: { $0.name == "shimmerAnimation" })?.removeFromSuperlayer()
   }
 }

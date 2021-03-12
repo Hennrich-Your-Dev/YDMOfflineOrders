@@ -144,7 +144,7 @@ extension OrderDetailsViewController {
   func createCollectionView() {
     let layoutFlow = UICollectionViewFlowLayout()
     layoutFlow.sectionInset = UIEdgeInsets(
-      top: 20,
+      top: 5,
       left: 0,
       bottom: 0,
       right: 0
@@ -177,9 +177,9 @@ extension OrderDetailsViewController {
     )
 
     collectionView.register(
-      OrdersCollectionReusableView.self,
+      OrdersCollectionFooterReusableView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: OrdersCollectionReusableView.identifier
+      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
 
     collectionView.register(

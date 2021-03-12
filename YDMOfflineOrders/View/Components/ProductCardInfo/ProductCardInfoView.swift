@@ -64,7 +64,7 @@ extension ProductCardInfoView {
     let rect = CGRect(x: 0, y: 0, width: 45, height: 45)
     photo.frame = rect
     photo.contentMode = .scaleAspectFit
-    photo.image = Images.basket
+    photo.image = Icons.imagePlaceHolder
     addSubview(photo)
 
     photo.translatesAutoresizingMaskIntoConstraints = false

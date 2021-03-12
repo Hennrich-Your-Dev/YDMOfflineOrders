@@ -31,6 +31,8 @@ public class Icons {
 
   public static let gps = UIImage(named: "gps-icon", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
+  public static let imagePlaceHolder = UIImage(named: "iconImagePlaceHolder", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+
   public static let leftArrow = UIImage(named: "iconLeftArrow", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
   public static let locationPin = UIImage(named: "location-pin", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)

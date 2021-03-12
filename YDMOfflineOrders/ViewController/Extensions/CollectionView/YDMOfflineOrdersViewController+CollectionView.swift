@@ -52,6 +52,9 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     cell.productCallback = { [weak self] product in
       self?.viewModel?.openDetailsForProduct(product)
     }
+    cell.orderDetailsCallback = { [weak self] in
+      self?.viewModel?.openDetailsForOrder(order)
+    }
 
     return cell
   }

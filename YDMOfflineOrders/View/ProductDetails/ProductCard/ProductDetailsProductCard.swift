@@ -37,6 +37,7 @@ extension ProductDetailsProductCard {
   func setUpLayout() {
     createPhotoImageView()
     createProductNameLabel()
+    createValueLabel()
     createRatingView()
   }
 
@@ -137,13 +138,17 @@ extension ProductDetailsProductCard {
 
     ratingView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
+      ratingView.topAnchor.constraint(
+        greaterThanOrEqualTo: productNameLabel.bottomAnchor,
+        constant: 4
+      ),
       ratingView.leadingAnchor.constraint(
         equalTo: self.photoImageView.trailingAnchor,
         constant: 16
       ),
       ratingView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
       ratingView.heightAnchor.constraint(equalToConstant: 15),
-      ratingView.bottomAnchor.constraint(equalTo: productPriceLabel.topAnchor, constant: -9)
+      ratingView.bottomAnchor.constraint(equalTo: productPriceLabel.topAnchor, constant: -5)
     ])
 
     ratingView.setContentHuggingPriority(.defaultLow, for: .vertical)
