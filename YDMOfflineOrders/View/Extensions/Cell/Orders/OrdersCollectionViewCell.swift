@@ -24,6 +24,9 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   var noteButton = UIButton()
   var priceLabel = UILabel()
 
+  var currentOrder: YDOfflineOrdersOrder?
+  var productCallback: ((YDOfflineOrdersProduct) -> Void)?
+
   // MARK: Init
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -69,12 +72,15 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     dateLabel.text = nil
     productsCount.text = nil
     priceLabel.text = nil
+    productCallback = nil
+    currentOrder = nil
 
     super.prepareForReuse()
   }
 
   // MARK: Actions
   func config(with order: YDOfflineOrdersOrder) {
+    currentOrder = order
     storeNameLabel.text = order.storeName
     addressLabel.text = order.formatedAddress
     dateLabel.text = order.formatedDate
@@ -87,13 +93,25 @@ class OrdersCollectionViewCell: UICollectionViewCell {
         createProductsDetailsButton()
       }
 
-      for product in products.prefix(3) {
+      for (index, product) in products.prefix(3).enumerated() {
         let productView = ProductCardInfoView()
+        productView.phantomButton.tag = index
         productView.config(with: product)
-
         stackView.addArrangedSubview(productView)
+
+        productView.phantomButton.addTarget(self, action: #selector(onProductTap), for: .touchUpInside)
       }
     }
+  }
+
+  @objc func onProductTap(_ sender: UIButton?) {
+    guard let index = sender?.tag,
+          let product = currentOrder?.products?.at(index)
+    else {
+      return
+    }
+
+    productCallback?(product)
   }
 }
 
@@ -249,7 +267,6 @@ extension OrdersCollectionViewCell {
   func createStackView(parent: UIView) {
     stackView.axis = .horizontal
     stackView.alignment = .leading
-    stackView.spacing = 1
     stackView.distribution = .fillEqually
     stackView.layer.masksToBounds = false
     contentView.addSubview(stackView)

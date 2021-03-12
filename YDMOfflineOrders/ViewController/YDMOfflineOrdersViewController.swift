@@ -15,6 +15,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
   // MARK: Properties
   public weak var delegate: YDMSOfflineOrdersDelegate?
   var viewModel: YDMOfflineOrdersViewModelDelegate?
+  var alreadyBindNavigation = false
   var navBarShadowOff = false
   var collectionView: UICollectionView!
   var shimmerCollectionView: UICollectionView!
@@ -26,6 +27,13 @@ public class YDMOfflineOrdersViewController: UIViewController {
     setUpLayout()
     setUpBinds()
     viewModel?.getOrderList()
+  }
+
+  public override func viewWillAppear(_ animated: Bool) {
+    if !alreadyBindNavigation {
+      alreadyBindNavigation = true
+      viewModel?.setNavigationController(navigationController)
+    }
   }
 }
 

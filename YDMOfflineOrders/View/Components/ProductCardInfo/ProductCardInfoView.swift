@@ -18,6 +18,9 @@ class ProductCardInfoView: UIView {
   var name = UILabel()
   var badgeContainer = UIView()
   var badgeCount = UILabel()
+  var phantomButton = UIButton()
+
+  var currentProduct: YDOfflineOrdersProduct?
 
   // MARK: Init
   init() {
@@ -31,6 +34,8 @@ class ProductCardInfoView: UIView {
 
   // MARK: Actions
   func config(with product: YDOfflineOrdersProduct) {
+    currentProduct = product
+
     photo.setImage(product.image)
     name.text = product.name
 
@@ -38,6 +43,11 @@ class ProductCardInfoView: UIView {
       badgeContainer.isHidden = false
       badgeCount.text = "\(product.howMany)"
     }
+  }
+
+  @objc func onButtonAction(_ sender: UIButton) {
+//    guard let product = currentProduct else { return }
+    print(currentProduct?.ean)
   }
 }
 
@@ -47,6 +57,7 @@ extension ProductCardInfoView {
     createPhoto()
     createBadge()
     createName()
+    createPhantomButton()
   }
 
   func createPhoto() {
@@ -95,13 +106,14 @@ extension ProductCardInfoView {
     badgeCount.textColor = UIColor.Zeplin.white
     badgeCount.textAlignment = .center
     badgeCount.font = .systemFont(ofSize: 13)
-    badgeCount.text = "3"
     badgeContainer.addSubview(badgeCount)
 
     badgeCount.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       badgeCount.leadingAnchor.constraint(equalTo: badgeContainer.leadingAnchor),
-      badgeCount.trailingAnchor.constraint(equalTo: badgeContainer.trailingAnchor)
+      badgeCount.trailingAnchor.constraint(equalTo: badgeContainer.trailingAnchor),
+      badgeCount.topAnchor.constraint(equalTo: badgeContainer.topAnchor),
+      badgeCount.bottomAnchor.constraint(equalTo: badgeContainer.bottomAnchor)
     ])
   }
 
@@ -119,5 +131,19 @@ extension ProductCardInfoView {
       name.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
       name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
     ])
+  }
+
+  func createPhantomButton() {
+    addSubview(phantomButton)
+
+    phantomButton.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      phantomButton.topAnchor.constraint(equalTo: photo.topAnchor),
+      phantomButton.leadingAnchor.constraint(equalTo: photo.leadingAnchor),
+      phantomButton.trailingAnchor.constraint(equalTo: name.trailingAnchor),
+      phantomButton.bottomAnchor.constraint(equalTo: photo.bottomAnchor)
+    ])
+//    print("phantomButton \(phantomButton.isUserInteractionEnabled)")
+//    phantomButton.addTarget(self, action: #selector(onButtonAction), for: .touchUpInside)
   }
 }

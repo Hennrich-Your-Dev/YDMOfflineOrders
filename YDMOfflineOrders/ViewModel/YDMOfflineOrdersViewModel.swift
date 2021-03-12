@@ -5,12 +5,17 @@
 //  Created by Douglas Hennrich on 21/02/21.
 //
 
-import Foundation
+import UIKit
 
 import YDUtilities
 import YDExtensions
 import YDB2WServices
 import YDB2WModels
+
+protocol OfflineOrdersNavigationDelegate: AnyObject {
+  func setNavigationController(_ navigation: UINavigationController?)
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
+}
 
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
@@ -19,13 +24,16 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
 
   subscript(section: Int) -> YDOfflineOrdersOrdersList? { get }
 
+  func setNavigationController(_ navigation: UINavigationController?)
   func getOrderList()
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
 }
 
 class YDMOfflineOrdersViewModel {
   // MARK: Properties
   lazy var logger = YDUtilities.Logger.forClass(Self.self)
   let service: YDB2WServiceDelegate = YDB2WService()
+  let navigation: OfflineOrdersNavigationDelegate
 
   var error: Binder<String> = Binder("")
   var loading: Binder<Bool> = Binder(false)
@@ -35,7 +43,9 @@ class YDMOfflineOrdersViewModel {
   var userToken: String
 
   // MARK: Init
-  init(userToken: String) {
+  init(navigation: OfflineOrdersNavigationDelegate,
+       userToken: String) {
+    self.navigation = navigation
     self.userToken = userToken
   }
 
@@ -75,11 +85,16 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     return orderList.value.at(section)?.values.first
   }
 
+  func setNavigationController(_ navigation: UINavigationController?) {
+    self.navigation.setNavigationController(navigation)
+  }
+
   func getOrderList() {
     loading.value = true
 
     // Mock
-    // fromMock()
+//    fromMock()
+
     service.offlineOrdersGetOrders(
       userToken: userToken,
       page: 1,
@@ -97,5 +112,9 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           self?.logger.error(error.message)
       }
     }
+  }
+
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
+    navigation.openDetailsForProduct(product)
   }
 }
