@@ -96,7 +96,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
     // Mock
     fromMock()
-    return;
+    return
 
     service.offlineOrdersGetOrders(
       userToken: userToken,

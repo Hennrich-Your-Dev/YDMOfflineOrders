@@ -65,5 +65,9 @@ extension OrderDetailsViewController: UICollectionViewDataSource {
 
 // MARK: Delegate
 extension OrderDetailsViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let product = viewModel?.order.products?.at(indexPath.row) else { return }
 
+    viewModel?.openDetailsForProduct(product)
+  }
 }

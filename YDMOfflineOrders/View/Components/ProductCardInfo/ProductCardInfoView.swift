@@ -46,8 +46,8 @@ class ProductCardInfoView: UIView {
   }
 
   @objc func onButtonAction(_ sender: UIButton) {
-//    guard let product = currentProduct else { return }
-    print(currentProduct?.ean)
+    guard let product = currentProduct else { return }
+    print(product.ean)
   }
 }
 
@@ -65,6 +65,7 @@ extension ProductCardInfoView {
     photo.frame = rect
     photo.contentMode = .scaleAspectFit
     photo.image = Icons.imagePlaceHolder
+    photo.tintColor = UIColor.Zeplin.grayLight
     addSubview(photo)
 
     photo.translatesAutoresizingMaskIntoConstraints = false

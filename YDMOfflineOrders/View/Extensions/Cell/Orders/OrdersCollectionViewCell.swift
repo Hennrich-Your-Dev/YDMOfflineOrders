@@ -203,7 +203,8 @@ extension OrdersCollectionViewCell {
 
     topStackView.translatesAutoresizingMaskIntoConstraints = false
 
-    topStackTrailingConstraint = topStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+    topStackTrailingConstraint = topStackView.trailingAnchor
+      .constraint(equalTo: contentView.trailingAnchor, constant: -16)
 
     topStackTrailingConstraint.isActive = true
 

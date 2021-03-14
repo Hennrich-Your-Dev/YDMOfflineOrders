@@ -23,6 +23,10 @@ extension OrderDetailsViewController {
     let dateAndTotalLabel = createDateAndTotalItems(order, parent: addressLabel)
     createSeparatorView(parent: dateAndTotalLabel)
     createCollectionView()
+
+    let container = createTotalPriceContainer()
+    createNoteButton(parent: container)
+    createValueLabel(parent: container)
   }
 
   func setUpNavBar() {
@@ -160,13 +164,16 @@ extension OrderDetailsViewController {
 
     collectionView.delegate = self
     collectionView.dataSource = self
-    collectionView.backgroundColor = .clear
+    collectionView.backgroundColor = .random
     collectionView.alwaysBounceVertical = true
 
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       collectionView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
-      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      collectionView.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        constant: 63
+      ),
       collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
@@ -187,5 +194,84 @@ extension OrderDetailsViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
+  }
+
+  func createTotalPriceContainer() -> UIView {
+    let container = UIView()
+    container.backgroundColor = .random
+    view.addSubview(container)
+
+    container.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      container.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+      container.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      container.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      container.heightAnchor.constraint(equalToConstant: view.safeAreaInsets.bottom + 63)
+    ])
+
+    return container
+  }
+
+  func createNoteButton(parent: UIView) {
+    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
+    noteButton.setTitleColor(UIColor.Zeplin.redBranding, for: .normal)
+    noteButton.setTitle("ver nota fiscal", for: .normal)
+    parent.addSubview(noteButton)
+
+    noteButton.addTarget(self, action: #selector(onNoteAction), for: .touchUpInside)
+
+    noteButton.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      noteButton.centerYAnchor.constraint(equalTo: parent.centerYAnchor),
+      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+      noteButton.heightAnchor.constraint(equalToConstant: 35)
+    ])
+    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+  }
+
+  func createValueLabel(parent: UIView) {
+    let valueTotalLabel = UILabel()
+    valueTotalLabel.font = .systemFont(ofSize: 12)
+    valueTotalLabel.textAlignment = .left
+    valueTotalLabel.textColor = UIColor.Zeplin.grayLight
+    valueTotalLabel.numberOfLines = 1
+    valueTotalLabel.text = "total -"
+    parent.addSubview(valueTotalLabel)
+
+    valueTotalLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      valueTotalLabel.topAnchor.constraint(
+        equalTo: parent.topAnchor,
+        constant: 17
+      ),
+      valueTotalLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+      valueTotalLabel.heightAnchor.constraint(equalToConstant: 24)
+    ])
+    valueTotalLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    valueTotalLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+    //
+    priceLabel.font = .systemFont(ofSize: 24, weight: .bold)
+    priceLabel.textAlignment = .left
+    priceLabel.textColor = UIColor.Zeplin.black
+    priceLabel.numberOfLines = 1
+    parent.addSubview(priceLabel)
+
+    priceLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      priceLabel.topAnchor.constraint(
+        equalTo: parent.topAnchor,
+        constant: 13
+      ),
+      priceLabel.leadingAnchor.constraint(equalTo: valueTotalLabel.trailingAnchor, constant: 3),
+      priceLabel.trailingAnchor.constraint(
+        equalTo: noteButton.leadingAnchor,
+        constant: -10
+      ),
+      priceLabel.heightAnchor.constraint(equalToConstant: 24)
+    ])
+    priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
 }

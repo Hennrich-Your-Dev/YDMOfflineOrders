@@ -45,7 +45,8 @@ extension ProductDetailsProductCard {
     let rect = CGRect(x: 0, y: 0, width: 80, height: 80)
     photoImageView.frame = rect
     photoImageView.contentMode = .scaleAspectFit
-    photoImageView.image = Images.basket
+    photoImageView.image = Icons.imagePlaceHolder
+    photoImageView.tintColor = UIColor.Zeplin.grayLight
     addSubview(photoImageView)
 
     photoImageView.translatesAutoresizingMaskIntoConstraints = false

@@ -40,17 +40,17 @@ public class YDMOfflineOrdersCoordinator {
       navigationController?.popViewController(animated: true)
     }
   }
+
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
+    let vc = ProductDetailsViewController()
+    navigationController?.pushViewController(vc, animated: true)
+  }
 }
 
 // MARK: Orders Navigation
 extension YDMOfflineOrdersCoordinator: OfflineOrdersNavigationDelegate {
   func setNavigationController(_ navigation: UINavigationController?) {
     self.navigationController = navigation
-  }
-
-  func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
-    let vc = ProductDetailsViewController()
-    navigationController?.pushViewController(vc, animated: true)
   }
 
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder) {
@@ -62,6 +62,4 @@ extension YDMOfflineOrdersCoordinator: OfflineOrdersNavigationDelegate {
 }
 
 // MARK: Order Details Navigation
-extension YDMOfflineOrdersCoordinator: OrderDetailsNavigation {
-
-}
+extension YDMOfflineOrdersCoordinator: OrderDetailsNavigation {}

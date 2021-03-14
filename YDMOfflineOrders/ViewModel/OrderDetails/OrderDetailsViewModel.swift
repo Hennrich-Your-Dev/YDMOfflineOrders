@@ -12,12 +12,14 @@ import YDB2WModels
 
 protocol OrderDetailsNavigation {
   func onBack()
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
 }
 
 protocol OrderDetailsViewModelDelegate: AnyObject {
   var order: YDOfflineOrdersOrder { get }
 
   func goBack()
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
 }
 
 class OrderDetailsViewModel {
@@ -26,8 +28,10 @@ class OrderDetailsViewModel {
   var order: YDOfflineOrdersOrder
 
   // MARK: Init
-  init(navigation: OrderDetailsNavigation,
-       order: YDOfflineOrdersOrder) {
+  init(
+    navigation: OrderDetailsNavigation,
+    order: YDOfflineOrdersOrder
+  ) {
     self.navigation = navigation
     self.order = order
   }
@@ -36,5 +40,9 @@ class OrderDetailsViewModel {
 extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
   func goBack() {
     navigation.onBack()
+  }
+
+  func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
+    navigation.openDetailsForProduct(product)
   }
 }
