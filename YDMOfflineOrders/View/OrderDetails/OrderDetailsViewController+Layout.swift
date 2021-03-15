@@ -200,7 +200,7 @@ extension OrderDetailsViewController {
 
   func createShadow(fromTop: Bool) {
     let shadow = UIView()
-    shadow.backgroundColor = .white
+    shadow.backgroundColor = UIColor.black.withAlphaComponent(0.1)
 
     if fromTop {
       view.insertSubview(shadow, belowSubview: separatorView)
