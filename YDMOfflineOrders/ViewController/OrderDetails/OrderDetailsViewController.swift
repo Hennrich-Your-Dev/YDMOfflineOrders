@@ -41,7 +41,9 @@ class OrderDetailsViewController: UIViewController {
     dialog.start(
       ofType: .withCancel,
       customTitle: "atenção",
-      customMessage: "Acesse e confira através do site da nota fiscal eletrônica."
+      customMessage: "Acesse e confira através do site da nota fiscal eletrônica.",
+      customButton: "ver nota fiscal",
+      customCancelButton: "depois vejo"
     )
   }
 

@@ -117,6 +117,10 @@ class OrdersCollectionViewCell: UICollectionViewCell {
 
     productCallback?(product)
   }
+
+  @objc func onNoteAction(_ sender: UIButton) {
+    noteCallback?()
+  }
 }
 
 // MARK: Layout
@@ -306,6 +310,8 @@ extension OrdersCollectionViewCell {
     ])
     noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+    noteButton.addTarget(self, action: #selector(onNoteAction), for: .touchUpInside)
   }
 
   func createValueLabel(parent: UIView) {

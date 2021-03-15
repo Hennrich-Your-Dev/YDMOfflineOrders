@@ -22,6 +22,8 @@ class YDDialogViewController: UIViewController {
   var customIcon: UIImage?
   var customTitle: String?
   var customMessage: String?
+  var customButton: String?
+  var customCancelButton: String?
 
   // MARK: IBOutlets
   @IBOutlet weak var contentView: UIView! {
@@ -71,13 +73,20 @@ class YDDialogViewController: UIViewController {
       }
     }
 
-
     if let customTitle = customTitle {
       titleLabel.text = customTitle
     }
 
     if let customMessage = customMessage {
       descriptionLabel.text = customMessage
+    }
+
+    if let customButton = customButton {
+      actionButton.setTitle(customButton, for: .normal)
+    }
+
+    if let customCancelButton = customCancelButton {
+      cancelButton.setTitle(customCancelButton, for: .normal)
     }
   }
 
@@ -87,5 +96,6 @@ class YDDialogViewController: UIViewController {
   }
 
   @IBAction func onCancelAction(_ sender: UIButton) {
+    viewModel?.onCancelAction()
   }
 }

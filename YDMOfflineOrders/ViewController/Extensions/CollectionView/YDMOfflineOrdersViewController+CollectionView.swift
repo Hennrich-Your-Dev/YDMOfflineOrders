@@ -68,7 +68,9 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
       dialog.start(
         ofType: .withCancel,
         customTitle: "atenção",
-        customMessage: "acesse e confira através do site da nota fiscal eletrônica."
+        customMessage: "acesse e confira através do site da nota fiscal eletrônica.",
+        customButton: "ver nota fiscal",
+        customCancelButton: "depois vejo"
       )
     }
 
