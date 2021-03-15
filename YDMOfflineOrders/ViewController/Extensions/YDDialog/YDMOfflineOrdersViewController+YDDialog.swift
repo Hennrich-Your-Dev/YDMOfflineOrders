@@ -14,4 +14,6 @@ extension YDMOfflineOrdersViewController: YDDialogCoordinatorDelegate {
     guard let nfe = payload?["nfe"] as? String else { return }
     print("nfe \(nfe)")
   }
+
+  public func onCancelYDDialog(payload: [String : Any]?) {}
 }

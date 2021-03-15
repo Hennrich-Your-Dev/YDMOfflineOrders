@@ -12,7 +12,6 @@ import YDB2WModels
 
 protocol OrderDetailsNavigation {
   func onBack()
-  func openNote(withKey key: String)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
 }
 
@@ -20,7 +19,6 @@ protocol OrderDetailsViewModelDelegate: AnyObject {
   var order: YDOfflineOrdersOrder { get }
 
   func goBack()
-  func openNote()
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
 }
 
@@ -42,10 +40,6 @@ class OrderDetailsViewModel {
 extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
   func goBack() {
     navigation.onBack()
-  }
-
-  func openNote() {
-    navigation.openNote(withKey: order.nfe ?? "")
   }
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {

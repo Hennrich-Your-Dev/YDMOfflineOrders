@@ -15,7 +15,7 @@ public protocol YDDialogCoordinatorDelegate: AnyObject {
 }
 
 extension YDDialogCoordinatorDelegate {
-  public func onCancelYDDialog(payload: [String: Any]?) {}
+  func onCancelYDDialog(payload: [String: Any]?) {}
 }
 
 public typealias YDDialog = YDDialogCoordinator
