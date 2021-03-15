@@ -8,6 +8,7 @@
 import UIKit
 
 import YDExtensions
+import YDB2WComponents
 
 // MARK: Data Source
 extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
@@ -50,10 +51,25 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 
     cell.config(with: order)
     cell.productCallback = { [weak self] product in
-      self?.viewModel?.openDetailsForProduct(product)
+      guard let self = self else { return }
+      self.viewModel?.openDetailsForProduct(product)
     }
     cell.orderDetailsCallback = { [weak self] in
-      self?.viewModel?.openDetailsForOrder(order)
+      guard let self = self else { return }
+      self.viewModel?.openDetailsForOrder(order)
+    }
+    cell.noteCallback = { [weak self] in
+      guard let self = self,
+            let nfe = order.nfe else { return }
+
+      let dialog = YDDialog()
+      dialog.delegate = self
+      dialog.payload = ["nfe": nfe]
+      dialog.start(
+        ofType: .withCancel,
+        customTitle: "atenção",
+        customMessage: "acesse e confira através do site da nota fiscal eletrônica."
+      )
     }
 
     return cell

@@ -27,6 +27,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   var currentOrder: YDOfflineOrdersOrder?
   var productCallback: ((YDOfflineOrdersProduct) -> Void)?
   var orderDetailsCallback: (() -> Void)?
+  var noteCallback: (() -> Void)?
 
   // MARK: Init
   override init(frame: CGRect) {
@@ -75,6 +76,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     priceLabel.text = nil
     productCallback = nil
     currentOrder = nil
+    noteCallback = nil
 
     super.prepareForReuse()
   }

@@ -27,6 +27,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
 
   func setNavigationController(_ navigation: UINavigationController?)
   func getOrderList()
+  func openNote(withKey key: String?)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
 }
@@ -115,6 +116,10 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           self?.logger.error(error.message)
       }
     }
+  }
+
+  func openNote(withKey key: String?) {
+    
   }
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {

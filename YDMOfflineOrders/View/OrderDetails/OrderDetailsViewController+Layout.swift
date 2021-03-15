@@ -23,10 +23,12 @@ extension OrderDetailsViewController {
     let dateAndTotalLabel = createDateAndTotalItems(order, parent: addressLabel)
     createSeparatorView(parent: dateAndTotalLabel)
     createCollectionView()
+    createShadow(fromTop: true)
+    createShadow(fromTop: false)
 
     let container = createTotalPriceContainer()
     createNoteButton(parent: container)
-    createValueLabel(parent: container)
+    createValueLabel(order, parent: container)
   }
 
   func setUpNavBar() {
@@ -150,7 +152,7 @@ extension OrderDetailsViewController {
     layoutFlow.sectionInset = UIEdgeInsets(
       top: 5,
       left: 0,
-      bottom: 0,
+      bottom: 25,
       right: 0
     )
 
@@ -164,7 +166,7 @@ extension OrderDetailsViewController {
 
     collectionView.delegate = self
     collectionView.dataSource = self
-    collectionView.backgroundColor = .random
+    collectionView.backgroundColor = .clear
     collectionView.alwaysBounceVertical = true
 
     collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -172,7 +174,7 @@ extension OrderDetailsViewController {
       collectionView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
       collectionView.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-        constant: 63
+        constant: -63
       ),
       collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -196,9 +198,36 @@ extension OrderDetailsViewController {
     )
   }
 
+  func createShadow(fromTop: Bool) {
+    let shadow = UIView()
+    shadow.backgroundColor = .white
+
+    if fromTop {
+      view.insertSubview(shadow, belowSubview: separatorView)
+    } else {
+      view.addSubview(shadow)
+    }
+
+    shadow.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      shadow.heightAnchor.constraint(equalToConstant: 1),
+      shadow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      shadow.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+    ])
+
+    if fromTop {
+      shadow.topAnchor.constraint(equalTo: separatorView.topAnchor).isActive = true
+      shadowTop = shadow
+    } else {
+      shadow.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+      shadow.layer.applyShadow(y: -2)
+      shadowBottom = shadow
+    }
+  }
+
   func createTotalPriceContainer() -> UIView {
     let container = UIView()
-    container.backgroundColor = .random
+    container.backgroundColor = UIColor.Zeplin.white
     view.addSubview(container)
 
     container.translatesAutoresizingMaskIntoConstraints = false
@@ -223,15 +252,15 @@ extension OrderDetailsViewController {
 
     noteButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      noteButton.centerYAnchor.constraint(equalTo: parent.centerYAnchor),
-      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+      noteButton.topAnchor.constraint(equalTo: parent.topAnchor, constant: 13),
+      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -24),
       noteButton.heightAnchor.constraint(equalToConstant: 35)
     ])
     noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
 
-  func createValueLabel(parent: UIView) {
+  func createValueLabel(_ order: YDOfflineOrdersOrder, parent: UIView) {
     let valueTotalLabel = UILabel()
     valueTotalLabel.font = .systemFont(ofSize: 12)
     valueTotalLabel.textAlignment = .left
@@ -244,9 +273,9 @@ extension OrderDetailsViewController {
     NSLayoutConstraint.activate([
       valueTotalLabel.topAnchor.constraint(
         equalTo: parent.topAnchor,
-        constant: 17
+        constant: 18
       ),
-      valueTotalLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
+      valueTotalLabel.leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 24),
       valueTotalLabel.heightAnchor.constraint(equalToConstant: 24)
     ])
     valueTotalLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -257,13 +286,14 @@ extension OrderDetailsViewController {
     priceLabel.textAlignment = .left
     priceLabel.textColor = UIColor.Zeplin.black
     priceLabel.numberOfLines = 1
+    priceLabel.text = order.formatedPrice
     parent.addSubview(priceLabel)
 
     priceLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       priceLabel.topAnchor.constraint(
         equalTo: parent.topAnchor,
-        constant: 13
+        constant: 16
       ),
       priceLabel.leadingAnchor.constraint(equalTo: valueTotalLabel.trailingAnchor, constant: 3),
       priceLabel.trailingAnchor.constraint(

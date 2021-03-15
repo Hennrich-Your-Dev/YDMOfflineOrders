@@ -130,7 +130,8 @@ extension ProductCardInfoView {
     NSLayoutConstraint.activate([
       name.centerYAnchor.constraint(equalTo: photo.centerYAnchor),
       name.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
-      name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+      name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      name.heightAnchor.constraint(equalToConstant: 14)
     ])
   }
 

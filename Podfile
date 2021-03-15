@@ -19,4 +19,5 @@ target 'YDMOfflineOrders' do
   pod "YDB2WAssets"
   pod "YDB2WServices"
   pod "YDB2WModels"
+  pod "YDB2WComponents"
 end

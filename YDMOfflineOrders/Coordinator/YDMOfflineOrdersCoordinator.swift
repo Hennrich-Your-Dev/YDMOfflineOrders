@@ -45,6 +45,10 @@ public class YDMOfflineOrdersCoordinator {
     let vc = ProductDetailsViewController()
     navigationController?.pushViewController(vc, animated: true)
   }
+
+  func openNote(withKey key: String) {
+
+  }
 }
 
 // MARK: Orders Navigation

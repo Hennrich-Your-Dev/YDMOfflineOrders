@@ -24,7 +24,7 @@ public class YDOfflineOrdersProduct: Decodable {
   // MARK: Coding Keys
   enum CodingKeys: String, CodingKey {
     case image
-    case name
+    case name = "item"
     case ean
     case howMany = "qtde"
     case totalPrice = "valorTotalItem"
