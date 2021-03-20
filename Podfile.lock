@@ -17,21 +17,21 @@ PODS:
     - libwebp/demux
   - libwebp/webp (1.2.0)
   - YDB2WAssets (1.0.33)
-  - YDB2WComponents (1.0.78):
-    - YDB2WAssets
-    - YDExtensions
-    - YDUtilities
-  - YDB2WIntegration (1.0.16):
+  - YDB2WComponents (1.0.84):
+    - YDB2WAssets (~> 1.0.33)
+    - YDExtensions (~> 1.0.42)
+    - YDUtilities (~> 1.0.10)
+  - YDB2WIntegration (1.1.0):
     - YDB2WModels
     - YDExtensions
   - YDB2WModels (1.0.16):
     - YDExtensions
     - YDUtilities
-  - YDB2WServices (1.0.0):
+  - YDB2WServices (1.1.0):
     - Alamofire (~> 4.0)
-    - YDB2WIntegration
-    - YDB2WModels
-  - YDExtensions (1.0.40):
+    - YDB2WIntegration (~> 1.1.0)
+    - YDB2WModels (~> 1.0.16)
+  - YDExtensions (1.0.42):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDUtilities (1.0.10):
@@ -39,13 +39,13 @@ PODS:
 
 DEPENDENCIES:
   - Cosmos
-  - YDB2WAssets
-  - YDB2WComponents
-  - YDB2WIntegration
-  - YDB2WModels
-  - YDB2WServices
-  - YDExtensions
-  - YDUtilities
+  - YDB2WAssets (~> 1.0.33)
+  - YDB2WComponents (~> 1.0.82)
+  - YDB2WIntegration (~> 1.1.0)
+  - YDB2WModels (~> 1.0.16)
+  - YDB2WServices (~> 1.1.0)
+  - YDExtensions (~> 1.0.42)
+  - YDUtilities (~> 1.0.10)
 
 SPEC REPOS:
   "git@github.com:Hennrich-Your-Dev/YourDev-Pods.git":
@@ -70,13 +70,13 @@ SPEC CHECKSUMS:
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   YDB2WAssets: bd1a4f22211af3c120d364eb3c147b26c9bc9c54
-  YDB2WComponents: b41cd51ced7c077badec033eac72218f151f539d
-  YDB2WIntegration: 5a394bc24ed81108a05f47560954b7205d46503c
+  YDB2WComponents: 650c9f79d91a6b620a739ac6a576887a55981fe2
+  YDB2WIntegration: 84c6839f4c4edaffbecb9f529256e742bd134166
   YDB2WModels: 21034c82fd20c1222a5e5514fd9a4fdabb0fa25d
-  YDB2WServices: fee0210ff81fb751af1330dde6da60e3c1ab474c
-  YDExtensions: cacd6cf41e552377c09902c8c6a590b522972d54
+  YDB2WServices: d8d138f6417803fc79ea8eb90b4104212259a76a
+  YDExtensions: 9d923da399a4fbdbf251f58345271103101cd34a
   YDUtilities: 7e56ee0f48101c8bf487ad03135730dbefac70bf
 
-PODFILE CHECKSUM: 3b8fd285373901afe64641d1098be1f3d2819beb
+PODFILE CHECKSUM: 09bae1251138b977df0e08374fb39287a01d9519
 
 COCOAPODS: 1.10.1
