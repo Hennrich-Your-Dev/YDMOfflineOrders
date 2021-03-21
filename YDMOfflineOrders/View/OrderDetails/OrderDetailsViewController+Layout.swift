@@ -200,7 +200,7 @@ extension OrderDetailsViewController {
 
   func createShadow(fromTop: Bool) {
     let shadow = UIView()
-    shadow.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+    shadow.backgroundColor = .white
 
     if fromTop {
       view.insertSubview(shadow, belowSubview: separatorView)
@@ -210,13 +210,13 @@ extension OrderDetailsViewController {
 
     shadow.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      shadow.heightAnchor.constraint(equalToConstant: 1),
+      shadow.heightAnchor.constraint(equalToConstant: 5),
       shadow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       shadow.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
 
     if fromTop {
-      shadow.topAnchor.constraint(equalTo: separatorView.topAnchor).isActive = true
+      shadow.topAnchor.constraint(equalTo: separatorView.topAnchor, constant: -6).isActive = true
       shadowTop = shadow
     } else {
       shadow.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true

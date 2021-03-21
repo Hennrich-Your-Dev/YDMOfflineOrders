@@ -10,6 +10,7 @@ import UIKit
 extension YDMOfflineOrdersViewController {
   func setUpLayout() {
     createCollectionView()
+    createShadowView()
     createShimmerCollectionView()
   }
 
@@ -60,6 +61,19 @@ extension YDMOfflineOrdersViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
+  }
+
+  func createShadowView() {
+    shadowView.backgroundColor = .white
+    view.addSubview(shadowView)
+
+    shadowView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      shadowView.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: -6),
+      shadowView.heightAnchor.constraint(equalToConstant: 5),
+      shadowView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      shadowView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+    ])
   }
 
   func createShimmerCollectionView() {

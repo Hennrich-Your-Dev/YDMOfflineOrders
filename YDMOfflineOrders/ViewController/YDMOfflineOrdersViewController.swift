@@ -7,17 +7,13 @@
 
 import UIKit
 
-public protocol YDMSOfflineOrdersDelegate: AnyObject {
-  func toggleNavShadowYDMSO(_ show: Bool)
-}
-
 public class YDMOfflineOrdersViewController: UIViewController {
   // MARK: Properties
-  public weak var delegate: YDMSOfflineOrdersDelegate?
   var viewModel: YDMOfflineOrdersViewModelDelegate?
   var alreadyBindNavigation = false
   var navBarShadowOff = false
   var collectionView: UICollectionView!
+  var shadowView = UIView()
   var shimmerCollectionView: UICollectionView!
 
   // MARK: Life cycle
@@ -39,6 +35,18 @@ public class YDMOfflineOrdersViewController: UIViewController {
 
 extension YDMOfflineOrdersViewController {
   func toggleNavShadow(_ show: Bool) {
-    delegate?.toggleNavShadowYDMSO(show)
+    DispatchQueue.main.async {
+      if show {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+          guard let self = self else { return }
+          self.shadowView.layer.applyShadow()
+        }
+      } else {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+          guard let self = self else { return }
+          self.shadowView.layer.shadowOpacity = 0
+        }
+      }
+    }
   }
 }
