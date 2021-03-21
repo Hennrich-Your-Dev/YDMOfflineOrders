@@ -11,6 +11,8 @@ import YDUtilities
 import YDExtensions
 import YDB2WServices
 import YDB2WModels
+import YDB2WIntegration
+import YDB2WDeepLinks
 
 protocol OfflineOrdersNavigationDelegate: AnyObject {
   func setNavigationController(_ navigation: UINavigationController?)
@@ -22,6 +24,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
   var loading: Binder<Bool> { get }
   var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> { get }
+  var hasPreviousAddressFromIntegration: Bool { get }
 
   subscript(section: Int) -> YDOfflineOrdersOrdersList? { get }
 
@@ -30,6 +33,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   func openNote(withKey key: String?)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
+  func openDeepLink(withName name: YDDeepLinks)
 }
 
 class YDMOfflineOrdersViewModel {
@@ -42,21 +46,26 @@ class YDMOfflineOrdersViewModel {
   var loading: Binder<Bool> = Binder(false)
   var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> = Binder([])
   var orders: YDOfflineOrdersOrdersList = []
-
   var userToken: String
+  var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
 
   // MARK: Init
-  init(navigation: OfflineOrdersNavigationDelegate,
-       userToken: String) {
+  init(
+    navigation: OfflineOrdersNavigationDelegate,
+    userToken: String
+  ) {
     self.navigation = navigation
     self.userToken = userToken
   }
 
   // MARK: Actions
   private func fromMock() {
-    orders = YDOfflineOrdersOrder.mock()
-    sortOrdersList()
-    loading.value = false
+    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
+      guard let self = self else { return }
+      self.orders = YDOfflineOrdersOrder.mock()
+      self.sortOrdersList()
+      self.loading.value = false
+    }
   }
 
   private func sortOrdersList() {
@@ -97,7 +106,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
     // Mock
     fromMock()
-    return
+    return;
 
     service.offlineOrdersGetOrders(
       userToken: userToken,
@@ -118,9 +127,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     }
   }
 
-  func openNote(withKey key: String?) {
-    
-  }
+  func openNote(withKey key: String?) {}
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
     navigation.openDetailsForProduct(product)
@@ -128,5 +135,13 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder) {
     navigation.openDetailsForOrder(order)
+  }
+
+  func openDeepLink(withName name: YDDeepLinks) {
+    guard let url = URL(string: name.rawValue),
+          !url.absoluteString.isEmpty
+    else { return }
+
+    UIApplication.shared.open(url, options: [:], completionHandler: nil)
   }
 }

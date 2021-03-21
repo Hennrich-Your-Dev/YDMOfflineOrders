@@ -7,11 +7,15 @@
 
 import UIKit
 
+import YDExtensions
+import YDB2WAssets
+
 extension YDMOfflineOrdersViewController {
   func setUpLayout() {
     createCollectionView()
-    createShadowView()
     createShimmerCollectionView()
+    createShadowView()
+    createFeedbackStateView()
   }
 
   func createCollectionView() {
@@ -122,5 +126,73 @@ extension YDMOfflineOrdersViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
+  }
+
+  func createFeedbackStateView() {
+    view.addSubview(feedbackStateView)
+
+    feedbackStateView.translatesAutoresizingMaskIntoConstraints = true
+    NSLayoutConstraint.activate([
+      feedbackStateView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      feedbackStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      feedbackStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+    ])
+
+    createFeedbackStateIcon()
+    createFeedbackStateLabel()
+    createFeedbackStateButton()
+  }
+
+  func createFeedbackStateIcon() {
+    feedbackStateIcon.image = Images.basket
+    feedbackStateView.addSubview(feedbackStateIcon)
+
+    NSLayoutConstraint.activate([
+      feedbackStateIcon.topAnchor.constraint(equalTo: feedbackStateView.topAnchor, constant: 32),
+      feedbackStateIcon.centerXAnchor.constraint(equalTo: feedbackStateView.centerXAnchor),
+      feedbackStateIcon.widthAnchor.constraint(equalToConstant: 59),
+      feedbackStateIcon.heightAnchor.constraint(equalToConstant: 73)
+    ])
+  }
+
+  func createFeedbackStateLabel() {
+    feedbackMessage.font = .systemFont(ofSize: 16)
+    feedbackMessage.textColor = UIColor.Zeplin.grayLight
+    feedbackMessage.textAlignment = .center
+    feedbackMessage.numberOfLines = 0
+    feedbackMessage.text = "Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas."
+    feedbackStateView.addSubview(feedbackMessage)
+
+    feedbackMessage.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      feedbackMessage.topAnchor.constraint(equalTo: feedbackStateIcon.topAnchor, constant: 12),
+      feedbackMessage.leadingAnchor.constraint(equalTo: feedbackStateView.leadingAnchor, constant: 31),
+      feedbackMessage.trailingAnchor.constraint(equalTo: feedbackStateView.trailingAnchor, constant: -31)
+    ])
+  }
+
+  func createFeedbackStateButton() {
+    feedbackStateButton.layer.cornerRadius = 8
+    feedbackStateButton.layer.borderWidth = 1
+    feedbackStateButton.layer.borderColor = UIColor.Zeplin.redBranding.cgColor
+
+    let attributedString = NSAttributedString(
+      string: "ver loja mais próxima",
+      attributes: [
+        NSAttributedString.Key.foregroundColor: UIColor.Zeplin.redBranding,
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .bold)
+      ]
+    )
+    feedbackStateButton.setAttributedTitle(attributedString, for: .normal)
+    feedbackStateButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
+    feedbackStateView.addSubview(feedbackStateButton)
+
+    feedbackStateButton.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      feedbackStateButton.topAnchor.constraint(equalTo: feedbackMessage.topAnchor, constant: 24),
+      feedbackStateButton.centerXAnchor.constraint(equalTo: feedbackStateView.centerXAnchor),
+      // feedbackStateButton.widthAnchor.constraint(equalToConstant: 155),
+      feedbackStateButton.heightAnchor.constraint(equalToConstant: 37)
+    ])
   }
 }

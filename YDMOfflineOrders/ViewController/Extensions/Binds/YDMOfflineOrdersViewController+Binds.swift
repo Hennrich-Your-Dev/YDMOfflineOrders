@@ -9,17 +9,32 @@ import UIKit
 
 extension YDMOfflineOrdersViewController {
   func setUpBinds() {
-    viewModel?.orderList.bind { [weak self] _ in
-      self?.collectionView.reloadData()
+    viewModel?.orderList.bind { [weak self] list in
+      guard let self = self else { return }
+
+      if !list.isEmpty {
+        self.collectionView.reloadData()
+      } else {
+        self.showFeedbackStateView(ofType: .empty)
+      }
     }
 
     viewModel?.loading.bind { [weak self] isLoading in
+      guard let self = self else { return }
+
       if isLoading {
-        self?.shimmerCollectionView.reloadData()
+        self.shimmerCollectionView.isHidden = false
+        self.shimmerCollectionView.reloadData()
+        self.feedbackStateView.isHidden = true
       } else {
-        self?.shimmerCollectionView.removeFromSuperview()
-        self?.collectionView.isHidden = false
+        self.shimmerCollectionView.isHidden = true
+        self.collectionView.isHidden = false
       }
+    }
+
+    viewModel?.error.bind { [weak self] _ in
+      guard let self = self else { return }
+      self.showFeedbackStateView(ofType: .error)
     }
   }
 }

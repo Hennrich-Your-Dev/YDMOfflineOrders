@@ -8,13 +8,51 @@
 import UIKit
 
 public class YDMOfflineOrdersViewController: UIViewController {
+  // MARK: Enum
+  enum FeedbackStateViewType {
+    case empty
+    case error
+  }
+
   // MARK: Properties
   var viewModel: YDMOfflineOrdersViewModelDelegate?
   var alreadyBindNavigation = false
   var navBarShadowOff = false
+  var numberOfShimmers: Int?
+
+  var feedbackMessageEmpty = "Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas."
+  var feedbackMessageError = "Ops! Falha ao carregar."
+  var feedbackStateType: FeedbackStateViewType = .empty {
+    didSet {
+      // Icon
+      feedbackStateIcon.isHidden = feedbackStateType == .error
+
+      // Message
+      feedbackMessage.text = feedbackStateType == .empty ? feedbackMessageEmpty : feedbackMessageError
+
+      // Button
+      let attributedString = NSAttributedString(
+        string: feedbackStateType == .empty ? "ver loja mais próxima" : "atualizar",
+        attributes: [
+          NSAttributedString.Key.foregroundColor: UIColor.Zeplin.redBranding,
+          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .bold)
+        ]
+      )
+      feedbackStateButton.setAttributedTitle(attributedString, for: .normal)
+
+      //
+      feedbackStateView.layoutIfNeeded()
+    }
+  }
+
+  // Components
   var collectionView: UICollectionView!
-  var shadowView = UIView()
   var shimmerCollectionView: UICollectionView!
+  var shadowView = UIView()
+  var feedbackStateView = UIView()
+  var feedbackStateIcon = UIImageView()
+  var feedbackMessage = UILabel()
+  var feedbackStateButton = UIButton()
 
   // MARK: Life cycle
   public override func viewDidLoad() {
@@ -26,6 +64,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
   }
 
   public override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     if !alreadyBindNavigation {
       alreadyBindNavigation = true
       viewModel?.setNavigationController(navigationController)
@@ -33,6 +72,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
   }
 }
 
+// MARK: Actions
 extension YDMOfflineOrdersViewController {
   func toggleNavShadow(_ show: Bool) {
     DispatchQueue.main.async {
@@ -47,6 +87,27 @@ extension YDMOfflineOrdersViewController {
           self.shadowView.layer.shadowOpacity = 0
         }
       }
+    }
+  }
+
+  func showFeedbackStateView(ofType type: FeedbackStateViewType) {
+    collectionView.isHidden = true
+    shimmerCollectionView.isHidden = true
+    feedbackStateView.isHidden = false
+    feedbackStateType = type
+
+    if type == .empty {
+      feedbackStateButton.isHidden = !(viewModel?.hasPreviousAddressFromIntegration ?? false)
+    } else {
+      feedbackStateButton.isHidden = false
+    }
+  }
+
+  @objc func onFeedbackButtonAction() {
+    if feedbackStateType == .empty {
+      viewModel?.openDeepLink(withName: .lasaStore)
+    } else {
+      viewModel?.getOrderList()
     }
   }
 }

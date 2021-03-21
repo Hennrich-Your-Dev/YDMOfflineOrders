@@ -12,6 +12,7 @@ import YDB2WComponents
 
 // MARK: Data Source
 extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
+  // Number of Sections
   public func numberOfSections(in collectionView: UICollectionView) -> Int {
     if collectionView == shimmerCollectionView {
       return 1
@@ -20,14 +21,16 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     return viewModel?.orderList.value.count ?? 0
   }
 
+  // Number of Items
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if collectionView == shimmerCollectionView {
-      return 1
+      return numberOfShimmers ?? 1
     }
 
     return viewModel?[section]?.count ?? 0
   }
 
+  // Dequeue Item
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if collectionView == shimmerCollectionView {
       guard let cell = collectionView.dequeueReusableCell(
@@ -77,6 +80,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     return cell
   }
 
+  // Header / Footer
   public func collectionView(
     _ collectionView: UICollectionView,
     viewForSupplementaryElementOfKind kind: String,
@@ -91,6 +95,11 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
         ) as? OrdersCollectionReusableView
         else {
           fatalError("viewForSupplementaryElementOfKind: OrdersCollectionReusableView")
+        }
+
+        if collectionView == shimmerCollectionView {
+          header.dateLabel.text = ""
+          return header
         }
 
         if let date = viewModel?[indexPath.section]?.first?.formatedDateSection {
