@@ -99,18 +99,20 @@ class OrdersCollectionViewCell: UICollectionViewCell {
       for (index, product) in products.prefix(3).enumerated() {
         let productView = ProductCardInfoView()
         productView.phantomButton.tag = index
+        productView.phantomButton.addTarget(
+          self,
+          action: #selector(onProductTap),
+          for: .touchUpInside
+        )
         productView.config(with: product)
         stackView.addArrangedSubview(productView)
       }
-
-      let gesture = UITapGestureRecognizer(target: self, action: #selector(onProductTap(_:)))
-      stackView.addGestureRecognizer(gesture)
     }
   }
 
-  @objc func onProductTap(_ sender: UIGestureRecognizer) {
-    guard let index = sender.view?.tag,
-          let product = currentOrder?.products?.at(index)
+  @objc func onProductTap(_ sender: UIButton) {
+    let index = sender.tag
+    guard let product = currentOrder?.products?.at(index)
     else {
       return
     }

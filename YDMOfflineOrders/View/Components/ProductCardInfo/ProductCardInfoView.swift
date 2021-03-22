@@ -54,6 +54,8 @@ class ProductCardInfoView: UIView {
 // MARK: Layout
 extension ProductCardInfoView {
   func setUpLayout() {
+    heightAnchor.constraint(equalToConstant: 50).isActive = true
+    
     createPhoto()
     createBadge()
     createName()
