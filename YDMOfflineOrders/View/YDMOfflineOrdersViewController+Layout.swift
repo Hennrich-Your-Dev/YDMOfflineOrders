@@ -131,7 +131,7 @@ extension YDMOfflineOrdersViewController {
   func createFeedbackStateView() {
     view.addSubview(feedbackStateView)
 
-    feedbackStateView.translatesAutoresizingMaskIntoConstraints = true
+    feedbackStateView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       feedbackStateView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       feedbackStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -147,8 +147,12 @@ extension YDMOfflineOrdersViewController {
     feedbackStateIcon.image = Images.basket
     feedbackStateView.addSubview(feedbackStateIcon)
 
+    feedbackStateIcon.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      feedbackStateIcon.topAnchor.constraint(equalTo: feedbackStateView.topAnchor, constant: 32),
+      feedbackStateIcon.topAnchor.constraint(
+        equalTo: feedbackStateView.topAnchor,
+        constant: 32
+      ),
       feedbackStateIcon.centerXAnchor.constraint(equalTo: feedbackStateView.centerXAnchor),
       feedbackStateIcon.widthAnchor.constraint(equalToConstant: 59),
       feedbackStateIcon.heightAnchor.constraint(equalToConstant: 73)
@@ -165,7 +169,7 @@ extension YDMOfflineOrdersViewController {
 
     feedbackMessage.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      feedbackMessage.topAnchor.constraint(equalTo: feedbackStateIcon.topAnchor, constant: 12),
+      feedbackMessage.topAnchor.constraint(equalTo: feedbackStateIcon.bottomAnchor, constant: 12),
       feedbackMessage.leadingAnchor.constraint(equalTo: feedbackStateView.leadingAnchor, constant: 31),
       feedbackMessage.trailingAnchor.constraint(equalTo: feedbackStateView.trailingAnchor, constant: -31)
     ])
@@ -173,26 +177,44 @@ extension YDMOfflineOrdersViewController {
 
   func createFeedbackStateButton() {
     feedbackStateButton.layer.cornerRadius = 8
-    feedbackStateButton.layer.borderWidth = 1
+    feedbackStateButton.layer.borderWidth = 2
     feedbackStateButton.layer.borderColor = UIColor.Zeplin.redBranding.cgColor
 
     let attributedString = NSAttributedString(
       string: "ver loja mais próxima",
       attributes: [
         NSAttributedString.Key.foregroundColor: UIColor.Zeplin.redBranding,
-        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .bold)
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)
       ]
     )
     feedbackStateButton.setAttributedTitle(attributedString, for: .normal)
-    feedbackStateButton.titleEdgeInsets = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
+    feedbackStateButton.titleEdgeInsets = UIEdgeInsets(
+      top: 10,
+      left: 12,
+      bottom: 10,
+      right: 12
+    )
     feedbackStateView.addSubview(feedbackStateButton)
+    feedbackStateButton.addTarget(
+      self,
+      action: #selector(onFeedbackButtonAction),
+      for: .touchUpInside
+    )
 
     feedbackStateButton.translatesAutoresizingMaskIntoConstraints = false
+
+    feedbackStateButtonWidthConstraint = feedbackStateButton.widthAnchor
+      .constraint(equalToConstant: 155)
+    feedbackStateButtonWidthConstraint?.isActive = true
+
     NSLayoutConstraint.activate([
-      feedbackStateButton.topAnchor.constraint(equalTo: feedbackMessage.topAnchor, constant: 24),
+      feedbackStateButton.topAnchor.constraint(equalTo: feedbackMessage.bottomAnchor, constant: 24),
       feedbackStateButton.centerXAnchor.constraint(equalTo: feedbackStateView.centerXAnchor),
-      // feedbackStateButton.widthAnchor.constraint(equalToConstant: 155),
-      feedbackStateButton.heightAnchor.constraint(equalToConstant: 37)
+      feedbackStateButton.heightAnchor.constraint(equalToConstant: 37),
+      feedbackStateButton.bottomAnchor.constraint(
+        equalTo: feedbackStateView.bottomAnchor,
+        constant: -20
+      )
     ])
   }
 }

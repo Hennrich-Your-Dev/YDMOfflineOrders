@@ -35,13 +35,13 @@ public class YDMOfflineOrdersViewController: UIViewController {
         string: feedbackStateType == .empty ? "ver loja mais próxima" : "atualizar",
         attributes: [
           NSAttributedString.Key.foregroundColor: UIColor.Zeplin.redBranding,
-          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .bold)
+          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)
         ]
       )
       feedbackStateButton.setAttributedTitle(attributedString, for: .normal)
 
-      //
-      feedbackStateView.layoutIfNeeded()
+      feedbackStateButtonWidthConstraint?.constant = feedbackStateType == .empty ? 175 : 86
+      feedbackStateView.setNeedsLayout()
     }
   }
 
@@ -53,6 +53,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
   var feedbackStateIcon = UIImageView()
   var feedbackMessage = UILabel()
   var feedbackStateButton = UIButton()
+  var feedbackStateButtonWidthConstraint: NSLayoutConstraint?
 
   // MARK: Life cycle
   public override func viewDidLoad() {

@@ -62,9 +62,10 @@ class YDMOfflineOrdersViewModel {
   private func fromMock() {
     Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
       guard let self = self else { return }
-      self.orders = YDOfflineOrdersOrder.mock()
+      self.orders = [] // YDOfflineOrdersOrder.mock()
       self.sortOrdersList()
       self.loading.value = false
+//      self.error.value = "true"
     }
   }
 
@@ -76,17 +77,21 @@ class YDMOfflineOrdersViewModel {
       return dateLhs.compare(dateRhs) == .orderedDescending
     }
 
-    for order in sorted {
-      guard let sectionDate = order.formatedDateSection else { continue }
+    if !sorted.isEmpty {
+      for order in sorted {
+        guard let sectionDate = order.formatedDateSection else { continue }
 
-      if let index = orderList.value.firstIndex(where: { $0.keys.first == sectionDate }),
-         var arr = orderList.value.at(index) {
-        //
-        arr[sectionDate]?.append(order)
-        orderList.value[index] = arr
-      } else {
-        orderList.value.append([sectionDate: [order]])
+        if let index = orderList.value.firstIndex(where: { $0.keys.first == sectionDate }),
+           var arr = orderList.value.at(index) {
+          //
+          arr[sectionDate]?.append(order)
+          orderList.value[index] = arr
+        } else {
+          orderList.value.append([sectionDate: [order]])
+        }
       }
+    } else {
+      orderList.value = []
     }
   }
 }
