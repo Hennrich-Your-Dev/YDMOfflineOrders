@@ -30,6 +30,8 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
 
   func setNavigationController(_ navigation: UINavigationController?)
   func getOrderList()
+  func getMoreOrders()
+  func numberOfSections() -> Int
   func openNote(withKey key: String?)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
@@ -45,31 +47,34 @@ class YDMOfflineOrdersViewModel {
   var error: Binder<String> = Binder("")
   var loading: Binder<Bool> = Binder(false)
   var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> = Binder([])
-  var orders: YDOfflineOrdersOrdersList = []
+  var orders: [[String: YDOfflineOrdersOrdersList]] = []
   var userToken: String
   var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
+  let lazyLoadingOrders: Int
+  var currentPage = 0
 
   // MARK: Init
   init(
     navigation: OfflineOrdersNavigationDelegate,
-    userToken: String
+    userToken: String,
+    lazyLoadingOrders: Int
   ) {
     self.navigation = navigation
     self.userToken = userToken
+    self.lazyLoadingOrders = lazyLoadingOrders
   }
 
   // MARK: Actions
   private func fromMock() {
     Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
       guard let self = self else { return }
-      self.orders = [] // YDOfflineOrdersOrder.mock()
-      self.sortOrdersList()
+      let sorted = self.sortOrdersList(YDOfflineOrdersOrder.mock())
+      self.addOrdersToList(sorted, append: false)
       self.loading.value = false
-//      self.error.value = "true"
     }
   }
 
-  private func sortOrdersList() {
+  private func sortOrdersList(_ orders: YDOfflineOrdersOrdersList) -> [YDOfflineOrdersOrder] {
     let sorted = orders.sorted { lhs, rhs -> Bool in
       guard let dateLhs = lhs.dateWithDateType else { return false }
       guard let dateRhs = rhs.dateWithDateType else { return true }
@@ -77,21 +82,31 @@ class YDMOfflineOrdersViewModel {
       return dateLhs.compare(dateRhs) == .orderedDescending
     }
 
+    return sorted
+  }
+
+  private func addOrdersToList(_ sorted: [YDOfflineOrdersOrder], append: Bool) {
     if !sorted.isEmpty {
       for order in sorted {
         guard let sectionDate = order.formatedDateSection else { continue }
 
-        if let index = orderList.value.firstIndex(where: { $0.keys.first == sectionDate }),
-           var arr = orderList.value.at(index) {
+        if let index = orders.firstIndex(where: { $0.keys.first == sectionDate }),
+           var arr = orders.at(index) {
           //
           arr[sectionDate]?.append(order)
-          orderList.value[index] = arr
+          orders[index] = arr
         } else {
-          orderList.value.append([sectionDate: [order]])
+          orders.append([sectionDate: [order]])
         }
       }
+
+      orderList.value = orders
+
     } else {
-      orderList.value = []
+      if !append {
+        orders = []
+        orderList.value = []
+      }
     }
   }
 }
@@ -115,21 +130,31 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
     service.offlineOrdersGetOrders(
       userToken: userToken,
-      page: 1,
-      limit: 20
+      page: currentPage,
+      limit: lazyLoadingOrders
     ) { [weak self] (result: Result<YDOfflineOrdersOrdersList, YDB2WServices.YDServiceError>) in
-      self?.loading.value = false
+      guard let self = self else { return }
+
+      self.loading.value = false
 
       switch result {
         case .success(let orders):
-          self?.orders = orders
-          self?.sortOrdersList()
+          let sorted = self.sortOrdersList(orders)
+          self.addOrdersToList(sorted, append: false)
 
         case .failure(let error):
-          self?.error.value = error.message
-          self?.logger.error(error.message)
+          self.error.value = error.message
+          self.logger.error(error.message)
       }
     }
+  }
+
+  func getMoreOrders() {
+    currentPage += 1
+  }
+
+  func numberOfSections() -> Int {
+    return orders.count
   }
 
   func openNote(withKey key: String?) {}

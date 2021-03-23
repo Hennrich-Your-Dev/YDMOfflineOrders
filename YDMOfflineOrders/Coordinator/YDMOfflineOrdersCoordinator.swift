@@ -15,11 +15,23 @@ public typealias YDMOfflineOrders = YDMOfflineOrdersCoordinator
 public class YDMOfflineOrdersCoordinator {
   var navigationController: UINavigationController?
 
-  public init() {}
+  private var lazyLoadingOrders: Int = 5
+
+  public init() {
+    if let limit = YDIntegrationHelper.shared
+        .getFeature(featureName: YDConfigKeys.lasaClientService.rawValue)?
+        .extras?[YDConfigProperty.lazyLoadingOrders.rawValue] as? Int {
+      self.lazyLoadingOrders = limit
+    }
+  }
 
   public func start(userToken: String, navController: UINavigationController?) {
     let vc = YDMOfflineOrdersViewController()
-    let viewModel = YDMOfflineOrdersViewModel(navigation: self, userToken: userToken)
+    let viewModel = YDMOfflineOrdersViewModel(
+      navigation: self,
+      userToken: userToken,
+      lazyLoadingOrders: self.lazyLoadingOrders
+    )
     vc.viewModel = viewModel
     navController?.pushViewController(vc, animated: true)
     navigationController = navController
@@ -27,7 +39,11 @@ public class YDMOfflineOrdersCoordinator {
 
   public func start(userToken: String) -> YDMOfflineOrdersViewController {
     let vc = YDMOfflineOrdersViewController()
-    let viewModel = YDMOfflineOrdersViewModel(navigation: self, userToken: userToken)
+    let viewModel = YDMOfflineOrdersViewModel(
+      navigation: self,
+      userToken: userToken,
+      lazyLoadingOrders: self.lazyLoadingOrders
+    )
     vc.viewModel = viewModel
     return vc
   }

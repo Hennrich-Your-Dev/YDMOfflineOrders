@@ -27,7 +27,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
       return numberOfShimmers ?? 1
     }
 
-    return viewModel?[section]?.count ?? 0
+    return 0 // viewModel?[section]?.count ?? 0
   }
 
   // Dequeue Item
