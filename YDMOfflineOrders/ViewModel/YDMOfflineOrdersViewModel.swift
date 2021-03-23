@@ -23,15 +23,20 @@ protocol OfflineOrdersNavigationDelegate: AnyObject {
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
   var loading: Binder<Bool> { get }
-  var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> { get }
+  var orderList: Binder<[OrderListConfig]> { get }
+  var newOrdersForList: Binder<[YDOfflineOrdersOrder]> { get }
   var hasPreviousAddressFromIntegration: Bool { get }
+  var noMoreOrderToLoad: Bool { get }
 
-  subscript(section: Int) -> YDOfflineOrdersOrdersList? { get }
+  subscript(section: Int) -> OrderListConfig? { get }
 
   func setNavigationController(_ navigation: UINavigationController?)
+
+  func getAllOrdersConfigs() -> [OrderListConfig]
+  func numberOfSections() -> Int
   func getOrderList()
   func getMoreOrders()
-  func numberOfSections() -> Int
+
   func openNote(withKey key: String?)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
@@ -46,12 +51,14 @@ class YDMOfflineOrdersViewModel {
 
   var error: Binder<String> = Binder("")
   var loading: Binder<Bool> = Binder(false)
-  var orderList: Binder<[[String: YDOfflineOrdersOrdersList]]> = Binder([])
-  var orders: [[String: YDOfflineOrdersOrdersList]] = []
+  var orderList: Binder<[OrderListConfig]> = Binder([])
+  var newOrdersForList: Binder<[YDOfflineOrdersOrder]> = Binder([])
+  var orders: [OrderListConfig] = []
   var userToken: String
   var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
   let lazyLoadingOrders: Int
   var currentPage = 0
+  var noMoreOrderToLoad = false
 
   // MARK: Init
   init(
@@ -90,35 +97,55 @@ class YDMOfflineOrdersViewModel {
       for order in sorted {
         guard let sectionDate = order.formatedDateSection else { continue }
 
-        if let index = orders.firstIndex(where: { $0.keys.first == sectionDate }),
-           var arr = orders.at(index) {
+        if let index = orders.firstIndex(where: { $0.date == sectionDate }),
+           let config = orders.at(index) {
           //
-          arr[sectionDate]?.append(order)
-          orders[index] = arr
+          var ordersCopy = config.orders
+          order.indexPath = IndexPath(row: ordersCopy.count - 1, section: config.section ?? 0)
+          ordersCopy.append(order)
+          orders[index].orders = ordersCopy
         } else {
-          orders.append([sectionDate: [order]])
+          order.indexPath = IndexPath(row: 0, section: orders.count - 1)
+          orders.append(
+            OrderListConfig(
+              date: sectionDate,
+              section: orders.count - 1,
+              orders: [order]
+            )
+          )
         }
       }
 
+      orders.append(
+        OrderListConfig(
+          date: "loadMore",
+          section: orders.count - 1,
+          orders: []
+        )
+      )
       orderList.value = orders
+      newOrdersForList.value = sorted
+
 
     } else {
-      if !append {
-        orders = []
-        orderList.value = []
-      }
+      noMoreOrderToLoad = true
+      newOrdersForList.value = []
     }
   }
 }
 
 // MARK: Extension
 extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
-  subscript(section: Int) -> YDOfflineOrdersOrdersList? {
-    return orderList.value.at(section)?.values.first
+  subscript(section: Int) -> OrderListConfig? {
+    return orders.first(where: { $0.section == section })
   }
 
   func setNavigationController(_ navigation: UINavigationController?) {
     self.navigation.setNavigationController(navigation)
+  }
+
+  func getAllOrdersConfigs() -> [OrderListConfig] {
+    return orders
   }
 
   func getOrderList() {
@@ -151,6 +178,89 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
   func getMoreOrders() {
     currentPage += 1
+    _ = orders.popLast()
+
+    if currentPage >= 3 {
+      addOrdersToList([], append: true)
+      return
+    }
+
+    let jsonString = """
+    [
+      {
+        "cupom": 1,
+        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
+        "data": "2020-12-10T00:00:00",
+        "valorTotal": 2093,
+        "codigoLoja": 1230,
+        "nomeLoja": "PINHEIRO",
+        "logradouro": "PRACA JOSE SARNEY S N",
+        "cep": "65200-000",
+        "cidade": "PINHEIRO",
+        "uf": "MA",
+        "itens": [
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "0",
+            "qtde": 1,
+            "valorTotalItem": 299
+          },
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "9999",
+            "qtde": 1,
+            "valorTotalItem": 299
+          },
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "0",
+            "qtde": 1,
+            "valorTotalItem": 299
+          },
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "9999",
+            "qtde": 1,
+            "valorTotalItem": 299
+          },
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "0",
+            "qtde": 1,
+            "valorTotalItem": 299
+          },
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "0",
+            "qtde": 1,
+            "valorTotalItem": 299
+          },
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "9999",
+            "qtde": 1,
+            "valorTotalItem": 299
+          }
+        ]
+      }
+    ]
+    """
+
+    guard let data = jsonString.data(using: .utf8),
+          let parsed = try? JSONDecoder().decode(YDOfflineOrdersOrdersList.self, from: data)
+    else {
+      return
+    }
+
+    let sorted = sortOrdersList(parsed)
+    addOrdersToList(sorted, append: true)
   }
 
   func numberOfSections() -> Int {

@@ -9,7 +9,7 @@ import UIKit
 
 extension YDMOfflineOrdersViewController {
   func setUpBinds() {
-    viewModel?.orderList.bind { [weak self] list in
+    viewModel?.orderList.bindOnce { [weak self] list in
       guard let self = self else { return }
 
       if !list.isEmpty {
@@ -17,6 +17,11 @@ extension YDMOfflineOrdersViewController {
       } else {
         self.showFeedbackStateView(ofType: .empty)
       }
+    }
+
+    viewModel?.newOrdersForList.bind { [weak self] newOrders in
+      guard let self = self else { return }
+      self.addNewOrders(newOrders)
     }
 
     viewModel?.loading.bind { [weak self] isLoading in

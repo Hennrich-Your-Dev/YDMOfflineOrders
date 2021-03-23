@@ -61,6 +61,12 @@ extension YDMOfflineOrdersViewController {
     )
 
     collectionView.register(
+      OrdersLoadingCollectionHeaderReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: OrdersLoadingCollectionHeaderReusableView.identifier
+    )
+
+    collectionView.register(
       OrdersCollectionFooterReusableView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersCollectionFooterReusableView.identifier

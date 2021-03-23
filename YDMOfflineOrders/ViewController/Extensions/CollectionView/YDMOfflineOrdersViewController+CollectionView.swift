@@ -9,6 +9,27 @@ import UIKit
 
 import YDExtensions
 import YDB2WComponents
+import YDB2WModels
+
+// MARK: Actions
+extension YDMOfflineOrdersViewController {
+  func addNewOrders(_ orders: [YDOfflineOrdersOrder]) {
+    if orders.isEmpty { return }
+
+    var indexes: [IndexPath] = []
+    let totalSections = collectionView.numberOfSections - 1
+
+    for order in orders {
+      guard let indexPath = order.indexPath else { continue }
+      indexes.append(indexPath)
+      if indexPath.section > totalSections {
+        collectionView.insertSections(IndexSet(integer: indexPath.section))
+      }
+    }
+
+    collectionView.insertItems(at: indexes)
+  }
+}
 
 // MARK: Data Source
 extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
@@ -27,11 +48,17 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
       return numberOfShimmers ?? 1
     }
 
-    return 0 // viewModel?[section]?.count ?? 0
+    if viewModel?[section]?.date == "loadMore" {
+      return 0
+    }
+
+    return viewModel?[section]?.orders.count ?? 0
   }
 
   // Dequeue Item
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+    // Dequeue Shimmer
     if collectionView == shimmerCollectionView {
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: OrdersShimmerCollectionViewCell.identifier,
@@ -45,22 +72,26 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
       return cell
     }
 
+    // Cell
     guard let cell = collectionView.dequeueReusableCell(
       withReuseIdentifier: OrdersCollectionViewCell.identifier,
       for: indexPath
     ) as? OrdersCollectionViewCell,
-    let order = viewModel?[indexPath.section]?.at(indexPath.row)
+    let order = viewModel?[indexPath.section]?.orders.at(indexPath.row)
     else { fatalError("Dequeue OrdersCollectionViewCell") }
 
     cell.config(with: order)
+
     cell.productCallback = { [weak self] product in
       guard let self = self else { return }
       self.viewModel?.openDetailsForProduct(product)
     }
+
     cell.orderDetailsCallback = { [weak self] in
       guard let self = self else { return }
       self.viewModel?.openDetailsForOrder(order)
     }
+
     cell.noteCallback = { [weak self] in
       guard let self = self,
             let nfe = order.nfe else { return }
@@ -88,6 +119,22 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
   ) -> UICollectionReusableView {
     switch kind {
       case UICollectionView.elementKindSectionHeader:
+        guard let viewModel = viewModel else { fatalError("viewForSupplementaryElementOfKind: OrdersCollectionReusableView") }
+
+        // From Load More
+        if collectionView != shimmerCollectionView &&
+            viewModel[indexPath.section]?.date == "loadMore" {
+          guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: OrdersLoadingCollectionHeaderReusableView.identifier,
+            for: indexPath
+          ) as? OrdersLoadingCollectionHeaderReusableView
+          else {
+            fatalError("viewForSupplementaryElementOfKind: OrdersLoadingCollectionHeaderReusableView")
+          }
+          return header
+        }
+
         guard let header = collectionView.dequeueReusableSupplementaryView(
           ofKind: UICollectionView.elementKindSectionHeader,
           withReuseIdentifier: OrdersCollectionReusableView.identifier,
@@ -102,7 +149,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
           return header
         }
 
-        if let date = viewModel?[indexPath.section]?.first?.formatedDateSection {
+        if let date = viewModel[indexPath.section]?.date {
           header.dateLabel.text = date
         } else {
           header.dateLabel.text = "--"
@@ -125,6 +172,19 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
         fatalError("viewForSupplementaryElementOfKind")
     }
   }
+
+  public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+    if collectionView != shimmerCollectionView,
+       viewModel?[indexPath.section]?.date == "loadMore",
+        canLoadMore {
+      canLoadMore = false
+      if viewModel?.noMoreOrderToLoad ?? false {
+        (view as? OrdersLoadingCollectionHeaderReusableView)?.fullSize = false
+      } else {
+        viewModel?.getMoreOrders()
+      }
+    }
+  }
 }
 
 // MARK: Delegate
@@ -139,6 +199,11 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 // MARK: Data Flow Delegate
 extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    if collectionView != shimmerCollectionView &&
+        viewModel?[section]?.date == "loadMore" {
+      return CGSize(width: view.frame.size.width, height: 255)
+    }
+
     return section == 0 ?
       CGSize(width: view.frame.size.width, height: 40) :
       CGSize(width: view.frame.size.width, height: 30)
@@ -150,6 +215,11 @@ extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
     referenceSizeForFooterInSection section: Int
   ) -> CGSize {
     guard let count = viewModel?.orderList.value.count else {
+      return .zero
+    }
+
+    if collectionView != shimmerCollectionView &&
+        viewModel?[section]?.date == "loadMore" {
       return .zero
     }
 

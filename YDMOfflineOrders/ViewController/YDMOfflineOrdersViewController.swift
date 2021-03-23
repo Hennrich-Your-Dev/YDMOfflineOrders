@@ -19,6 +19,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
   var alreadyBindNavigation = false
   var navBarShadowOff = false
   var numberOfShimmers: Int?
+  var canLoadMore = true
 
   var feedbackMessageEmpty = "Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas."
   var feedbackMessageError = "Ops! Falha ao carregar."

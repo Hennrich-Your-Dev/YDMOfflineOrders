@@ -5,7 +5,7 @@
 //  Created by Douglas Hennrich on 11/03/21.
 //
 
-import Foundation
+import UIKit
 
 import YDUtilities
 
@@ -27,6 +27,9 @@ public class YDOfflineOrdersOrder: Decodable {
 
   // products
   public var products: [YDOfflineOrdersProduct]?
+
+  // IndexPath
+  public var indexPath: IndexPath?
 
   // computed variables
   public var formatedAddress: String? {
