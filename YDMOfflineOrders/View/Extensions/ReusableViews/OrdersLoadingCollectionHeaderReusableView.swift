@@ -29,7 +29,9 @@ class OrdersLoadingCollectionHeaderReusableView: UICollectionReusableView {
   override init(frame: CGRect) {
     super.init(frame: frame)
 
+    addSubview(contentView)
     contentView.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),

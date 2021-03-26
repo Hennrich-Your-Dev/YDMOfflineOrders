@@ -14,6 +14,7 @@ import YDB2WModels
 class OrderDetailsProductView: UIView {
   // MARK: Properties
   var photo = UIImageView()
+  var photoMask = UIView()
   var name = UILabel()
   var price = UILabel()
   var badgeContainer = UIView()
@@ -59,33 +60,36 @@ extension OrderDetailsProductView {
   }
 
   func createPhoto() {
-    let rect = CGRect(x: 0, y: 0, width: 45, height: 45)
-    photo.frame = rect
     photo.contentMode = .scaleAspectFit
     photo.image = Icons.imagePlaceHolder
     photo.tintColor = UIColor.Zeplin.grayLight
+    photo.layer.cornerRadius = 8
     addSubview(photo)
 
     photo.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      photo.centerYAnchor.constraint(equalTo: centerYAnchor),
-      photo.leadingAnchor.constraint(
+      photo.heightAnchor.constraint(equalToConstant: 36),
+      photo.widthAnchor.constraint(equalToConstant: 36)
+    ])
+
+    photoMask.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
+    photoMask.layer.opacity = 0.1
+    photoMask.layer.cornerRadius = 8
+    addSubview(photoMask)
+
+    photoMask.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      photoMask.centerYAnchor.constraint(equalTo: centerYAnchor),
+      photoMask.leadingAnchor.constraint(
         equalTo: leadingAnchor,
         constant: 16
       ),
-      photo.heightAnchor.constraint(equalToConstant: 45),
-      photo.widthAnchor.constraint(equalToConstant: 45)
+      photoMask.heightAnchor.constraint(equalToConstant: 45),
+      photoMask.widthAnchor.constraint(equalToConstant: 45)
     ])
 
-    photo.layer.cornerRadius = 8
-
-    let maskLayer = CALayer()
-    maskLayer.frame = photo.frame
-    maskLayer.cornerRadius = 8
-    maskLayer.opacity = 0.1
-    maskLayer.backgroundColor = UIColor.gray.withAlphaComponent(0.7).cgColor
-
-    photo.layer.insertSublayer(maskLayer, at: 0)
+    photo.centerYAnchor.constraint(equalTo: photoMask.centerYAnchor).isActive = true
+    photo.centerXAnchor.constraint(equalTo: photoMask.centerXAnchor).isActive = true
   }
 
   func createBadge() {
@@ -96,8 +100,8 @@ extension OrderDetailsProductView {
 
     badgeContainer.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      badgeContainer.topAnchor.constraint(equalTo: photo.topAnchor, constant: -5),
-      badgeContainer.trailingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 5),
+      badgeContainer.topAnchor.constraint(equalTo: photoMask.topAnchor, constant: -5),
+      badgeContainer.trailingAnchor.constraint(equalTo: photoMask.trailingAnchor, constant: 5),
       badgeContainer.widthAnchor.constraint(equalToConstant: 17),
       badgeContainer.heightAnchor.constraint(equalToConstant: 17)
     ])
@@ -124,22 +128,22 @@ extension OrderDetailsProductView {
 
     name.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      name.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-      name.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
+      name.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+      name.leadingAnchor.constraint(equalTo: photoMask.trailingAnchor, constant: 16),
       name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
     ])
   }
 
   func createPrice() {
-    price.font = .systemFont(ofSize: 14)
+    price.font = .systemFont(ofSize: 14, weight: .bold)
     price.textAlignment = .left
     price.textColor = UIColor.Zeplin.black
     addSubview(price)
 
     price.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 7),
-      price.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
+      price.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 5),
+      price.leadingAnchor.constraint(equalTo: photoMask.trailingAnchor, constant: 16),
       price.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       price.heightAnchor.constraint(equalToConstant: 16)
     ])

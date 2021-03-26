@@ -13,21 +13,36 @@ import YDB2WModels
 
 // MARK: Actions
 extension YDMOfflineOrdersViewController {
-  func addNewOrders(_ orders: [YDOfflineOrdersOrder]) {
+  func addNewOrders(_ orders: [YDOfflineOrdersOrder], loadMoreSectionIndex: Int?) {
+//    if let loadMoreSectionIndex = loadMoreSectionIndex {
+//      collectionView.reloadSections(IndexSet(integer: loadMoreSectionIndex))
+//    }
+
     if orders.isEmpty { return }
 
     var indexes: [IndexPath] = []
     let totalSections = collectionView.numberOfSections - 1
 
-    for order in orders {
-      guard let indexPath = order.indexPath else { continue }
-      indexes.append(indexPath)
-      if indexPath.section > totalSections {
-        collectionView.insertSections(IndexSet(integer: indexPath.section))
-      }
-    }
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self,
+            let viewModel = self.viewModel
+      else { return }
 
-    collectionView.insertItems(at: indexes)
+      for order in orders {
+        guard let indexPath = order.indexPath else { continue }
+        indexes.append(indexPath)
+        if indexPath.section > totalSections {
+          self.collectionView.insertSections(IndexSet(integer: indexPath.section))
+        }
+      }
+
+      self.collectionView.insertItems(at: indexes)
+      self.canLoadMore = !viewModel.noMoreOrderToLoad
+      self.collectionView.collectionViewLayout.invalidateLayout()
+      print("canLoadMore \(self.canLoadMore)")
+      print("numberOfSections: \(self.collectionView.numberOfSections)")
+      print("viewModel numberOfSections: \(self.viewModel?.numberOfSections())")
+    }
   }
 }
 
@@ -132,6 +147,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
           else {
             fatalError("viewForSupplementaryElementOfKind: OrdersLoadingCollectionHeaderReusableView")
           }
+          print("Dequeue Load More")
           return header
         }
 
@@ -143,6 +159,8 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
         else {
           fatalError("viewForSupplementaryElementOfKind: OrdersCollectionReusableView")
         }
+
+        print("Dequeue Data")
 
         if collectionView == shimmerCollectionView {
           header.dateLabel.text = ""
@@ -173,11 +191,17 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     }
   }
 
-  public func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    willDisplaySupplementaryView view: UICollectionReusableView,
+    forElementKind elementKind: String,
+    at indexPath: IndexPath
+  ) {
     if collectionView != shimmerCollectionView,
        viewModel?[indexPath.section]?.date == "loadMore",
         canLoadMore {
       canLoadMore = false
+
       if viewModel?.noMoreOrderToLoad ?? false {
         (view as? OrdersLoadingCollectionHeaderReusableView)?.fullSize = false
       } else {
@@ -198,17 +222,25 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 
 // MARK: Data Flow Delegate
 extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
-  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  // Header Size
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int
+  ) -> CGSize {
     if collectionView != shimmerCollectionView &&
         viewModel?[section]?.date == "loadMore" {
+      print("Header loadMore")
       return CGSize(width: view.frame.size.width, height: 255)
     }
 
+    print("Header section \(section)")
     return section == 0 ?
       CGSize(width: view.frame.size.width, height: 40) :
       CGSize(width: view.frame.size.width, height: 30)
   }
 
+  // Footer Size
   public func collectionView(
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,

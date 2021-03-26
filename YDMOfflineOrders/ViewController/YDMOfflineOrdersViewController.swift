@@ -97,17 +97,12 @@ extension YDMOfflineOrdersViewController {
     shimmerCollectionView.isHidden = true
     feedbackStateView.isHidden = false
     feedbackStateType = type
-
-    if type == .empty {
-      feedbackStateButton.isHidden = !(viewModel?.hasPreviousAddressFromIntegration ?? false)
-    } else {
-      feedbackStateButton.isHidden = false
-    }
+    feedbackStateButton.isHidden = false
   }
 
   @objc func onFeedbackButtonAction() {
     if feedbackStateType == .empty {
-      viewModel?.openDeepLink(withName: .lasaStore)
+      viewModel?.onFeedbackButton()
     } else {
       viewModel?.getOrderList()
     }

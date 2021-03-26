@@ -134,8 +134,10 @@ extension ProductDetailsProductCard {
     settings.textMargin = 6
     settings.textColor = UIColor.Zeplin.grayLight
     settings.textFont = .systemFont(ofSize: 12)
+    settings.updateOnTouch = false
 
     ratingView.settings = settings
+    ratingView.text = "(456)"
 
     ratingView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([

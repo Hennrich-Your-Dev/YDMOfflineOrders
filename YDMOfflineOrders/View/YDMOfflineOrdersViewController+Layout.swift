@@ -116,6 +116,9 @@ extension YDMOfflineOrdersViewController {
       shimmerCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
 
+    // List height / cell  height
+    numberOfShimmers = Int((shimmerCollectionView.frame.size.height / 235).rounded(.up))
+
     shimmerCollectionView.register(
       OrdersShimmerCollectionViewCell.self,
       forCellWithReuseIdentifier: OrdersShimmerCollectionViewCell.identifier
@@ -182,7 +185,7 @@ extension YDMOfflineOrdersViewController {
   }
 
   func createFeedbackStateButton() {
-    feedbackStateButton.layer.cornerRadius = 8
+    feedbackStateButton.layer.cornerRadius = 4
     feedbackStateButton.layer.borderWidth = 2
     feedbackStateButton.layer.borderColor = UIColor.Zeplin.redBranding.cgColor
 
@@ -190,16 +193,10 @@ extension YDMOfflineOrdersViewController {
       string: "ver loja mais próxima",
       attributes: [
         NSAttributedString.Key.foregroundColor: UIColor.Zeplin.redBranding,
-        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
       ]
     )
     feedbackStateButton.setAttributedTitle(attributedString, for: .normal)
-    feedbackStateButton.titleEdgeInsets = UIEdgeInsets(
-      top: 10,
-      left: 12,
-      bottom: 10,
-      right: 12
-    )
     feedbackStateView.addSubview(feedbackStateButton)
     feedbackStateButton.addTarget(
       self,
@@ -216,7 +213,7 @@ extension YDMOfflineOrdersViewController {
     NSLayoutConstraint.activate([
       feedbackStateButton.topAnchor.constraint(equalTo: feedbackMessage.bottomAnchor, constant: 24),
       feedbackStateButton.centerXAnchor.constraint(equalTo: feedbackStateView.centerXAnchor),
-      feedbackStateButton.heightAnchor.constraint(equalToConstant: 37),
+      feedbackStateButton.heightAnchor.constraint(equalToConstant: 40),
       feedbackStateButton.bottomAnchor.constraint(
         equalTo: feedbackStateView.bottomAnchor,
         constant: -20

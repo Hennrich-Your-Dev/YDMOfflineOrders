@@ -285,6 +285,7 @@ extension OrdersCollectionViewCell {
     stackView.axis = .horizontal
     stackView.alignment = .leading
     stackView.distribution = .fillEqually
+    stackView.spacing = -25
     stackView.layer.masksToBounds = false
     stackView.isUserInteractionEnabled = true
     contentView.addSubview(stackView)

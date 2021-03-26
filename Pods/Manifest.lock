@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (4.9.1)
   - Cosmos (23.0.0)
+  - curvyRoute (0.2.1)
   - Kingfisher (5.15.8):
     - Kingfisher/Core (= 5.15.8)
   - Kingfisher/Core (5.15.8)
@@ -16,37 +17,51 @@ PODS:
   - libwebp/mux (1.2.0):
     - libwebp/demux
   - libwebp/webp (1.2.0)
-  - YDB2WAssets (1.0.33)
-  - YDB2WComponents (1.0.84):
+  - YDB2WAssets (1.0.34)
+  - YDB2WComponents (1.1.1):
+    - Cosmos
     - YDB2WAssets (~> 1.0.33)
+    - YDB2WModels (~> 1.1.0)
     - YDExtensions (~> 1.0.42)
     - YDUtilities (~> 1.0.10)
   - YDB2WDeepLinks (1.0.1)
   - YDB2WIntegration (1.1.1):
     - YDB2WModels
     - YDExtensions
-  - YDB2WModels (1.0.17):
-    - YDExtensions
-    - YDUtilities
-  - YDB2WServices (1.1.0):
+  - YDB2WModels (1.1.1):
+    - YDExtensions (~> 1.0.42)
+    - YDUtilities (~> 1.0.10)
+  - YDB2WServices (1.1.1):
     - Alamofire (~> 4.0)
     - YDB2WIntegration (~> 1.1.0)
-    - YDB2WModels (~> 1.0.16)
+    - YDB2WModels (~> 1.1.0)
   - YDExtensions (1.0.42):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
+  - YDLocationModule (1.0.5)
+  - YDMFindStore (1.1.1):
+    - Alamofire (= 4.9.1)
+    - curvyRoute
+    - YDB2WAssets (~> 1.0.33)
+    - YDB2WComponents (~> 1.1.0)
+    - YDB2WIntegration (~> 1.1.0)
+    - YDB2WModels (~> 1.1.0)
+    - YDExtensions (~> 1.0.42)
+    - YDLocationModule (~> 1.0.5)
+    - YDUtilities (~> 1.0.10)
   - YDUtilities (1.0.10):
     - Alamofire (~> 4.0)
 
 DEPENDENCIES:
   - Cosmos
   - YDB2WAssets (~> 1.0.33)
-  - YDB2WComponents (~> 1.0.82)
+  - YDB2WComponents (~> 1.1.0)
   - YDB2WDeepLinks (~> 1.0.0)
   - YDB2WIntegration (~> 1.1.0)
-  - YDB2WModels (~> 1.0.16)
+  - YDB2WModels (~> 1.1.0)
   - YDB2WServices (~> 1.1.0)
   - YDExtensions (~> 1.0.42)
+  - YDMFindStore (~> 1.1.0)
   - YDUtilities (~> 1.0.10)
 
 SPEC REPOS:
@@ -58,10 +73,13 @@ SPEC REPOS:
     - YDB2WModels
     - YDB2WServices
     - YDExtensions
+    - YDLocationModule
+    - YDMFindStore
     - YDUtilities
   trunk:
     - Alamofire
     - Cosmos
+    - curvyRoute
     - Kingfisher
     - KingfisherWebP
     - libwebp
@@ -69,18 +87,21 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
+  curvyRoute: bd529a80b8d7a0390a2673dceb79081c11b0fa8d
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
-  YDB2WAssets: bd1a4f22211af3c120d364eb3c147b26c9bc9c54
-  YDB2WComponents: 650c9f79d91a6b620a739ac6a576887a55981fe2
+  YDB2WAssets: 91619e16800b84f63a0be847cfcc2c97a7f30cce
+  YDB2WComponents: bceb6f76c2f22101ffaea582c009ff83055d18bb
   YDB2WDeepLinks: c4257273d753c892bc545b99c72a9b01b0ab9e16
   YDB2WIntegration: e93c1c6235e782dc4372bf58634f34cf169a3963
-  YDB2WModels: 7d87c2afc49e0d55a3d9d4707f6c6a0eb420ef83
-  YDB2WServices: d8d138f6417803fc79ea8eb90b4104212259a76a
+  YDB2WModels: 99ae3e5b8ba51ba5a8cf6c871ede1b640f17c958
+  YDB2WServices: c92962bf1880acf6c230133daecfb9d87a5675b6
   YDExtensions: 9d923da399a4fbdbf251f58345271103101cd34a
+  YDLocationModule: 35cddec317442e18078cb64e1542d7cd360ccb43
+  YDMFindStore: 9f50f83e230d7b0b601dd99a95e3aa8fd0e0d69d
   YDUtilities: 7e56ee0f48101c8bf487ad03135730dbefac70bf
 
-PODFILE CHECKSUM: 29c6a609fa011a4a68531cb0218e5f1ac9f902bd
+PODFILE CHECKSUM: 61aede2113043abbef398405f6ffb20e1039dd9c
 
 COCOAPODS: 1.10.1

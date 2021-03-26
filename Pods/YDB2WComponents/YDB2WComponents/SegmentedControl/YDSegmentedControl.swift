@@ -145,14 +145,22 @@ public class YDSegmentedControl: UIView {
   }
 
   // MARK: Public action
-  public func setItems(_ items: [String]) {
+  public func setItems(_ items: [String], enabled: [Bool]? = nil) {
     segmentedControl.removeAllSegments()
 
     for (index, title) in items.enumerated() {
       segmentedControl.insertSegment(withTitle: title, at: index, animated: true)
+
+      if let enable = enabled?.at(index) {
+        segmentedControl.setEnabled(enable, forSegmentAt: index)
+      }
     }
 
     segmentedControl.selectedSegmentIndex = 0
+  }
+
+  public func setEnabled(_ enabled: Bool, forSegmentAt index: Int) {
+    segmentedControl.setEnabled(enabled, forSegmentAt: index)
   }
 }
 

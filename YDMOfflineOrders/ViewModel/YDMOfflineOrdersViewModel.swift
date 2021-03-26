@@ -13,6 +13,7 @@ import YDB2WServices
 import YDB2WModels
 import YDB2WIntegration
 import YDB2WDeepLinks
+import YDMFindStore
 
 protocol OfflineOrdersNavigationDelegate: AnyObject {
   func setNavigationController(_ navigation: UINavigationController?)
@@ -23,8 +24,9 @@ protocol OfflineOrdersNavigationDelegate: AnyObject {
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
   var loading: Binder<Bool> { get }
+  var orderListFirstRequest: Binder<Bool> { get }
   var orderList: Binder<[OrderListConfig]> { get }
-  var newOrdersForList: Binder<[YDOfflineOrdersOrder]> { get }
+  var newOrdersForList: Binder<(list: [YDOfflineOrdersOrder], loadMoreIndex: Int?)> { get }
   var hasPreviousAddressFromIntegration: Bool { get }
   var noMoreOrderToLoad: Bool { get }
 
@@ -40,7 +42,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   func openNote(withKey key: String?)
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
-  func openDeepLink(withName name: YDDeepLinks)
+  func onFeedbackButton()
 }
 
 class YDMOfflineOrdersViewModel {
@@ -51,9 +53,9 @@ class YDMOfflineOrdersViewModel {
 
   var error: Binder<String> = Binder("")
   var loading: Binder<Bool> = Binder(false)
+  var orderListFirstRequest: Binder<Bool> = Binder(false)
   var orderList: Binder<[OrderListConfig]> = Binder([])
-  var newOrdersForList: Binder<[YDOfflineOrdersOrder]> = Binder([])
-  var orders: [OrderListConfig] = []
+  var newOrdersForList: Binder<(list: [YDOfflineOrdersOrder], loadMoreIndex: Int?)> = Binder(([], nil))
   var userToken: String
   var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
   let lazyLoadingOrders: Int
@@ -93,51 +95,79 @@ class YDMOfflineOrdersViewModel {
   }
 
   private func addOrdersToList(_ sorted: [YDOfflineOrdersOrder], append: Bool) {
+    var loadMoreSectionIndex: Int?
+
+    if let indexLoadMore = orderList.value.firstIndex(where: { $0.date == "loadMore" }),
+      let loadMoreConfig = orderList.value.first(where: { $0.date == "loadMore" }) {
+      loadMoreSectionIndex = loadMoreConfig.section
+      orderList.value.remove(at: indexLoadMore)
+    }
+
     if !sorted.isEmpty {
       for order in sorted {
         guard let sectionDate = order.formatedDateSection else { continue }
 
-        if let index = orders.firstIndex(where: { $0.date == sectionDate }),
-           let config = orders.at(index) {
+        if let index = orderList.value.firstIndex(where: { $0.date == sectionDate }),
+           let config = orderList.value.at(index) {
           //
           var ordersCopy = config.orders
-          order.indexPath = IndexPath(row: ordersCopy.count - 1, section: config.section ?? 0)
+          order.indexPath = IndexPath(
+            row: ordersCopy.count,
+            section: config.section ?? 0
+          )
           ordersCopy.append(order)
-          orders[index].orders = ordersCopy
+          orderList.value[index].orders = ordersCopy
+
+          //
         } else {
-          order.indexPath = IndexPath(row: 0, section: orders.count - 1)
-          orders.append(
+          order.indexPath = IndexPath(
+            row: 0,
+            section: orderList.value.count
+          )
+          orderList.value.append(
             OrderListConfig(
               date: sectionDate,
-              section: orders.count - 1,
+              section: orderList.value.count,
               orders: [order]
             )
           )
         }
       }
 
-      orders.append(
+      orderList.value.append(
         OrderListConfig(
           date: "loadMore",
-          section: orders.count - 1,
+          section: orderList.value.count,
           orders: []
         )
       )
-      orderList.value = orders
-      newOrdersForList.value = sorted
+
+      if append {
+        newOrdersForList.value = (sorted, loadMoreSectionIndex)
+      } else {
+        orderListFirstRequest.value = true
+      }
 
 
     } else {
       noMoreOrderToLoad = true
-      newOrdersForList.value = []
+      newOrdersForList.value = ([], nil)
     }
+  }
+
+  func openDeepLink(withName name: YDDeepLinks) {
+    guard let url = URL(string: name.rawValue),
+          !url.absoluteString.isEmpty
+    else { return }
+
+    UIApplication.shared.open(url, options: [:], completionHandler: nil)
   }
 }
 
 // MARK: Extension
 extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
   subscript(section: Int) -> OrderListConfig? {
-    return orders.first(where: { $0.section == section })
+    return orderList.value.first(where: { $0.section == section })
   }
 
   func setNavigationController(_ navigation: UINavigationController?) {
@@ -145,7 +175,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
   }
 
   func getAllOrdersConfigs() -> [OrderListConfig] {
-    return orders
+    return orderList.value
   }
 
   func getOrderList() {
@@ -178,7 +208,6 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
   func getMoreOrders() {
     currentPage += 1
-    _ = orders.popLast()
 
     if currentPage >= 3 {
       addOrdersToList([], append: true)
@@ -191,7 +220,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
         "cupom": 1,
         "chaveNfe": "NFe21201233014556116658653060000071951662105676",
         "data": "2020-12-10T00:00:00",
-        "valorTotal": 2093,
+        "valorTotal": 999999,
         "codigoLoja": 1230,
         "nomeLoja": "PINHEIRO",
         "logradouro": "PRACA JOSE SARNEY S N",
@@ -202,52 +231,10 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           {
             "codigoItem": 1,
             "ean": "7891356075599",
-            "item": "0",
+            "item": "ADICIONADO",
             "qtde": 1,
-            "valorTotalItem": 299
+            "valorTotalItem": 999999
           },
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "9999",
-            "qtde": 1,
-            "valorTotalItem": 299
-          },
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "0",
-            "qtde": 1,
-            "valorTotalItem": 299
-          },
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "9999",
-            "qtde": 1,
-            "valorTotalItem": 299
-          },
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "0",
-            "qtde": 1,
-            "valorTotalItem": 299
-          },
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "0",
-            "qtde": 1,
-            "valorTotalItem": 299
-          },
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "9999",
-            "qtde": 1,
-            "valorTotalItem": 299
-          }
         ]
       }
     ]
@@ -264,7 +251,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
   }
 
   func numberOfSections() -> Int {
-    return orders.count
+    return orderList.value.count
   }
 
   func openNote(withKey key: String?) {}
@@ -277,11 +264,11 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     navigation.openDetailsForOrder(order)
   }
 
-  func openDeepLink(withName name: YDDeepLinks) {
-    guard let url = URL(string: name.rawValue),
-          !url.absoluteString.isEmpty
-    else { return }
-
-    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+  func onFeedbackButton() {
+    if hasPreviousAddressFromIntegration {
+      openDeepLink(withName: .lasaStore)
+    } else {
+      YDMFindStore().start()
+    }
   }
 }

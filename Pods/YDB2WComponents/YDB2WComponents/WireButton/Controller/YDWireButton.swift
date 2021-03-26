@@ -18,8 +18,8 @@ public class YDWireButton: UIButton {
 
   // MARK: Init
   public init() {
-    let rect = CGRect(x: 0, y: 0, width: 200, height: 50)
-    super.init(frame: rect)
+    super.init(frame: .zero)
+    heightAnchor.constraint(equalToConstant: 40).isActive = true
     setUpStyle()
   }
 

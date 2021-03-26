@@ -15,6 +15,7 @@ import YDB2WModels
 class ProductCardInfoView: UIView {
   // MARK: Properties
   var photo = UIImageView()
+  var photoMask = UIView()
   var name = UILabel()
   var badgeContainer = UIView()
   var badgeCount = UILabel()
@@ -63,33 +64,36 @@ extension ProductCardInfoView {
   }
 
   func createPhoto() {
-    let rect = CGRect(x: 0, y: 0, width: 45, height: 45)
-    photo.frame = rect
     photo.contentMode = .scaleAspectFit
     photo.image = Icons.imagePlaceHolder
     photo.tintColor = UIColor.Zeplin.grayLight
+    photo.layer.cornerRadius = 8
     addSubview(photo)
 
     photo.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      photo.topAnchor.constraint(equalTo: topAnchor, constant: 2),
-      photo.leadingAnchor.constraint(
+      photo.heightAnchor.constraint(equalToConstant: 36),
+      photo.widthAnchor.constraint(equalToConstant: 36)
+    ])
+
+    photoMask.backgroundColor = UIColor.gray.withAlphaComponent(0.7)
+    photoMask.layer.opacity = 0.1
+    photoMask.layer.cornerRadius = 8
+    addSubview(photoMask)
+
+    photoMask.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      photoMask.centerYAnchor.constraint(equalTo: centerYAnchor),
+      photoMask.leadingAnchor.constraint(
         equalTo: leadingAnchor,
         constant: 16
       ),
-      photo.heightAnchor.constraint(equalToConstant: 45),
-      photo.widthAnchor.constraint(equalToConstant: 45)
+      photoMask.heightAnchor.constraint(equalToConstant: 45),
+      photoMask.widthAnchor.constraint(equalToConstant: 45)
     ])
 
-    photo.layer.cornerRadius = 8
-
-    let maskLayer = CALayer()
-    maskLayer.frame = photo.frame
-    maskLayer.cornerRadius = 8
-    maskLayer.opacity = 0.1
-    maskLayer.backgroundColor = UIColor.gray.withAlphaComponent(0.7).cgColor
-
-    photo.layer.insertSublayer(maskLayer, at: 0)
+    photo.centerYAnchor.constraint(equalTo: photoMask.centerYAnchor).isActive = true
+    photo.centerXAnchor.constraint(equalTo: photoMask.centerXAnchor).isActive = true
   }
 
   func createBadge() {
@@ -100,8 +104,8 @@ extension ProductCardInfoView {
 
     badgeContainer.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      badgeContainer.topAnchor.constraint(equalTo: photo.topAnchor, constant: -5),
-      badgeContainer.trailingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 5),
+      badgeContainer.topAnchor.constraint(equalTo: photoMask.topAnchor, constant: -5),
+      badgeContainer.trailingAnchor.constraint(equalTo: photoMask.trailingAnchor, constant: 5),
       badgeContainer.widthAnchor.constraint(equalToConstant: 17),
       badgeContainer.heightAnchor.constraint(equalToConstant: 17)
     ])
@@ -130,8 +134,8 @@ extension ProductCardInfoView {
 
     name.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      name.centerYAnchor.constraint(equalTo: photo.centerYAnchor),
-      name.leadingAnchor.constraint(equalTo: photo.trailingAnchor, constant: 10),
+      name.centerYAnchor.constraint(equalTo: photoMask.centerYAnchor),
+      name.leadingAnchor.constraint(equalTo: photoMask.trailingAnchor, constant: 10),
       name.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       name.heightAnchor.constraint(equalToConstant: 14)
     ])
@@ -142,10 +146,10 @@ extension ProductCardInfoView {
 
     phantomButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      phantomButton.topAnchor.constraint(equalTo: photo.topAnchor),
-      phantomButton.leadingAnchor.constraint(equalTo: photo.leadingAnchor),
+      phantomButton.topAnchor.constraint(equalTo: photoMask.topAnchor),
+      phantomButton.leadingAnchor.constraint(equalTo: photoMask.leadingAnchor),
       phantomButton.trailingAnchor.constraint(equalTo: name.trailingAnchor),
-      phantomButton.bottomAnchor.constraint(equalTo: photo.bottomAnchor)
+      phantomButton.bottomAnchor.constraint(equalTo: photoMask.bottomAnchor)
     ])
 //    print("phantomButton \(phantomButton.isUserInteractionEnabled)")
     phantomButton.addTarget(self, action: #selector(onButtonAction), for: .touchUpInside)

@@ -7,21 +7,25 @@
 
 import UIKit
 
+import YDUtilities
+
 extension YDMOfflineOrdersViewController {
   func setUpBinds() {
-    viewModel?.orderList.bindOnce { [weak self] list in
-      guard let self = self else { return }
+    viewModel?.orderListFirstRequest.bindOnce { [weak self] _ in
+      guard let self = self,
+            let orderList = self.viewModel?.orderList.value
+      else { return }
 
-      if !list.isEmpty {
+      if !orderList.isEmpty {
         self.collectionView.reloadData()
       } else {
         self.showFeedbackStateView(ofType: .empty)
       }
     }
 
-    viewModel?.newOrdersForList.bind { [weak self] newOrders in
+    viewModel?.newOrdersForList.bind { [weak self] params in
       guard let self = self else { return }
-      self.addNewOrders(newOrders)
+      self.addNewOrders(params.list, loadMoreSectionIndex: params.loadMoreIndex)
     }
 
     viewModel?.loading.bind { [weak self] isLoading in

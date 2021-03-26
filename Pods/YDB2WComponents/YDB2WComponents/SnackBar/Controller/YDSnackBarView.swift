@@ -27,11 +27,17 @@ public class YDSnackBarView: UIView {
   var removeTimer: Timer?
   var hideTimer: Timer?
   var animateDuration: Double = 0.3
+  public var topValue: CGFloat = 0
+  public var bottomValue: CGFloat = 100
 
   // MARK: Life cycle
   public init(parent: UIView) {
     self.parent = parent
     super.init(frame: .zero)
+
+    layer.masksToBounds = false
+    layer.applyShadow(blur: 20)
+    topValue = parent.safeAreaInsets.bottom
   }
 
   required init?(coder: NSCoder) {
@@ -96,13 +102,13 @@ public class YDSnackBarView: UIView {
       ])
     }
 
-    bottomConstraint = bottomAnchor.constraint(equalTo: parent.bottomAnchor, constant: 100)
+    bottomConstraint = bottomAnchor.constraint(equalTo: parent.bottomAnchor, constant: bottomValue)
 
     translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       bottomConstraint,
-      leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 21),
-      trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -21)
+      leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 16),
+      trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -16)
     ])
 
     parent.layoutIfNeeded()
@@ -122,13 +128,13 @@ public class YDSnackBarView: UIView {
     layer.cornerRadius = 8
     parent.addSubview(self)
 
-    bottomConstraint = bottomAnchor.constraint(equalTo: parent.bottomAnchor, constant: 100)
+    bottomConstraint = bottomAnchor.constraint(equalTo: parent.bottomAnchor, constant: bottomValue)
 
     translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       bottomConstraint,
-      leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 21),
-      trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -21)
+      leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: 16),
+      trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -16)
     ])
 
     let hasIcon = icon != nil
@@ -181,7 +187,7 @@ public class YDSnackBarView: UIView {
 
   @objc private func showSnack() {
     UIView.animate(withDuration: animateDuration) {
-      self.bottomConstraint?.constant = -(self.parent.safeAreaInsets.bottom + 16)
+      self.bottomConstraint?.constant = -(self.topValue + 16)
       self.parent.layoutIfNeeded()
     } completion: { _ in
       self.hideTimer?.invalidate()
@@ -204,7 +210,7 @@ public class YDSnackBarView: UIView {
       self.parent.layoutIfNeeded()
       self.layoutIfNeeded()
       UIView.animate(withDuration: self.animateDuration) {
-        self.bottomConstraint?.constant = 100
+        self.bottomConstraint?.constant = self.bottomValue
         self.parent.layoutIfNeeded()
       }
     }
