@@ -52,6 +52,7 @@ extension YDStoreAndProductView {
   // Product Info
   private func createProductCardView() {
     addSubview(productCardView)
+    productCardView.layer.shadowOpacity = 0
 
     productCardView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -81,13 +82,15 @@ extension YDStoreAndProductView {
     textView.textColor = UIColor.Zeplin.grayLight
     textView.font = .systemFont(ofSize: 14)
     textView.textAlignment = .left
-    textView.isHidden = true
+    textView.isEditable = false
+    textView.text = .loremIpsum()
+    textView.alwaysBounceVertical = true
     textView.delegate = self
     addSubview(textView)
 
     textView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      textView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 24),
+      textView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 18),
       textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)

@@ -18,6 +18,9 @@
 		C17B89DA25FEEE0F0053FCE8 /* OrderDetailsViewController+YDDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B89D925FEEE0F0053FCE8 /* OrderDetailsViewController+YDDialog.swift */; };
 		C18E490F260A5DD4008A0ABD /* OrderListConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18E490E260A5DD4008A0ABD /* OrderListConfig.swift */; };
 		C18E4912260A665F008A0ABD /* OrdersLoadingCollectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18E4911260A665F008A0ABD /* OrdersLoadingCollectionHeaderReusableView.swift */; };
+		C1AB507D260E4A0300A8B889 /* ProductDetailsViewController+Binds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB507C260E4A0300A8B889 /* ProductDetailsViewController+Binds.swift */; };
+		C1AB5081260E4A7400A8B889 /* ProductDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB5080260E4A7400A8B889 /* ProductDetailsViewModel.swift */; };
+		C1AB5087260E4DE600A8B889 /* ProductDetailsViewController+StoreAndProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB5086260E4DE600A8B889 /* ProductDetailsViewController+StoreAndProduct.swift */; };
 		C1AEF59B25FBC9D500201116 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEF59A25FBC9D500201116 /* OrderDetailsViewController.swift */; };
 		C1AEF5A025FBCA2300201116 /* OrderDetailsViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEF59F25FBCA2300201116 /* OrderDetailsViewController+Layout.swift */; };
 		C1AEF5A425FBCAF500201116 /* OrderDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AEF5A325FBCAF500201116 /* OrderDetailsViewModel.swift */; };
@@ -51,6 +54,9 @@
 		C17B89D925FEEE0F0053FCE8 /* OrderDetailsViewController+YDDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderDetailsViewController+YDDialog.swift"; sourceTree = "<group>"; };
 		C18E490E260A5DD4008A0ABD /* OrderListConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListConfig.swift; sourceTree = "<group>"; };
 		C18E4911260A665F008A0ABD /* OrdersLoadingCollectionHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersLoadingCollectionHeaderReusableView.swift; sourceTree = "<group>"; };
+		C1AB507C260E4A0300A8B889 /* ProductDetailsViewController+Binds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailsViewController+Binds.swift"; sourceTree = "<group>"; };
+		C1AB5080260E4A7400A8B889 /* ProductDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewModel.swift; sourceTree = "<group>"; };
+		C1AB5086260E4DE600A8B889 /* ProductDetailsViewController+StoreAndProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailsViewController+StoreAndProduct.swift"; sourceTree = "<group>"; };
 		C1AEF59A25FBC9D500201116 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
 		C1AEF59F25FBCA2300201116 /* OrderDetailsViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderDetailsViewController+Layout.swift"; sourceTree = "<group>"; };
 		C1AEF5A325FBCAF500201116 /* OrderDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -143,6 +149,7 @@
 		C168175625E9835C009B7114 /* ProductDetails */ = {
 			isa = PBXGroup;
 			children = (
+				C1AB507B260E49C400A8B889 /* Extensions */,
 				C168175725E9838D009B7114 /* ProductDetailsViewController.swift */,
 			);
 			path = ProductDetails;
@@ -201,6 +208,39 @@
 				C17B89D925FEEE0F0053FCE8 /* OrderDetailsViewController+YDDialog.swift */,
 			);
 			path = YDDialog;
+			sourceTree = "<group>";
+		};
+		C1AB5079260E49A500A8B889 /* ProductDetails */ = {
+			isa = PBXGroup;
+			children = (
+				C1AB5080260E4A7400A8B889 /* ProductDetailsViewModel.swift */,
+			);
+			path = ProductDetails;
+			sourceTree = "<group>";
+		};
+		C1AB507B260E49C400A8B889 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C1AB5083260E4D7000A8B889 /* Binds */,
+				C1AB5085260E4D7A00A8B889 /* StoreAndProduct */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C1AB5083260E4D7000A8B889 /* Binds */ = {
+			isa = PBXGroup;
+			children = (
+				C1AB507C260E4A0300A8B889 /* ProductDetailsViewController+Binds.swift */,
+			);
+			path = Binds;
+			sourceTree = "<group>";
+		};
+		C1AB5085260E4D7A00A8B889 /* StoreAndProduct */ = {
+			isa = PBXGroup;
+			children = (
+				C1AB5086260E4DE600A8B889 /* ProductDetailsViewController+StoreAndProduct.swift */,
+			);
+			path = StoreAndProduct;
 			sourceTree = "<group>";
 		};
 		C1AEF59825FBC99900201116 /* OrderDetails */ = {
@@ -350,6 +390,7 @@
 		C1DEC60125E2FDA700CA7405 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C1AB5079260E49A500A8B889 /* ProductDetails */,
 				C1AEF5A225FBCAE700201116 /* OrderDetails */,
 				C1DEC60625E3001300CA7405 /* YDMOfflineOrdersViewModel.swift */,
 			);
@@ -534,12 +575,15 @@
 				C1CD12C425E3D62100BB578F /* YDMOfflineOrdersViewController+Layout.swift in Sources */,
 				C1DEC61325E306FB00CA7405 /* YDMOfflineOrdersViewController+ScrollView.swift in Sources */,
 				C168175C25E98446009B7114 /* ProductDetailsViewController+Layout.swift in Sources */,
+				C1AB5081260E4A7400A8B889 /* ProductDetailsViewModel.swift in Sources */,
 				C18E4912260A665F008A0ABD /* OrdersLoadingCollectionHeaderReusableView.swift in Sources */,
 				C1AEF59B25FBC9D500201116 /* OrderDetailsViewController.swift in Sources */,
 				C1AEF5DB25FBE67800201116 /* OrderDetailsProductView.swift in Sources */,
+				C1AB507D260E4A0300A8B889 /* ProductDetailsViewController+Binds.swift in Sources */,
 				C1F4C1FF25F95566002FE760 /* YDMOfflineOrdersViewController+Binds.swift in Sources */,
 				C17B898B25FEB9500053FCE8 /* LoadFailCollectionViewCell.swift in Sources */,
 				C1DBB6EE25E6C13F008E835B /* OrdersCollectionReusableView.swift in Sources */,
+				C1AB5087260E4DE600A8B889 /* ProductDetailsViewController+StoreAndProduct.swift in Sources */,
 				C17B898625FEB7BF0053FCE8 /* OrderDetailsViewController+ScrollView.swift in Sources */,
 				C168175825E9838D009B7114 /* ProductDetailsViewController.swift in Sources */,
 				C1AEF5A025FBCA2300201116 /* OrderDetailsViewController+Layout.swift in Sources */,

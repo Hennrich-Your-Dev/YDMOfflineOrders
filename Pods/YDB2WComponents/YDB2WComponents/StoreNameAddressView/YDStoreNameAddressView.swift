@@ -22,6 +22,8 @@ public class YDStoreNameAddressView: UIView {
   // MARK: Init
   public init(withButton: Bool) {
     super.init(frame: .zero)
+    backgroundColor = UIColor.Zeplin.white
+    layer.cornerRadius = 8
     hasButton = withButton
     setUpLayouts()
   }
@@ -45,7 +47,7 @@ public class YDStoreNameAddressView: UIView {
 extension YDStoreNameAddressView {
   private func setUpLayouts() {
     createStoreNameLabel()
-    createStorestoreAddressLabel()
+    createStoreAddressLabel()
 
     if hasButton {
       createButton()
@@ -72,7 +74,7 @@ extension YDStoreNameAddressView {
     ])
   }
 
-  private func createStorestoreAddressLabel() {
+  private func createStoreAddressLabel() {
     storeAddressLabel.font = .systemFont(ofSize: 14)
     storeAddressLabel.textAlignment = .left
     storeAddressLabel.textColor = UIColor.Zeplin.grayLight

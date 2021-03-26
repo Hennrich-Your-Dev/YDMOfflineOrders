@@ -59,6 +59,10 @@ public class YDMOfflineOrdersCoordinator {
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
     let vc = ProductDetailsViewController()
+
+    let viewModel = ProductDetailsViewModel()
+    vc.viewModel = viewModel
+
     navigationController?.pushViewController(vc, animated: true)
   }
 }

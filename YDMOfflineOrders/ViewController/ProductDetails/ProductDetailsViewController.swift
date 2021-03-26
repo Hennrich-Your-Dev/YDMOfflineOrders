@@ -12,6 +12,7 @@ import YDB2WModels
 
 class ProductDetailsViewController: UIViewController {
   // MARK: Properties
+  var viewModel: ProductDetailsViewModelDelegate?
   var productOnlineOffline: YDProductOnlineOffline? {
     didSet {
       updateLayoutWithOfflineProduct()
@@ -34,6 +35,7 @@ class ProductDetailsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setUpLayout()
+    setUpBinds()
   }
 
   // MARK: Actions

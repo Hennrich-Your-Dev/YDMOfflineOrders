@@ -9,16 +9,14 @@ import UIKit
 
 extension YDStoreAndProductView: UITextViewDelegate {
   public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let offset = scrollView.contentOffset.y.rounded()
-
-    if lastContentOffset > offset {
-      lastContentOffset = offset
-      delegate?.didMove(direction: .down)
-
-      //
-    } else if lastContentOffset < offset {
-      lastContentOffset = offset
+    if scrolledPageDown(scrollView) {
       delegate?.didMove(direction: .up)
+      return
     }
+    delegate?.didMove(direction: .down)
+  }
+
+  public func scrolledPageDown(_ scrollView: UIScrollView) -> Bool {
+    return scrollView.panGestureRecognizer.translation(in: scrollView).y < 0
   }
 }

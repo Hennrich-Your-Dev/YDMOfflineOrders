@@ -45,18 +45,13 @@ class ProductCardInfoView: UIView {
       badgeCount.text = "\(product.howMany)"
     }
   }
-
-  @objc func onButtonAction(_ sender: UIButton) {
-    guard let product = currentProduct else { return }
-    print(product.ean)
-  }
 }
 
 // MARK: Layout
 extension ProductCardInfoView {
   func setUpLayout() {
     heightAnchor.constraint(equalToConstant: 50).isActive = true
-    
+
     createPhoto()
     createBadge()
     createName()
@@ -151,7 +146,5 @@ extension ProductCardInfoView {
       phantomButton.trailingAnchor.constraint(equalTo: name.trailingAnchor),
       phantomButton.bottomAnchor.constraint(equalTo: photoMask.bottomAnchor)
     ])
-//    print("phantomButton \(phantomButton.isUserInteractionEnabled)")
-    phantomButton.addTarget(self, action: #selector(onButtonAction), for: .touchUpInside)
   }
 }

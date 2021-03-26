@@ -43,6 +43,7 @@ extension ProductDetailsViewController {
   }
 
   func createProductCard() {
+    storeAndProductView.delegate = self
     view.addSubview(storeAndProductView)
 
     storeAndProductView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +57,7 @@ extension ProductDetailsViewController {
         constant: -20
       ),
       storeAndProductView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 21),
-      storeAndProductView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 21)
+      storeAndProductView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -21)
     ])
   }
 
@@ -75,12 +76,14 @@ extension ProductDetailsViewController {
 
   func createCompareProductsViewShadow() {
     compareProductsViewShadow.backgroundColor = .white
-    compareProductsViewShadow.layer.applyShadow()
+    compareProductsViewShadow.layer.applyShadow(y: -2)
     view.addSubview(compareProductsViewShadow)
 
     compareProductsViewShadow.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       compareProductsViewShadow.bottomAnchor.constraint(equalTo: compareProductsView.topAnchor, constant: 6),
+      compareProductsViewShadow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      compareProductsViewShadow.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       compareProductsViewShadow.heightAnchor.constraint(equalToConstant: 5)
     ])
   }
@@ -104,13 +107,13 @@ extension ProductDetailsViewController {
   }
 
   func createOnlineProductView(parent: UILabel) {
-    view.addSubview(onlineProductView)
+    compareProductsView.addSubview(onlineProductView)
+    onlineProductView.layer.shadowOpacity = 0
 
     onlineProductView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       onlineProductView.topAnchor.constraint(
-        equalTo: parent.topAnchor,
-        constant: 16
+        equalTo: parent.bottomAnchor
       ),
       onlineProductView.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 24),
       onlineProductView.trailingAnchor.constraint(equalTo: compareProductsView.trailingAnchor, constant: -24)
