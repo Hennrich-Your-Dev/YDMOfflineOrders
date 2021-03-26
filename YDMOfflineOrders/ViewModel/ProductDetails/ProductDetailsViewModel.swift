@@ -29,8 +29,7 @@ class ProductDetailsViewModel {
 
 extension ProductDetailsViewModel: ProductDetailsViewModelDelegate {
   func changeAddress() {
-    YDIntegrationHelper.shared.currentAddres = nil
-    YDIntegrationHelper.shared.getAddress { address in
+    YDIntegrationHelper.shared.onAddressModule { address in
       guard let address = address else { return }
       print("address: \(address.formatAddress)")
     }

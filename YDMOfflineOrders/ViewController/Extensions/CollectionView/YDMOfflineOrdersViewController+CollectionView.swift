@@ -72,7 +72,6 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 
   // Dequeue Item
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
     // Dequeue Shimmer
     if collectionView == shimmerCollectionView {
       guard let cell = collectionView.dequeueReusableCell(
@@ -109,7 +108,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 
     cell.noteCallback = { [weak self] in
       guard let self = self,
-            let nfe = order.nfe else { return }
+            let nfe = order.strippedNFe else { return }
 
       let dialog = YDDialog()
       dialog.delegate = self

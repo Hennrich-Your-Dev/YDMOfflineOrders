@@ -11,8 +11,10 @@ import YDB2WComponents
 
 extension YDMOfflineOrdersViewController: YDDialogCoordinatorDelegate {
   public func onActionYDDialog(payload: [String : Any]?) {
-    guard let nfe = payload?["nfe"] as? String else { return }
-    print("nfe \(nfe)")
+    guard let nfe = payload?["nfe"] as? String,
+          let url = URL(string: nfe)
+          else { return }
+    UIApplication.shared.open(url)
   }
 
   public func onCancelYDDialog(payload: [String : Any]?) {}

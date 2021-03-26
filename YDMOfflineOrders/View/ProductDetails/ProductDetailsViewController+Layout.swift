@@ -98,7 +98,7 @@ extension ProductDetailsViewController {
 
     label.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      label.topAnchor.constraint(equalTo: compareProductsView.topAnchor, constant: 16),
+      label.topAnchor.constraint(equalTo: compareProductsView.topAnchor, constant: 12),
       label.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 40),
       label.heightAnchor.constraint(equalToConstant: 18)
     ])

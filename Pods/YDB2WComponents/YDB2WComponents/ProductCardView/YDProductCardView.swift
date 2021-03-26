@@ -32,6 +32,7 @@ public class YDProductCardView: UIView {
     super.init(frame: frame)
     backgroundColor = UIColor.Zeplin.white
     layer.applyShadow(x: 0, y: 0, blur: 20)
+    heightAnchor.constraint(equalToConstant: 120).isActive = true
     setUpLayout()
   }
 
@@ -50,6 +51,7 @@ public class YDProductCardView: UIView {
     if let rate = product.rating?.average,
        rate > 0,
        let rateText = product.rating?.recommendations {
+      ratingView.isHidden = false
       ratingView.rating = rate
       ratingView.text = "(\(rateText)"
     } else {
@@ -110,10 +112,7 @@ extension YDProductCardView {
 
     productNameLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productNameLabel.topAnchor.constraint(
-        equalTo: topAnchor,
-        constant: 12
-      ),
+      productNameLabel.topAnchor.constraint(equalTo: photoImageMask.topAnchor),
       productNameLabel.leadingAnchor.constraint(
         equalTo: photoImageMask.trailingAnchor,
         constant: 16
@@ -130,11 +129,12 @@ extension YDProductCardView {
     productPriceLabel.textAlignment = .left
     productPriceLabel.textColor = UIColor.Zeplin.black
     productPriceLabel.numberOfLines = 1
+    productPriceLabel.text = "R$ 38,99"
     addSubview(productPriceLabel)
 
     productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productPriceLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+      productPriceLabel.bottomAnchor.constraint(equalTo: photoImageMask.bottomAnchor),
       productPriceLabel.leadingAnchor.constraint(
         equalTo: photoImageMask.trailingAnchor,
         constant: 16
@@ -143,7 +143,7 @@ extension YDProductCardView {
         equalTo: trailingAnchor,
         constant: -8
       ),
-      productPriceLabel.heightAnchor.constraint(equalToConstant: 28)
+      productPriceLabel.heightAnchor.constraint(equalToConstant: 24)
     ])
 
     productPriceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -165,6 +165,7 @@ extension YDProductCardView {
     settings.updateOnTouch = false
 
     ratingView.settings = settings
+    ratingView.text = "(456)"
 
     ratingView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -177,7 +178,7 @@ extension YDProductCardView {
         constant: 16
       ),
       ratingView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
-      ratingView.heightAnchor.constraint(equalToConstant: 15),
+      ratingView.heightAnchor.constraint(equalToConstant: 13),
       ratingView.bottomAnchor.constraint(equalTo: productPriceLabel.topAnchor, constant: -5)
     ])
 
