@@ -146,7 +146,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
           else {
             fatalError("viewForSupplementaryElementOfKind: OrdersLoadingCollectionHeaderReusableView")
           }
-          print("Dequeue Load More")
+
           return header
         }
 
@@ -158,8 +158,6 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
         else {
           fatalError("viewForSupplementaryElementOfKind: OrdersCollectionReusableView")
         }
-
-        print("Dequeue Data")
 
         if collectionView == shimmerCollectionView {
           header.dateLabel.text = ""
@@ -229,11 +227,8 @@ extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
   ) -> CGSize {
     if collectionView != shimmerCollectionView &&
         viewModel?[section]?.date == "loadMore" {
-      print("Header loadMore")
       return CGSize(width: view.frame.size.width, height: 255)
     }
-
-    print("Header section \(section)")
     return section == 0 ?
       CGSize(width: view.frame.size.width, height: 40) :
       CGSize(width: view.frame.size.width, height: 30)

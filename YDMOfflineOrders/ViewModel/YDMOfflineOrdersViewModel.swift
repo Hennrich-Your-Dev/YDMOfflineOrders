@@ -134,20 +134,19 @@ class YDMOfflineOrdersViewModel {
         }
       }
 
-      orderList.value.append(
-        OrderListConfig(
-          date: "loadMore",
-          section: orderList.value.count,
-          orders: []
-        )
-      )
+//      orderList.value.append(
+//        OrderListConfig(
+//          date: "loadMore",
+//          section: orderList.value.count,
+//          orders: []
+//        )
+//      )
 
       if append {
         newOrdersForList.value = (sorted, loadMoreSectionIndex)
       } else {
         orderListFirstRequest.value = true
       }
-
 
     } else {
       noMoreOrderToLoad = true
