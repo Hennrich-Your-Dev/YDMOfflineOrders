@@ -15,6 +15,10 @@ extension ProductDetailsViewController {
     view.backgroundColor = UIColor.Zeplin.white
     setUpNavBar()
     createProductCard()
+    createCompareProductsView()
+    createCompareProductsViewShadow()
+    let label = createCompareProductsLabel()
+    createOnlineProductView(parent: label)
   }
 
   func setUpNavBar() {
@@ -39,16 +43,77 @@ extension ProductDetailsViewController {
   }
 
   func createProductCard() {
-    view.addSubview(productCard)
+    view.addSubview(storeAndProductView)
 
-    productCard.translatesAutoresizingMaskIntoConstraints = false
+    storeAndProductView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productCard.topAnchor.constraint(
+      storeAndProductView.topAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.topAnchor,
         constant: 20
       ),
-      productCard.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      productCard.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+      storeAndProductView.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+        constant: -20
+      ),
+      storeAndProductView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 21),
+      storeAndProductView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 21)
+    ])
+  }
+
+  func createCompareProductsView() {
+    compareProductsView.backgroundColor = UIColor.Zeplin.white
+    view.addSubview(compareProductsView)
+
+    compareProductsView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      compareProductsView.heightAnchor.constraint(equalToConstant: 144 + view.safeAreaInsets.bottom),
+      compareProductsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      compareProductsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      compareProductsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+    ])
+  }
+
+  func createCompareProductsViewShadow() {
+    compareProductsViewShadow.backgroundColor = .white
+    compareProductsViewShadow.layer.applyShadow()
+    view.addSubview(compareProductsViewShadow)
+
+    compareProductsViewShadow.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      compareProductsViewShadow.bottomAnchor.constraint(equalTo: compareProductsView.topAnchor, constant: 6),
+      compareProductsViewShadow.heightAnchor.constraint(equalToConstant: 5)
+    ])
+  }
+
+  func createCompareProductsLabel() -> UILabel {
+    let label = UILabel()
+    label.font = .systemFont(ofSize: 17)
+    label.textColor = UIColor.Zeplin.grayLight
+    label.textAlignment = .left
+    label.text = "preço comprando online:"
+    compareProductsView.addSubview(label)
+
+    label.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      label.topAnchor.constraint(equalTo: compareProductsView.topAnchor, constant: 16),
+      label.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 40),
+      label.heightAnchor.constraint(equalToConstant: 18)
+    ])
+
+    return label
+  }
+
+  func createOnlineProductView(parent: UILabel) {
+    view.addSubview(onlineProductView)
+
+    onlineProductView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      onlineProductView.topAnchor.constraint(
+        equalTo: parent.topAnchor,
+        constant: 16
+      ),
+      onlineProductView.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 24),
+      onlineProductView.trailingAnchor.constraint(equalTo: compareProductsView.trailingAnchor, constant: -24)
     ])
   }
 }
