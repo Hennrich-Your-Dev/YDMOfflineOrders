@@ -9,8 +9,13 @@ import UIKit
 
 import YDB2WModels
 
+enum OrderListType {
+  case header
+  case row
+}
+
 struct OrderListConfig {
-  var date: String
-  var section: Int?
-  var orders: [YDOfflineOrdersOrder]
+  var type: OrderListType
+  var headerString: String?
+  var order: YDOfflineOrdersOrder?
 }

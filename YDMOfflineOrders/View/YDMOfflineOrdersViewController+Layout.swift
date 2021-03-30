@@ -27,8 +27,8 @@ extension YDMOfflineOrdersViewController {
       right: 0
     )
 
-    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 20)
-    layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
+    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 40)
+    layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16
 
@@ -49,27 +49,23 @@ extension YDMOfflineOrdersViewController {
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
 
+    // Order cell
     collectionView.register(
       OrdersCollectionViewCell.self,
       forCellWithReuseIdentifier: OrdersCollectionViewCell.identifier
     )
 
+    // Header cell
     collectionView.register(
-      OrdersCollectionReusableView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: OrdersCollectionReusableView.identifier
+      OrdersHeaderCollectionViewCell.self,
+      forCellWithReuseIdentifier: OrdersHeaderCollectionViewCell.identifier
     )
 
+    // Loading footer
     collectionView.register(
-      OrdersLoadingCollectionHeaderReusableView.self,
+      OrdersLoadingCollectionFooterReusableView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: OrdersLoadingCollectionHeaderReusableView.identifier
-    )
-
-    collectionView.register(
-      OrdersCollectionFooterReusableView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
+      withReuseIdentifier: OrdersLoadingCollectionFooterReusableView.identifier
     )
   }
 
@@ -95,7 +91,7 @@ extension YDMOfflineOrdersViewController {
       right: 0
     )
 
-    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 20)
+    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 40)
     layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16
@@ -119,21 +115,10 @@ extension YDMOfflineOrdersViewController {
     // List height / cell  height
     numberOfShimmers = Int((shimmerCollectionView.frame.size.height / 235).rounded(.up))
 
+    //
     shimmerCollectionView.register(
       OrdersShimmerCollectionViewCell.self,
       forCellWithReuseIdentifier: OrdersShimmerCollectionViewCell.identifier
-    )
-
-    shimmerCollectionView.register(
-      OrdersCollectionReusableView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: OrdersCollectionReusableView.identifier
-    )
-
-    shimmerCollectionView.register(
-      OrdersCollectionFooterReusableView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
   }
 

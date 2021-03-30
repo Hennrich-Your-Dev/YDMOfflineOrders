@@ -9,7 +9,7 @@ import UIKit
 
 import YDExtensions
 
-class OrdersLoadingCollectionHeaderReusableView: UICollectionReusableView {
+class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
   // MARK: Properties
   var fullSize = true
 
@@ -87,7 +87,7 @@ class OrdersLoadingCollectionHeaderReusableView: UICollectionReusableView {
 }
 
 // MARK: Layout
-extension OrdersLoadingCollectionHeaderReusableView {
+extension OrdersLoadingCollectionFooterReusableView {
   func setUpLayout() {
     createStoreNameView()
     createAddressView()

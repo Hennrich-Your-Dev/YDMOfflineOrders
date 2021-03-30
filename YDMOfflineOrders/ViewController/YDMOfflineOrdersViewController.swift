@@ -93,11 +93,17 @@ extension YDMOfflineOrdersViewController {
   }
 
   func showFeedbackStateView(ofType type: FeedbackStateViewType) {
-    collectionView.isHidden = true
-    shimmerCollectionView.isHidden = true
-    feedbackStateView.isHidden = false
-    feedbackStateType = type
-    feedbackStateButton.isHidden = false
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+
+      self.shadowView.isHidden = true
+      self.collectionView.isHidden = true
+      self.shimmerCollectionView.isHidden = true
+      self.shimmerCollectionView.contentOffset = .zero
+      self.feedbackStateView.isHidden = false
+      self.feedbackStateType = type
+      self.feedbackStateButton.isHidden = false
+    }
   }
 
   @objc func onFeedbackButtonAction() {

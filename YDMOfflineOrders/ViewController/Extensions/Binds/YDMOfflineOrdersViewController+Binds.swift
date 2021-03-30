@@ -23,9 +23,11 @@ extension YDMOfflineOrdersViewController {
       }
     }
 
-    viewModel?.newOrdersForList.bind { [weak self] params in
+    viewModel?.newOrdersForList.bind { [weak self] hasMore in
       guard let self = self else { return }
-      self.addNewOrders(params.list, loadMoreSectionIndex: params.loadMoreIndex)
+      if hasMore {
+        self.addNewOrders()
+      }
     }
 
     viewModel?.loading.bind { [weak self] isLoading in

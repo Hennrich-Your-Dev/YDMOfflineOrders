@@ -10,12 +10,12 @@ import UIKit
 import YDB2WComponents
 
 extension YDMOfflineOrdersViewController: YDDialogCoordinatorDelegate {
-  public func onActionYDDialog(payload: [String : Any]?) {
+  public func onActionYDDialog(payload: [String: Any]?) {
     guard let nfe = payload?["nfe"] as? String,
-          let url = URL(string: nfe)
+          let url = URL(string: "https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?nfe=" + nfe)
           else { return }
     UIApplication.shared.open(url)
   }
 
-  public func onCancelYDDialog(payload: [String : Any]?) {}
+  public func onCancelYDDialog(payload: [String: Any]?) {}
 }

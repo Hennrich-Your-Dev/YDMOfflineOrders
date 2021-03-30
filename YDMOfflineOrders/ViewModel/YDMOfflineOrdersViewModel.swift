@@ -26,16 +26,14 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var loading: Binder<Bool> { get }
   var orderListFirstRequest: Binder<Bool> { get }
   var orderList: Binder<[OrderListConfig]> { get }
-  var newOrdersForList: Binder<(list: [YDOfflineOrdersOrder], loadMoreIndex: Int?)> { get }
+  var newOrdersForList: Binder<Bool> { get }
   var hasPreviousAddressFromIntegration: Bool { get }
   var noMoreOrderToLoad: Bool { get }
 
-  subscript(section: Int) -> OrderListConfig? { get }
+  subscript(_ row: Int) -> OrderListConfig? { get }
 
   func setNavigationController(_ navigation: UINavigationController?)
 
-  func getAllOrdersConfigs() -> [OrderListConfig]
-  func numberOfSections() -> Int
   func getOrderList()
   func getMoreOrders()
 
@@ -55,7 +53,7 @@ class YDMOfflineOrdersViewModel {
   var loading: Binder<Bool> = Binder(false)
   var orderListFirstRequest: Binder<Bool> = Binder(false)
   var orderList: Binder<[OrderListConfig]> = Binder([])
-  var newOrdersForList: Binder<(list: [YDOfflineOrdersOrder], loadMoreIndex: Int?)> = Binder(([], nil))
+  var newOrdersForList: Binder<Bool> = Binder(false)
   var userToken: String
   var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
   let lazyLoadingOrders: Int
@@ -77,13 +75,17 @@ class YDMOfflineOrdersViewModel {
   private func fromMock() {
     Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
       guard let self = self else { return }
-      let sorted = self.sortOrdersList(YDOfflineOrdersOrder.mock())
-      self.addOrdersToList(sorted, append: false)
+//      let sorted = self.sortOrdersList([])
+//      let sorted = self.sortOrdersList(YDOfflineOrdersOrder.mock())
+//      self.addOrdersToList(sorted, append: false)
       self.loading.value = false
+      self.error.value = "a"
     }
   }
 
-  private func sortOrdersList(_ orders: YDOfflineOrdersOrdersList) -> [YDOfflineOrdersOrder] {
+  private func sortOrdersList(
+    _ orders: [YDOfflineOrdersOrder]
+  ) -> [YDOfflineOrdersOrder] {
     let sorted = orders.sorted { lhs, rhs -> Bool in
       guard let dateLhs = lhs.dateWithDateType else { return false }
       guard let dateRhs = rhs.dateWithDateType else { return true }
@@ -95,62 +97,60 @@ class YDMOfflineOrdersViewModel {
   }
 
   private func addOrdersToList(_ sorted: [YDOfflineOrdersOrder], append: Bool) {
-    var loadMoreSectionIndex: Int?
-
-    if let indexLoadMore = orderList.value.firstIndex(where: { $0.date == "loadMore" }),
-      let loadMoreConfig = orderList.value.first(where: { $0.date == "loadMore" }) {
-      loadMoreSectionIndex = loadMoreConfig.section
-      orderList.value.remove(at: indexLoadMore)
-    }
 
     if !sorted.isEmpty {
-      for order in sorted {
-        guard let sectionDate = order.formatedDateSection else { continue }
+      for curr in sorted {
+        guard let sectionDate = curr.formatedDateSection else { continue }
 
-        if let index = orderList.value.firstIndex(where: { $0.date == sectionDate }),
-           let config = orderList.value.at(index) {
-          //
-          var ordersCopy = config.orders
-          order.indexPath = IndexPath(
-            row: ordersCopy.count,
-            section: config.section ?? 0
+        if let lastIndex = orderList.value.lastIndex(
+          where: { $0.type == .row && $0.headerString == sectionDate }
+        ) {
+          curr.indexPath = IndexPath(row: lastIndex + 1, section: 0)
+          let newOrder = OrderListConfig(
+            type: .row,
+            headerString: sectionDate,
+            order: curr
           )
-          ordersCopy.append(order)
-          orderList.value[index].orders = ordersCopy
+
+          orderList.value.append(newOrder)
 
           //
         } else {
-          order.indexPath = IndexPath(
-            row: 0,
-            section: orderList.value.count
+          let newHeader = OrderListConfig(
+            type: .header,
+            headerString: sectionDate,
+            order: nil
           )
-          orderList.value.append(
-            OrderListConfig(
-              date: sectionDate,
-              section: orderList.value.count,
-              orders: [order]
-            )
+          orderList.value.append(newHeader)
+
+          curr.indexPath = IndexPath(
+            row: orderList.value.count,
+            section: 0
           )
+
+          let newOrder = OrderListConfig(
+            type: .row,
+            headerString: sectionDate,
+            order: curr
+          )
+
+          orderList.value.append(newOrder)
         }
       }
 
-//      orderList.value.append(
-//        OrderListConfig(
-//          date: "loadMore",
-//          section: orderList.value.count,
-//          orders: []
-//        )
-//      )
-
       if append {
-        newOrdersForList.value = (sorted, loadMoreSectionIndex)
+        newOrdersForList.value = true
       } else {
         orderListFirstRequest.value = true
       }
 
     } else {
       noMoreOrderToLoad = true
-      newOrdersForList.value = ([], nil)
+      newOrdersForList.value = false
+
+      if !append {
+        orderListFirstRequest.value = true
+      }
     }
   }
 
@@ -165,8 +165,8 @@ class YDMOfflineOrdersViewModel {
 
 // MARK: Extension
 extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
-  subscript(section: Int) -> OrderListConfig? {
-    return orderList.value.first(where: { $0.section == section })
+  subscript(_ row: Int) -> OrderListConfig? {
+    return orderList.value.at(row)
   }
 
   func setNavigationController(_ navigation: UINavigationController?) {
