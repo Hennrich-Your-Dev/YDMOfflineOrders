@@ -17,7 +17,12 @@ extension YDMOfflineOrdersViewController {
       else { return }
 
       if !orderList.isEmpty {
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+          self.collectionView.reloadData()
+          Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false) { _ in
+            self.canLoadMore = true
+          }
+        }
       } else {
         self.showFeedbackStateView(ofType: .empty)
       }
@@ -25,21 +30,27 @@ extension YDMOfflineOrdersViewController {
 
     viewModel?.newOrdersForList.bind { [weak self] hasMore in
       guard let self = self else { return }
+      print("newOrdersForList \(hasMore)")
       if hasMore {
         self.addNewOrders()
+      } else {
+        self.loadMoreShimmer?.stopShimmerAndHide()
+        self.collectionView.collectionViewLayout.invalidateLayout()
       }
     }
 
     viewModel?.loading.bind { [weak self] isLoading in
       guard let self = self else { return }
 
-      if isLoading {
-        self.shimmerCollectionView.isHidden = false
-        self.shimmerCollectionView.reloadData()
-        self.feedbackStateView.isHidden = true
-      } else {
-        self.shimmerCollectionView.isHidden = true
-        self.collectionView.isHidden = false
+      DispatchQueue.main.async {
+        if isLoading {
+          self.shimmerCollectionView.isHidden = false
+          self.shimmerCollectionView.reloadData()
+          self.feedbackStateView.isHidden = true
+        } else {
+          self.shimmerCollectionView.isHidden = true
+          self.collectionView.isHidden = false
+        }
       }
     }
 

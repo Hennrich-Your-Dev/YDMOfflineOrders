@@ -10,9 +10,6 @@ import UIKit
 import YDExtensions
 
 class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
-  // MARK: Properties
-  var fullSize = true
-
   // MARK: Components
   var contentView = UIView()
   var storeNameView = UIView()
@@ -35,7 +32,7 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
     NSLayoutConstraint.activate([
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-      contentView.centerYAnchor.constraint(equalTo: centerYAnchor),
+      contentView.topAnchor.constraint(equalTo: topAnchor),
       contentView.heightAnchor.constraint(equalToConstant: 235)
     ])
 
@@ -70,7 +67,6 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
   }
 
   func stopShimmerAndHide() {
-    fullSize = false
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
       self.storeNameView.stopShimmer()

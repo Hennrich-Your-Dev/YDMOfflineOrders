@@ -40,8 +40,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
       contentView.topAnchor.constraint(equalTo: topAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      contentView.heightAnchor.constraint(equalToConstant: 235)
+      contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
     ])
 
     contentView.backgroundColor = UIColor.Zeplin.white

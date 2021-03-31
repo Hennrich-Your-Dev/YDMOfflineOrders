@@ -20,7 +20,7 @@ class OrdersHeaderCollectionViewCell: UICollectionViewCell {
       contentView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
       contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
       contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+      contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
     ])
 
     setUpLayout()

@@ -14,11 +14,6 @@ import YDB2WModels
 // MARK: Actions
 extension YDMOfflineOrdersViewController {
   func addNewOrders() {
-//    if orders.isEmpty { return }
-//
-//    var indexes: [IndexPath] = []
-//    let totalSections = collectionView.numberOfSections - 1
-
     DispatchQueue.main.async { [weak self] in
       guard let self = self,
             let viewModel = self.viewModel,
@@ -32,21 +27,44 @@ extension YDMOfflineOrdersViewController {
     }
   }
 
-  func dequeueCell(at indexPath: IndexPath) -> UICollectionViewCell {
+  func dequeueCell(
+    at indexPath: IndexPath,
+    collectionView: UICollectionView
+  ) -> UICollectionViewCell {
+    if collectionView == shimmerCollectionView {
+      if indexPath.row == 0 {
+        return dequeueHeaderCell(
+          at: indexPath,
+          withConfig: nil,
+          collectionView: collectionView
+        )
+      } else {
+        return dequeueShimmerCell(
+          at: indexPath,
+          collectionView: collectionView
+        )
+      }
+    }
+
     guard let config = viewModel?[indexPath.row] else { fatalError("dequeueCell") }
 
     switch config.type {
       case .header:
-        return dequeueHeader(at: indexPath, withConfig: config)
+        return dequeueHeaderCell(
+          at: indexPath,
+          withConfig: config,
+          collectionView: collectionView
+        )
       case .row:
         return dequeueOrderCell(at: indexPath, withOrder: config.order)
     }
   }
 
   // Header cell
-  func dequeueHeader(
+  func dequeueHeaderCell(
     at indexPath: IndexPath,
-    withConfig config: OrderListConfig
+    withConfig config: OrderListConfig?,
+    collectionView: UICollectionView
   ) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
       withReuseIdentifier: OrdersHeaderCollectionViewCell.identifier,
@@ -54,8 +72,25 @@ extension YDMOfflineOrdersViewController {
     ) as? OrdersHeaderCollectionViewCell
     else { fatalError("Dequeue OrdersCollectionViewCell") }
 
-    cell.dateLabel.text = config.headerString
+    cell.dateLabel.text = config?.headerString
 
+    return cell
+  }
+
+  // Shimmer cell
+  func dequeueShimmerCell(
+    at indexPath: IndexPath,
+    collectionView: UICollectionView
+  ) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(
+      withReuseIdentifier: OrdersShimmerCollectionViewCell.identifier,
+      for: indexPath
+    ) as? OrdersShimmerCollectionViewCell
+    else {
+      fatalError("Dequeue OrdersShimmerCollectionViewCell")
+    }
+
+    cell.startShimmerForCell()
     return cell
   }
 
@@ -116,21 +151,7 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
 
   // Dequeue Item
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    // Dequeue Shimmer
-    if collectionView == shimmerCollectionView {
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: OrdersShimmerCollectionViewCell.identifier,
-        for: indexPath
-      ) as? OrdersShimmerCollectionViewCell
-      else {
-        fatalError("Dequeue OrdersShimmerCollectionViewCell")
-      }
-
-      cell.startShimmerForCell()
-      return cell
-    }
-
-    return dequeueCell(at: indexPath)
+    return dequeueCell(at: indexPath, collectionView: collectionView)
   }
 
   // Header / Footer
@@ -141,9 +162,31 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
   ) -> UICollectionReusableView {
     switch kind {
       case UICollectionView.elementKindSectionHeader:
-        fatalError("There's no Header")
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+          ofKind: UICollectionView.elementKindSectionHeader,
+          withReuseIdentifier: OrdersCollectionFooterReusableView.identifier,
+          for: indexPath
+        ) as? OrdersCollectionFooterReusableView
+        else {
+          fatalError("viewForSupplementaryElementOfKind: OrdersCollectionFooterReusableView")
+        }
+
+        return header
 
       case UICollectionView.elementKindSectionFooter:
+        if collectionView == shimmerCollectionView {
+          guard let footer = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: OrdersCollectionFooterReusableView.identifier,
+            for: indexPath
+          ) as? OrdersCollectionFooterReusableView
+          else {
+            fatalError("viewForSupplementaryElementOfKind: OrdersCollectionFooterReusableView")
+          }
+
+          return footer
+        }
+
         guard let footer = collectionView.dequeueReusableSupplementaryView(
           ofKind: UICollectionView.elementKindSectionFooter,
           withReuseIdentifier: OrdersLoadingCollectionFooterReusableView.identifier,
@@ -152,6 +195,8 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
         else {
           fatalError("viewForSupplementaryElementOfKind: OrdersLoadingCollectionFooterReusableView")
         }
+
+        loadMoreShimmer = footer
 
         return footer
 
@@ -166,28 +211,75 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     forElementKind elementKind: String,
     at indexPath: IndexPath
   ) {
-//    if collectionView != shimmerCollectionView,
-//       viewModel?[indexPath.section]?.date == "loadMore",
-//        canLoadMore {
-//      canLoadMore = false
-//
-//      if viewModel?.noMoreOrderToLoad ?? false {
-//        (view as? OrdersLoadingCollectionHeaderReusableView)?.fullSize = false
-//      } else {
-//        viewModel?.getMoreOrders()
-//      }
-//    }
+    if collectionView == shimmerCollectionView ||
+        elementKind == UICollectionView.elementKindSectionHeader { return }
+
+    if viewModel?.noMoreOrderToLoad == false {
+      if canLoadMore {
+        canLoadMore = false
+        viewModel?.getMoreOrders()
+      }
+
+    } else {
+      // hide shimmer
+      loadMoreShimmer?.stopShimmerAndHide()
+      collectionView.collectionViewLayout.invalidateLayout()
+    }
+  }
+
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    didEndDisplayingSupplementaryView view: UICollectionReusableView,
+    forElementOfKind elementKind: String,
+    at indexPath: IndexPath
+  ) {
+    if collectionView == shimmerCollectionView ||
+        elementKind == UICollectionView.elementKindSectionHeader { return }
+
+    if viewModel?.noMoreOrderToLoad == false {
+      if canLoadMore {
+        canLoadMore = false
+        viewModel?.getMoreOrders()
+      }
+
+    } else {
+      // hide shimmer
+      loadMoreShimmer?.stopShimmerAndHide()
+      collectionView.collectionViewLayout.invalidateLayout()
+    }
   }
 }
 
 // MARK: Data Flow Delegate
 extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
+  // Item size
+  public func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
+    if collectionView == shimmerCollectionView {
+      return indexPath.row == 0 ?
+        CGSize(width: view.frame.size.width, height: 40) :
+        CGSize(width: view.frame.size.width, height: 235)
+    }
+
+    guard let config = viewModel?[indexPath.row] else { return .zero }
+    return config.type == .header ?
+      CGSize(width: view.frame.size.width, height: 40) :
+      CGSize(width: view.frame.size.width, height: 235)
+  }
+
   // Footer Size
   public func collectionView(
     _ collectionView: UICollectionView,
     layout collectionViewLayout: UICollectionViewLayout,
     referenceSizeForFooterInSection section: Int
   ) -> CGSize {
-    return CGSize(width: view.frame.size.width, height: 235)
+    if collectionView == shimmerCollectionView || viewModel?.noMoreOrderToLoad == true {
+      return CGSize(width: view.frame.size.width, height: 20)
+    }
+
+    return CGSize(width: view.frame.size.width, height: 255)
   }
 }

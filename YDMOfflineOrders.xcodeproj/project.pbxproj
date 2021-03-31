@@ -334,8 +334,8 @@
 		C1CD12DB25E3E5B700BB578F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C1DBB6EC25E6C003008E835B /* ReusableViews */,
 				C1CD12DC25E3E5BC00BB578F /* Cell */,
+				C1DBB6EC25E6C003008E835B /* ReusableViews */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -353,8 +353,8 @@
 		C1DBB6EC25E6C003008E835B /* ReusableViews */ = {
 			isa = PBXGroup;
 			children = (
-				C18E4911260A665F008A0ABD /* OrdersLoadingCollectionFooterReusableView.swift */,
 				C1A888672613BE11005F3E19 /* OrdersCollectionFooterReusableView.swift */,
+				C18E4911260A665F008A0ABD /* OrdersLoadingCollectionFooterReusableView.swift */,
 			);
 			path = ReusableViews;
 			sourceTree = "<group>";
@@ -393,9 +393,9 @@
 		C1DEC60125E2FDA700CA7405 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C1AB5079260E49A500A8B889 /* ProductDetails */,
-				C1AEF5A225FBCAE700201116 /* OrderDetails */,
 				C1DEC60625E3001300CA7405 /* YDMOfflineOrdersViewModel.swift */,
+				C1AEF5A225FBCAE700201116 /* OrderDetails */,
+				C1AB5079260E49A500A8B889 /* ProductDetails */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

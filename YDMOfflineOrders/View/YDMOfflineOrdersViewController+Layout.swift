@@ -20,15 +20,7 @@ extension YDMOfflineOrdersViewController {
 
   func createCollectionView() {
     let layoutFlow = UICollectionViewFlowLayout()
-    layoutFlow.sectionInset = UIEdgeInsets(
-      top: view.safeAreaInsets.top + 20,
-      left: 0,
-      bottom: 0,
-      right: 0
-    )
-
-    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 40)
-    layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 235)
+    layoutFlow.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16
 
@@ -61,12 +53,20 @@ extension YDMOfflineOrdersViewController {
       forCellWithReuseIdentifier: OrdersHeaderCollectionViewCell.identifier
     )
 
+    // Header section
+    collectionView.register(
+      OrdersCollectionFooterReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
+    )
+
     // Loading footer
     collectionView.register(
       OrdersLoadingCollectionFooterReusableView.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersLoadingCollectionFooterReusableView.identifier
     )
+
   }
 
   func createShadowView() {
@@ -84,15 +84,15 @@ extension YDMOfflineOrdersViewController {
 
   func createShimmerCollectionView() {
     let layoutFlow = UICollectionViewFlowLayout()
-    layoutFlow.sectionInset = UIEdgeInsets(
-      top: view.safeAreaInsets.top + 20,
-      left: 0,
-      bottom: 0,
-      right: 0
-    )
+//    layoutFlow.sectionInset = UIEdgeInsets(
+//      top: view.safeAreaInsets.top + 20,
+//      left: 0,
+//      bottom: 0,
+//      right: 0
+//    )
 
-    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 40)
-    layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
+//    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 0)
+//    layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.scrollDirection = .vertical
     layoutFlow.minimumLineSpacing = 16
 
@@ -113,12 +113,32 @@ extension YDMOfflineOrdersViewController {
     ])
 
     // List height / cell  height
-    numberOfShimmers = Int((shimmerCollectionView.frame.size.height / 235).rounded(.up))
+    numberOfShimmers = Int((shimmerCollectionView.frame.size.height / 235).rounded(.up)) + 1
 
-    //
+    // Shimmer cell
     shimmerCollectionView.register(
       OrdersShimmerCollectionViewCell.self,
       forCellWithReuseIdentifier: OrdersShimmerCollectionViewCell.identifier
+    )
+
+    // Header cell
+    shimmerCollectionView.register(
+      OrdersHeaderCollectionViewCell.self,
+      forCellWithReuseIdentifier: OrdersHeaderCollectionViewCell.identifier
+    )
+
+    // Header section
+    shimmerCollectionView.register(
+      OrdersCollectionFooterReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
+    )
+
+    // Footer section
+    shimmerCollectionView.register(
+      OrdersCollectionFooterReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
     )
   }
 
