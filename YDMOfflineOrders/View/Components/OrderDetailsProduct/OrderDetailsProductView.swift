@@ -55,6 +55,10 @@ class OrderDetailsProductView: UIView {
       badgeContainer.isHidden = false
       badgeCount.text = "\(product.howMany)"
     }
+
+    photoMask.startShimmer()
+    name.startShimmer()
+    price.startShimmer()
   }
 }
 

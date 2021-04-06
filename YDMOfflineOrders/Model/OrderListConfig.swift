@@ -14,8 +14,15 @@ enum OrderListType {
   case row
 }
 
+enum OrderUIState {
+  case normal
+  case loading
+  case error
+}
+
 struct OrderListConfig {
   var type: OrderListType
   var headerString: String?
   var order: YDOfflineOrdersOrder?
+  var state: OrderUIState = .normal
 }
