@@ -25,6 +25,14 @@ class OrderDetailsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setUpLayout()
+    setUpBinds()
+
+    guard let count = viewModel?.order.value.products?.count,
+          count > 3 else {
+      return
+    }
+
+    viewModel?.getProjects()
   }
 
   // MARK: Actions
@@ -33,7 +41,7 @@ class OrderDetailsViewController: UIViewController {
   }
 
   @objc func onNoteAction(_ sender: UIButton) {
-    guard let nfe = viewModel?.order.nfe else { return }
+    guard let nfe = viewModel?.order.value.nfe else { return }
 
     let dialog = YDDialog()
     dialog.delegate = self

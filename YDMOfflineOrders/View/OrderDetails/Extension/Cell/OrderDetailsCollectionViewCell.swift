@@ -24,6 +24,11 @@ class OrderDetailsCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
+  override func prepareForReuse() {
+    productView.prepareForUse()
+    super.prepareForReuse()
+  }
+
   // MARK: Actions
   func config(with product: YDOfflineOrdersProduct) {
     productView.config(with: product)

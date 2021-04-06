@@ -38,6 +38,14 @@ class OrderDetailsProductView: UIView {
   }
 
   // MARK: Actions
+  func prepareForUse() {
+    photo.image = nil
+    name.text = nil
+    price.text = nil
+    badgeContainer.isHidden = true
+    badgeCount.text = ""
+  }
+
   func config(with product: YDOfflineOrdersProduct) {
     photo.setImage(product.image)
     name.text = product.name

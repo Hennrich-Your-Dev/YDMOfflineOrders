@@ -16,7 +16,7 @@ extension OrderDetailsViewController {
     view.backgroundColor = UIColor.Zeplin.white
     setUpNavBar()
 
-    guard let order = viewModel?.order else { return }
+    guard let order = viewModel?.order.value else { return }
 
     let storeNameLabel = createStoreNameLabel(order)
     let addressLabel = createAddressLabel(order, parent: storeNameLabel)

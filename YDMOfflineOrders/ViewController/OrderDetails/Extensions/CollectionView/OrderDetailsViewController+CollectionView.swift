@@ -10,7 +10,7 @@ import UIKit
 // MARK: DataSource
 extension OrderDetailsViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModel?.order.products?.count ?? 0
+    return viewModel?.order.value.products?.count ?? 0
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -18,7 +18,7 @@ extension OrderDetailsViewController: UICollectionViewDataSource {
             withReuseIdentifier: OrderDetailsCollectionViewCell.identifier,
             for: indexPath
     ) as? OrderDetailsCollectionViewCell,
-    let product = viewModel?.order.products?.at(indexPath.row)
+    let product = viewModel?.order.value.products?.at(indexPath.row)
     else {
       fatalError("dequeue cell OrderDetailsCollectionViewCell")
     }
@@ -66,7 +66,7 @@ extension OrderDetailsViewController: UICollectionViewDataSource {
 // MARK: Delegate
 extension OrderDetailsViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    guard let product = viewModel?.order.products?.at(indexPath.row) else { return }
+    guard let product = viewModel?.order.value.products?.at(indexPath.row) else { return }
 
     viewModel?.openDetailsForProduct(product)
   }
