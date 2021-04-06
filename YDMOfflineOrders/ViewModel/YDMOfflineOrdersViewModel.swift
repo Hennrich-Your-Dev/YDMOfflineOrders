@@ -323,7 +323,7 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
   ) {
     guard let order = orderList.value.at(index)?.order,
           let products = order.products,
-          products.first?.products != nil,
+          products.first?.products == nil,
           let storeId = order.storeId
     else { return }
 
