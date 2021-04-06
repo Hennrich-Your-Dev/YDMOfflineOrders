@@ -186,6 +186,12 @@ extension OrderDetailsViewController {
     )
 
     collectionView.register(
+      OrdersCollectionFooterReusableView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: OrdersCollectionFooterReusableView.identifier
+    )
+
+    collectionView.register(
       OrdersLoadingCollectionFooterReusableView.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersLoadingCollectionFooterReusableView.identifier

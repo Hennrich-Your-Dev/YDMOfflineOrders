@@ -7,7 +7,12 @@
 
 import Foundation
 
-public struct YDProductOnlineOffline {
+public class YDProductOnlineOffline: Codable {
   public var online: YDProduct?
   public var offline: YDProduct?
+
+  public init(online: YDProduct?, offline: YDProduct?) {
+    self.online = online
+    self.offline = offline
+  }
 }

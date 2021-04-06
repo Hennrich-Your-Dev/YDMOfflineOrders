@@ -26,6 +26,8 @@ public class Icons {
   public static let circleDefault = UIImage(named: "iconCircleDefault", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
   public static let circleDefaultOff = UIImage(named: "iconCircleDefaultOff", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+
+  public static let circleDone = UIImage(named: "iconCircleDone", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
   
   public static let circleUser = UIImage(named: "iconCircleUser", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
@@ -48,6 +50,10 @@ public class Icons {
   public static let reload = UIImage(named: "iconReload", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
   public static let sadFace = UIImage(named: "iconSadFace", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+
+  public static let scheduleAction = UIImage(named: "iconActionCalendar", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+
+  public static let scheduleLive = UIImage(named: "iconScheduleLive", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
   public static let store = UIImage(named: "iconStore", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 

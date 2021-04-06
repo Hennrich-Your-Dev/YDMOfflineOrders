@@ -44,9 +44,9 @@ public class YDProductCardView: UIView {
   private func updateLayoutWithProduct() {
     guard let product = self.product else { return }
 
-    photoImageView.setImage(product.images?.first?.medium ?? product.images?.first?.small)
+    photoImageView.setImage(product.image)
     productNameLabel.text = product.name
-    productPriceLabel.text = product.getPrice()
+    productPriceLabel.text = product.formatedPrice
 
     if let rate = product.rating?.average,
        rate > 0,

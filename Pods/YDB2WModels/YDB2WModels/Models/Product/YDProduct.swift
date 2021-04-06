@@ -7,7 +7,10 @@
 
 import UIKit
 
+import YDExtensions
+
 public class YDProduct: Codable {
+  // MARK: Properties
   public var attributes: [YDProductAttributesContainer]?
   public var description: String?
   public var id: String?
@@ -17,6 +20,16 @@ public class YDProduct: Codable {
   public var rating: YDProductRating?
   public var isAvailable: Bool = true
 
+  // MARK: Computed variables
+  public var image: String? {
+    return images?.first?.medium ?? images?.first?.small ?? images?.first?.big
+  }
+
+  public var formatedPrice: String? {
+    return price?.formatedPrice
+  }
+
+  // MARK: Init
   public init(
     attributes: [YDProductAttributesContainer]?,
     description: String?,
@@ -81,17 +94,6 @@ public class YDProduct: Codable {
 
 // MARK: Extensions
 extension YDProduct {
-  public func getPrice() -> String? {
-    guard let price = price else { return nil }
-    // return String(format: "R$ %.02f", price)
-    let formatter = NumberFormatter()
-    formatter.alwaysShowsDecimalSeparator = true
-    formatter.locale = Locale(identifier: "pt_br")
-    formatter.numberStyle = .currency
-
-    return formatter.string(for: price)
-  }
-
   public func getHtmlDescription() -> NSMutableAttributedString? {
     guard let description = description?.data(using: .utf8) else { return nil }
 
@@ -123,5 +125,4 @@ extension YDProduct {
   public func getTechnicalInformation() -> [YDProductAttributes] {
     return attributes?.first?.properties ?? []
   }
-
 }

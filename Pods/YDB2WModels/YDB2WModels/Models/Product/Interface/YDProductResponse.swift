@@ -10,60 +10,32 @@ import Foundation
 public class YDProductResponse: Codable {
   // CodingKeys
   enum CodingKeys: String, CodingKey {
-    case offerB2W = "product-b2w"
-    case offerLasa = "product-lasa"
+    case offersB2W = "product-b2w"
+    case offersLasa = "product-lasa"
   }
 
   // Properties
-  var offerB2W: YDProductB2W?
-  var offerLasa: YDProductLasa?
+  var offersB2W: [YDProduct]
+  var offersLasa: [YDProduct]
 
   // Init from decoder
   required public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
-    offerB2W = try? container.decode(YDProductB2W.self, forKey: .offerB2W)
-    offerLasa = try? container.decode(YDProductLasa.self, forKey: .offerLasa)
+    offersB2W = try container.decode(YDProductB2W.self, forKey: .offersB2W).products ?? []
+    offersLasa = try container.decode(YDProductLasa.self, forKey: .offersLasa).products ?? []
 
-    if offerB2W?.product?.id == nil &&
-        offerLasa?.product?.id == nil {
-      offerB2W = nil
-      offerLasa = nil
-      return
-    }
+    for (index, product) in offersLasa.enumerated() {
+      guard let currentB2W = offersB2W.at(index) else { continue }
 
-    var product: YDProduct?
-
-    if let productB2W = offerB2W?.product {
-      product = productB2W
-    } else if let productLasa = offerLasa?.product {
-      product = productLasa
-    }
-
-    if offerLasa?.product == nil {
-      if offerB2W?.product?.id == nil { return }
-
-      offerLasa?.product = YDProduct(
-        attributes: offerB2W?.product?.attributes,
-        description: offerB2W?.product?.description,
-        id: offerB2W?.product?.id,
-        images: offerB2W?.product?.images,
-        name: offerB2W?.product?.name,
-        price: offerB2W?.product?.price,
-        rating: offerB2W?.product?.rating,
-        isAvailable: false
-      )
-
-      //
-    } else {
-      offerLasa?.product?.attributes = product?.attributes
-      offerLasa?.product?.id = product?.id
-      offerLasa?.product?.images = product?.images
-      offerLasa?.product?.isAvailable = product?.isAvailable ?? false
-      offerLasa?.product?.name = product?.name ?? product?.description
-      offerLasa?.product?.description = product?.description
-      offerLasa?.product?.rating = product?.rating
-      offerLasa?.product?.price = offerLasa?.product?.price ?? product?.price
+      offersLasa[index].id = currentB2W.id
+      offersLasa[index].attributes = currentB2W.attributes
+      offersLasa[index].description = currentB2W.description
+      offersLasa[index].images = currentB2W.images
+      offersLasa[index].name = currentB2W.name
+      offersLasa[index].price = product.price ?? currentB2W.price
+      offersLasa[index].rating = currentB2W.rating
+      offersLasa[index].isAvailable = product.price != nil
     }
   }
 }

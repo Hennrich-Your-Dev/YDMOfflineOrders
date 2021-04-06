@@ -97,7 +97,10 @@ extension YDMOfflineOrdersViewController {
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
 
-      self.shadowView.isHidden = true
+      self.toggleNavShadow(false)
+      Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        self.navBarShadowOff = true
+      }
       self.collectionView.isHidden = true
       self.shimmerCollectionView.isHidden = true
       self.shimmerCollectionView.contentOffset = .zero

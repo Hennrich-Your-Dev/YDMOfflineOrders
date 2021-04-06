@@ -41,6 +41,10 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
   func onFeedbackButton()
+  func getProductsForOrder(
+    at index: Int,
+    onCompletion completion: @escaping (Bool) -> Void
+  )
 }
 
 class YDMOfflineOrdersViewModel {
@@ -75,11 +79,11 @@ class YDMOfflineOrdersViewModel {
   private func fromMock() {
     Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
       guard let self = self else { return }
-//      let sorted = self.sortOrdersList([])
+      //      let sorted = self.sortOrdersList([])
       let sorted = self.sortOrdersList(YDOfflineOrdersOrder.mock())
       self.addOrdersToList(sorted, append: false)
       self.loading.value = false
-//      self.error.value = "a"
+      //      self.error.value = "a"
     }
   }
 
@@ -310,6 +314,39 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
       openDeepLink(withName: .lasaStore)
     } else {
       YDMFindStore().start()
+    }
+  }
+
+  func getProductsForOrder(
+    at index: Int,
+    onCompletion completion: @escaping (Bool) -> Void
+  ) {
+    guard let order = orderList.value.at(index)?.order,
+          let products = order.products,
+          products.first?.products != nil,
+          let storeId = order.storeId
+    else { return }
+
+    let eans = Array(products.map { $0.ean }.compactMap { $0 }.prefix(3))
+
+    service.getProductsFromRESQL(
+      eans: eans,
+      storeId: "\(storeId)"
+    ) { [weak self] (response: Result<YDProductsRESQL, YDB2WServices.YDServiceError>) in
+      guard let self = self else { return }
+
+      switch response {
+        case .success(let restql):
+          restql.products.enumerated().forEach { productsIndex, onlineOffline in
+            self.orderList.value[index].order?
+              .products?[productsIndex].products = onlineOffline
+          }
+          completion(true)
+
+        case .failure(let error):
+          print(error.message)
+          completion(false)
+      }
     }
   }
 }

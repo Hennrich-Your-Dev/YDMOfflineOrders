@@ -108,6 +108,15 @@ extension YDMOfflineOrdersViewController {
 
     cell.config(with: order)
 
+    viewModel?.getProductsForOrder(at: indexPath.row) { success in
+      if success {
+        DispatchQueue.main.async { [weak self] in
+          guard let self = self else { return }
+          self.collectionView.reloadItems(at: [indexPath])
+        }
+      }
+    }
+
     cell.productCallback = { [weak self] product in
       guard let self = self else { return }
       self.viewModel?.openDetailsForProduct(product)
@@ -120,7 +129,8 @@ extension YDMOfflineOrdersViewController {
 
     cell.noteCallback = { [weak self] in
       guard let self = self,
-            let nfe = order.strippedNFe else { return }
+            let nfe = order.strippedNFe
+      else { return }
 
       let dialog = YDDialog()
       dialog.delegate = self

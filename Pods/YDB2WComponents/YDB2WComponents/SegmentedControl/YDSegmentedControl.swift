@@ -104,6 +104,7 @@ public class YDSegmentedControl: UIView {
     }
     set {
       segmentedControl.selectedSegmentIndex = newValue
+      segmentedControlValueChanged(segmentedControl)
     }
   }
 

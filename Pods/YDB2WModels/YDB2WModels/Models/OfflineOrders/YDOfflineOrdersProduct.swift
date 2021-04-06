@@ -6,25 +6,32 @@
 //
 import Foundation
 
+import YDExtensions
+
 public class YDOfflineOrdersProduct: Decodable {
-  public var image: String?
-  public var name: String?
+  // MARK: Properties
+  private var item: String?
   public var howMany: Int = 1
   public var ean: String?
   public var totalPrice: Double
+  public var products: YDProductOnlineOffline?
 
+  // MARK: Computed variables
   public var formatedPrice: String? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    formatter.locale = Locale(identifier: "pt_BR")
+    return totalPrice.formatedPrice
+  }
 
-    return formatter.string(from: NSNumber(value: totalPrice))
+  public var image: String? {
+    return products?.online?.images?.first?.medium
+  }
+
+  public var name: String? {
+    return products?.online?.name ?? self.item
   }
 
   // MARK: Coding Keys
   enum CodingKeys: String, CodingKey {
-    case image
-    case name = "item"
+    case item
     case ean
     case howMany = "qtde"
     case totalPrice = "valorTotalItem"

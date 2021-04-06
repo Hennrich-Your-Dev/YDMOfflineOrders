@@ -16,6 +16,7 @@ extension YDStoreAndProductView {
     createProductCardView()
     createSegmentedControl()
     createTextView()
+    createTableView()
   }
 
   // Store & Address
@@ -101,23 +102,26 @@ extension YDStoreAndProductView {
   private func createTableView() {
     tableView.backgroundColor = .clear
     tableView.tableFooterView = UIView()
+    tableView.separatorStyle = .none
     tableView.dataSource = self
     tableView.isHidden = true
     addSubview(tableView)
 
     tableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 24),
+      tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 18),
       tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
     ])
 
-    tableView.rowHeight = 66
+    tableView.estimatedRowHeight = 66
 
     tableView.register(
       StoreAndProductTableViewCell.self,
       forCellReuseIdentifier: StoreAndProductTableViewCell.identifier
     )
+
+    tableView.reloadData()
   }
 }

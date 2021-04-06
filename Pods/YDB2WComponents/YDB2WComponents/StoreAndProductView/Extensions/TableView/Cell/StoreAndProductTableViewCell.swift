@@ -19,6 +19,7 @@ class StoreAndProductTableViewCell: UITableViewCell {
   // MARK: Life cycle
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    selectionStyle = .none
     setUpLayout()
   }
 
@@ -94,6 +95,7 @@ extension StoreAndProductTableViewCell {
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
     ])
+    separatorView.setContentHuggingPriority(.defaultHigh, for: .vertical)
   }
 
   func createTitleLabel() {
@@ -109,6 +111,7 @@ extension StoreAndProductTableViewCell {
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
     ])
     titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+    titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
   }
 
   func createDescriptionLabel() {
@@ -125,5 +128,6 @@ extension StoreAndProductTableViewCell {
       descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 18)
     ])
     descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+    descriptionLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
   }
 }
