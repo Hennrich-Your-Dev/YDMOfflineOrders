@@ -37,7 +37,7 @@ class ProductCardInfoView: UIView {
   func config(with product: YDOfflineOrdersProduct) {
     currentProduct = product
 
-    photo.setImage(product.image)
+    photo.setImage(product.image, placeholder: Icons.imagePlaceHolder)
     name.text = product.name
 
     if product.howMany > 1 {

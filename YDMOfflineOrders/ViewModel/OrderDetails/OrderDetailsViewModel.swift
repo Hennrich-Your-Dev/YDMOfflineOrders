@@ -57,7 +57,7 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
           let storeId = order.value.storeId
     else { return }
 
-    let eans = products.dropFirst(3).map { $0.ean }.compactMap { $0 }
+    let eans = products.compactMap { $0.ean }
 
     service.getProductsFromRESQL(
       eans: eans,
@@ -68,7 +68,9 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
       switch response {
         case .success(let restql):
           restql.products.enumerated().forEach { productsIndex, onlineOffline in
-            self.order.value.products?[3 + productsIndex].products = onlineOffline
+            if self.order.value.products?.at(productsIndex) != nil {
+              self.order.value.products?[productsIndex].products = onlineOffline
+            }
           }
           self.order.fire()
 

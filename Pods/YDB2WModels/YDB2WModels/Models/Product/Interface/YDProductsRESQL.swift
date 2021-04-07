@@ -21,7 +21,9 @@ public class YDProductsRESQL: Codable {
     })
 
     for (index, productLasa) in results.offersLasa.enumerated() {
-      products[index].offline = productLasa
+      if products.at(index) != nil {
+        products[index].offline = productLasa
+      }
     }
   }
 }
