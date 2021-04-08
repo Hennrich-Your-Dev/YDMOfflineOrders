@@ -9,6 +9,7 @@ import UIKit
 
 import YDExtensions
 import YDB2WModels
+import YDUtilities
 
 // MARK: Delegate
 public protocol YDStoreAndProductDelegate: AnyObject {
@@ -39,12 +40,15 @@ public class YDStoreAndProductView: UIView {
   var lastContentOffset: CGFloat = 0
 
   // MARK: Components
+  let container = UIView()
   let storeNameAndAddressView = YDStoreNameAddressView(withButton: true)
   let separatorView = UIView()
   let productCardView = YDProductCardView()
   let segmentedControl = YDSegmentedControl()
   let textView = UITextView()
   let tableView = UITableView()
+
+  let shimmerTextView = UIView()
 
   // MARK: Init
   public init() {
@@ -88,5 +92,14 @@ public class YDStoreAndProductView: UIView {
       storeName: store.name,
       storeAddress: store.formatAddress
     )
+  }
+
+  // MARK: Public Actions
+  public func updateUI(with type: UIStateEnum) {
+    if type == .normal {
+      //
+    } else if type == .loading {
+      //
+    }
   }
 }

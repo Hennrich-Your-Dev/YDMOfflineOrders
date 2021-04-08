@@ -119,7 +119,7 @@ extension YDMOfflineOrdersViewController {
 
     cell.productCallback = { [weak self] product in
       guard let self = self else { return }
-      self.viewModel?.openDetailsForProduct(product)
+      self.viewModel?.openDetailsForProduct(product, withinOrder: order)
     }
 
     cell.orderDetailsCallback = { [weak self] in

@@ -14,7 +14,10 @@ import YDUtilities
 
 protocol OrderDetailsNavigation {
   func onBack()
-  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
+  func openDetailsForProduct(
+    _ product: YDOfflineOrdersProduct,
+    withinOrder order: YDOfflineOrdersOrder
+  )
 }
 
 protocol OrderDetailsViewModelDelegate: AnyObject {
@@ -49,7 +52,7 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
   }
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
-    navigation.openDetailsForProduct(product)
+    navigation.openDetailsForProduct(product, withinOrder: order.value)
   }
 
   func getProjects() {

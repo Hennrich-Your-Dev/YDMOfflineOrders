@@ -17,7 +17,10 @@ import YDMFindStore
 
 protocol OfflineOrdersNavigationDelegate: AnyObject {
   func setNavigationController(_ navigation: UINavigationController?)
-  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
+  func openDetailsForProduct(
+    _ product: YDOfflineOrdersProduct,
+    withinOrder order: YDOfflineOrdersOrder
+  )
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
 }
 
@@ -38,7 +41,10 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   func getMoreOrders()
 
   func openNote(withKey key: String?)
-  func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
+  func openDetailsForProduct(
+    _ product: YDOfflineOrdersProduct,
+    withinOrder order: YDOfflineOrdersOrder
+  )
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder)
   func onFeedbackButton()
   func getProductsForOrder(
@@ -301,8 +307,11 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
   func openNote(withKey key: String?) {}
 
-  func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
-    navigation.openDetailsForProduct(product)
+  func openDetailsForProduct(
+    _ product: YDOfflineOrdersProduct,
+    withinOrder order: YDOfflineOrdersOrder
+  ) {
+    navigation.openDetailsForProduct(product, withinOrder: order)
   }
 
   func openDetailsForOrder(_ order: YDOfflineOrdersOrder) {
