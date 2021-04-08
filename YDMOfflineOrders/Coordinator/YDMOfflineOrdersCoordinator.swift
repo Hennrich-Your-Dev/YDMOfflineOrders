@@ -63,7 +63,7 @@ public class YDMOfflineOrdersCoordinator {
   ) {
     let vc = ProductDetailsViewController()
 
-    let viewModel = ProductDetailsViewModel()
+    let viewModel = ProductDetailsViewModel(product: product.products, order: order)
     vc.viewModel = viewModel
 
     navigationController?.pushViewController(vc, animated: true)

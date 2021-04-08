@@ -36,9 +36,13 @@ class ProductDetailsViewController: UIViewController {
     super.viewDidLoad()
     setUpLayout()
     setUpBinds()
-  }
 
-  // MARK: Actions
+    bindCurrentProductAndStore()
+  }
+}
+
+// MARK: Actions
+extension ProductDetailsViewController {
   private func updateLayoutWithOfflineProduct() {
     guard let product = productOnlineOffline?.offline else {
       return
@@ -65,5 +69,15 @@ class ProductDetailsViewController: UIViewController {
   func compareProductViewVisibility(show: Bool) {
     compareProductsView.isHidden = !show
     compareProductsViewShadow.isHidden = !show
+  }
+
+  func bindCurrentProductAndStore() {
+    guard let viewModel = viewModel,
+          let products = viewModel.currentProductOnlineOffline.value,
+          let store = viewModel.currentStore.value
+    else { return }
+
+    productOnlineOffline = products
+    self.store = store
   }
 }

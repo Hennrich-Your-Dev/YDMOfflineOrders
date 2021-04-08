@@ -32,7 +32,6 @@ extension YDStoreNameAddressView {
 
     if hasButton {
       createShimmerButton()
-      shimmers.append(shimmerActionButton)
     }
   }
 
@@ -137,11 +136,14 @@ extension YDStoreNameAddressView {
 
   func createShimmerStoreNameLabel() {
     shimmerNameLabel.backgroundColor = .white
-    shimmerContainer.addSubview(storeNameLabel)
+    shimmerContainer.addSubview(shimmerNameLabel)
 
     shimmerNameLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      shimmerNameLabel.topAnchor.constraint(equalTo: shimmerContainer.topAnchor, constant: 16),
+      shimmerNameLabel.topAnchor.constraint(
+        equalTo: shimmerContainer.topAnchor,
+        constant: 16
+      ),
       shimmerNameLabel.leadingAnchor.constraint(
         equalTo: shimmerContainer.leadingAnchor,
         constant: 16
@@ -183,13 +185,15 @@ extension YDStoreNameAddressView {
 
     shimmerActionButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      shimmerActionButton.widthAnchor.constraint(equalToConstant: 60),
+      shimmerActionButton.widthAnchor.constraint(equalToConstant: 50),
       shimmerActionButton.topAnchor.constraint(equalTo: shimmerContainer.topAnchor, constant: 35),
       shimmerActionButton.bottomAnchor.constraint(
         equalTo: shimmerContainer.bottomAnchor,
-        constant: -16
+        constant: -17
       ),
-      shimmerActionButton.trailingAnchor.constraint(equalTo: shimmerContainer.trailingAnchor)
+      shimmerActionButton.trailingAnchor.constraint(
+        equalTo: shimmerContainer.trailingAnchor
+      )
     ])
   }
 }

@@ -40,7 +40,7 @@ public class YDSegmentedControl: UIView {
     segmentedControl.setTitleTextAttributes(
       [
         NSAttributedString.Key.foregroundColor: UIColor.Zeplin.grayLight,
-        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)
       ],
       for: .normal
     )

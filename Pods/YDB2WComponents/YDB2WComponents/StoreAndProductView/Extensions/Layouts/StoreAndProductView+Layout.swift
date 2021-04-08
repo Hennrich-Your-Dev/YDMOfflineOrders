@@ -108,14 +108,14 @@ extension YDStoreAndProductView {
     tableView.separatorStyle = .none
     tableView.dataSource = self
     tableView.isHidden = true
-    container.addSubview(tableView)
+    addSubview(tableView)
 
     tableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 18),
-      tableView.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-      tableView.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -16),
-      tableView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20)
+      tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+      tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+      tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
     ])
 
     tableView.estimatedRowHeight = 66

@@ -9,6 +9,19 @@ import UIKit
 
 extension ProductDetailsViewController {
   func setUpBinds() {
-    
+    viewModel?.loading.bind { [weak self] isLoading in
+      guard let self = self else { return }
+      self.changeUIState(with: isLoading ? .loading : .normal)
+    }
+
+    viewModel?.currentProductOnlineOffline.bind { [weak self] newProducts in
+      guard let self = self else { return }
+      self.productOnlineOffline = newProducts
+    }
+
+    viewModel?.currentStore.bind { [weak self] newStore in
+      guard let self = self else { return }
+      self.store = newStore
+    }
   }
 }

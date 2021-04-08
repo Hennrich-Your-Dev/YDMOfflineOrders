@@ -14,6 +14,7 @@ public class YDProduct: Codable {
   public var attributes: [YDProductAttributesContainer]?
   public var description: String?
   public var id: String?
+  public var ean: String?
   public var images: [YDProductImage]?
   public var name: String?
   public var price: Double?
@@ -31,18 +32,20 @@ public class YDProduct: Codable {
 
   // MARK: Init
   public init(
-    attributes: [YDProductAttributesContainer]?,
-    description: String?,
-    id: String?,
-    images: [YDProductImage]?,
-    name: String?,
-    price: Double?,
-    rating: YDProductRating?,
+    attributes: [YDProductAttributesContainer]? = nil,
+    description: String? = nil,
+    id: String? = nil,
+    ean: String? = nil,
+    images: [YDProductImage]? = nil,
+    name: String? = nil,
+    price: Double? = nil,
+    rating: YDProductRating? = nil,
     isAvailable: Bool = true
   ) {
     self.attributes = attributes
     self.description = description
     self.id = id
+    self.ean = ean
     self.images = images
     self.name = name
     self.price = price

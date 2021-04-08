@@ -40,7 +40,6 @@ public class YDStoreAndProductView: UIView {
   var lastContentOffset: CGFloat = 0
 
   // MARK: Components
-  let container = UIView()
   let storeNameAndAddressView = YDStoreNameAddressView(withButton: true)
   let separatorView = UIView()
   let productCardView = YDProductCardView()
@@ -66,7 +65,7 @@ public class YDStoreAndProductView: UIView {
   }
 
   // MARK: Actions
-  private func updateLayoutWithProduct() {
+  func updateLayoutWithProduct() {
     guard let product = self.product else { return }
     productCardView.product = product
 
@@ -76,12 +75,15 @@ public class YDStoreAndProductView: UIView {
     if description == nil {
       segmentedControl.setEnabled(false, forSegmentAt: 0)
     } else {
+      segmentedControl.setEnabled(true, forSegmentAt: 0)
       segmentedControl.selectedSegmentIndex = 0
       changeSegmentControl(0)
     }
 
     if technicalInformation.isEmpty {
       segmentedControl.setEnabled(false, forSegmentAt: 1)
+    } else {
+      segmentedControl.setEnabled(true, forSegmentAt: 1)
     }
   }
 

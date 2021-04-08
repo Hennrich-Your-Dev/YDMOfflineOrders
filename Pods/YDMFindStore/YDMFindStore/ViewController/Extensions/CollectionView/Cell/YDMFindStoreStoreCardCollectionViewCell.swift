@@ -109,7 +109,7 @@ class YDMFindStoreStoreCardCollectionViewCell: UICollectionViewCell {
     addressLabel.text = store.formatAddress
     distanceLabel.text = store.formatDistance
 
-    transformTime(with: store.currentOperatingTime, open: store.open)
+    transformTime(with: store.currentOperatingTime, open: store.open ?? false)
   }
 
   func transformTime(with time: String, open: Bool) {

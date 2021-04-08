@@ -122,8 +122,8 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
     switch type {
     case .product:
       let parameters: [String: String] = [
-        "sellerId": store.sellerID,
-        "storeId": store.sellerStoreID
+        "sellerId": store.sellerID ?? "",
+        "storeId": store.sellerStoreID ?? ""
       ]
 
       guard let urlString = queryString("acom://lasa-store", params: parameters),
