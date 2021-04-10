@@ -18,6 +18,8 @@ public class YDOfflineOrdersProduct: Decodable {
     didSet {
       products?.online?.ean = ean
       products?.offline?.ean = ean
+      products?.offline?.name = products?.offline?.name ?? item
+      products?.offline?.price = products?.offline?.price ?? totalPrice
     }
   }
 
@@ -31,7 +33,9 @@ public class YDOfflineOrdersProduct: Decodable {
   }
 
   public var name: String? {
-    return products?.online?.name ?? self.item
+    return products?.online?.name ??
+      products?.offline?.name ??
+      self.item
   }
 
   // MARK: Coding Keys

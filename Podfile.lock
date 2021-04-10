@@ -28,14 +28,14 @@ PODS:
   - YDB2WIntegration (1.1.2):
     - YDB2WModels
     - YDExtensions
-  - YDB2WModels (1.1.11):
+  - YDB2WModels (1.1.12):
     - YDExtensions (~> 1.0.42)
     - YDUtilities (~> 1.0.10)
   - YDB2WServices (1.1.3):
     - Alamofire (~> 4.0)
     - YDB2WIntegration (~> 1.1.0)
     - YDB2WModels (~> 1.1.0)
-  - YDExtensions (1.0.48):
+  - YDExtensions (1.0.49):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDLocationModule (1.0.5)
@@ -95,9 +95,9 @@ SPEC CHECKSUMS:
   YDB2WComponents: 79514ec8638e510b93fe2e2af04d4afcc5d35bdd
   YDB2WDeepLinks: c4257273d753c892bc545b99c72a9b01b0ab9e16
   YDB2WIntegration: e14e5615c86be9e4ee92cccf378f49ca1889fc46
-  YDB2WModels: a174f1bfbf90ac9741e86679b96fcb6c43703359
+  YDB2WModels: 418057d812af477322664256948e017d72708006
   YDB2WServices: e0c7b759884d8290d066a57ac3f0a5533fe31b76
-  YDExtensions: 58103bee3ae00a931b9d3b23063bd62c77310528
+  YDExtensions: 30b884b38a1673ccc524e55a27c7ef4b6b84fe94
   YDLocationModule: 35cddec317442e18078cb64e1542d7cd360ccb43
   YDMFindStore: 35ff66fb0929e8388b311783999c1e2959673971
   YDUtilities: 598917bfa1443aa4f6fa2cf82d85c6ec3f00d8a9

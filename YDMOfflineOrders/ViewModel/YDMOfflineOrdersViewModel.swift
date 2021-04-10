@@ -85,8 +85,9 @@ class YDMOfflineOrdersViewModel {
   private func fromMock() {
     Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
       guard let self = self else { return }
+      let orders = YDOfflineOrdersOrder.mock()
       //      let sorted = self.sortOrdersList([])
-      let sorted = self.sortOrdersList(YDOfflineOrdersOrder.mock())
+      let sorted = self.sortOrdersList(orders)
       self.addOrdersToList(sorted, append: false)
       self.loading.value = false
       //      self.error.value = "a"

@@ -53,21 +53,25 @@ class ProductDetailsViewModel {
 // MARK: Actions
 extension ProductDetailsViewModel {
   func getNewStoreAndProducts(with location: CLLocationCoordinate2D) {
-    let queueGroup = DispatchGroup()
-    loading.value = true
-
-    queueGroup.enter()
-
-    searchForNewStore(with: location) { [weak self] store in
+    DispatchQueue.global(qos: .utility).async { [weak self] in
       guard let self = self else { return }
+      self.loading.value = true
 
-      if let store = store {
-        self.currentStore.value = store
+      let queueGroup = DispatchGroup()
+      queueGroup.enter()
+
+      self.searchForNewStore(with: location) { [weak self] store in
+        guard let self = self else { return }
+
+        if let store = store {
+          self.currentStore.value = store
+        }
+        queueGroup.leave()
       }
-      queueGroup.leave()
-    }
 
-    queueGroup.wait()
+      queueGroup.wait()
+      self.getNewProducts()
+    }
   }
 
   func searchForNewStore(
@@ -92,7 +96,7 @@ extension ProductDetailsViewModel {
   }
 
   func getNewProducts() {
-    guard let storeId = currentStore.value?.id,
+    guard let storeId = currentStore.value?.sellerStoreID,
           let ean = currentProductOnlineOffline.value?.ean
     else {
       loading.value = false

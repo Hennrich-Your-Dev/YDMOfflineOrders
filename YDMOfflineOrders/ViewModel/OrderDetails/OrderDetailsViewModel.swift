@@ -74,8 +74,8 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
             if self.order.value.products?.at(productsIndex) != nil {
               self.order.value.products?[productsIndex].products = onlineOffline
             }
+            self.order.fire()
           }
-          self.order.fire()
 
         case .failure(let error):
           print(error.message)
