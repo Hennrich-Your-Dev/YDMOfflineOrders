@@ -41,7 +41,7 @@ class OrderDetailsViewController: UIViewController {
   }
 
   @objc func onNoteAction(_ sender: UIButton) {
-    guard let nfe = viewModel?.order.value.nfe else { return }
+    guard let nfe = viewModel?.order.value.strippedNFe else { return }
 
     let dialog = YDDialog()
     dialog.delegate = self
