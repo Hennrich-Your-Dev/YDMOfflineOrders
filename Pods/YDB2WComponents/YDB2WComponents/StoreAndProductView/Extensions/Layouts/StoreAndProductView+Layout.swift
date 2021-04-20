@@ -87,7 +87,6 @@ extension YDStoreAndProductView {
     textView.font = .systemFont(ofSize: 14)
     textView.textAlignment = .left
     textView.isEditable = false
-    textView.text = .loremIpsum()
     textView.alwaysBounceVertical = true
     textView.delegate = self
     addSubview(textView)
@@ -107,6 +106,7 @@ extension YDStoreAndProductView {
     tableView.tableFooterView = UIView()
     tableView.separatorStyle = .none
     tableView.dataSource = self
+    tableView.rowHeight = UITableView.automaticDimension
     tableView.isHidden = true
     addSubview(tableView)
 
@@ -117,8 +117,6 @@ extension YDStoreAndProductView {
       tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
     ])
-
-    tableView.estimatedRowHeight = 66
 
     tableView.register(
       StoreAndProductTableViewCell.self,

@@ -84,7 +84,6 @@ extension YDProductCardView {
     productNameLabel.textAlignment = .left
     productNameLabel.textColor = UIColor.Zeplin.grayLight
     productNameLabel.numberOfLines = 2
-    productNameLabel.text = .loremIpsum()
     container.addSubview(productNameLabel)
 
     productNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -106,7 +105,6 @@ extension YDProductCardView {
     productPriceLabel.textAlignment = .left
     productPriceLabel.textColor = UIColor.Zeplin.black
     productPriceLabel.numberOfLines = 1
-    productPriceLabel.text = "R$ 38,99"
     container.addSubview(productPriceLabel)
 
     productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +140,6 @@ extension YDProductCardView {
     settings.updateOnTouch = false
 
     ratingView.settings = settings
-    ratingView.text = "(456)"
 
     ratingView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([

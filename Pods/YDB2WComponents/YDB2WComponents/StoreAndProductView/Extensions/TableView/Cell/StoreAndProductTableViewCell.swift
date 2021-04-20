@@ -73,6 +73,7 @@ class StoreAndProductTableViewCell: UITableViewCell {
   func config(with attributes: YDProductAttributes) {
     titleLabel.text = attributes.name
     descriptionLabel.attributedText = getHtmlDescription(attributes.value)
+    layoutIfNeeded()
   }
 }
 
@@ -95,7 +96,6 @@ extension StoreAndProductTableViewCell {
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
     ])
-    separatorView.setContentHuggingPriority(.defaultHigh, for: .vertical)
   }
 
   func createTitleLabel() {
@@ -110,8 +110,6 @@ extension StoreAndProductTableViewCell {
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
     ])
-    titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-    titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
   }
 
   func createDescriptionLabel() {
@@ -122,12 +120,22 @@ extension StoreAndProductTableViewCell {
 
     descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2.5),
-      descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-      descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-      descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 18)
+      descriptionLabel.topAnchor.constraint(
+        equalTo: titleLabel.bottomAnchor,
+        constant: 2.5
+      ),
+      descriptionLabel.leadingAnchor.constraint(
+        equalTo: contentView.leadingAnchor,
+        constant: 16
+      ),
+      descriptionLabel.trailingAnchor.constraint(
+        equalTo: contentView.trailingAnchor,
+        constant: -16
+      ),
+      descriptionLabel.bottomAnchor.constraint(
+        equalTo: contentView.bottomAnchor,
+        constant: -18
+      )
     ])
-    descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-    descriptionLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
   }
 }

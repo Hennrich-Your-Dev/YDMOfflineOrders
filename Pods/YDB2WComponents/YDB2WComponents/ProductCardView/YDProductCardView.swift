@@ -10,6 +10,7 @@ import UIKit
 import Cosmos
 import YDExtensions
 import YDB2WModels
+import YDB2WAssets
 
 public class YDProductCardView: UIView {
   // MARK: Properties
@@ -52,7 +53,7 @@ public class YDProductCardView: UIView {
   private func updateLayoutWithProduct() {
     guard let product = self.product else { return }
 
-    photoImageView.setImage(product.image)
+    photoImageView.setImage(product.image, placeholder: Icons.imagePlaceHolder)
     productNameLabel.text = product.name
     productPriceLabel.text = product.formatedPrice
 
@@ -61,7 +62,7 @@ public class YDProductCardView: UIView {
        let rateText = product.rating?.recommendations {
       ratingView.isHidden = false
       ratingView.rating = rate
-      ratingView.text = "(\(rateText)"
+      ratingView.text = "(\(rateText))"
     } else {
       ratingView.isHidden = true
     }

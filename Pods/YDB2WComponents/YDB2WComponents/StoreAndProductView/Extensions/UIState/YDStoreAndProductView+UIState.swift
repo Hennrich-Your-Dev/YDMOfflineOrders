@@ -28,10 +28,13 @@ extension YDStoreAndProductView: UIStateDelegate {
         guard let self = self else { return }
 
         self.textView.isHidden = true
+        self.textView.text = ""
+        self.tableView.contentOffset = .zero
         self.shimmerTextView.isHidden = false
         self.shimmerTextView.subviews.forEach { $0.startShimmer() }
         self.storeNameAndAddressView.changeUIState(with: .loading)
         self.productCardView.changeUIState(with: .loading)
+        self.segmentedControl.selectedSegmentIndex = 0
         self.segmentedControl.setEnabled(false, forSegmentAt: 0)
         self.segmentedControl.setEnabled(false, forSegmentAt: 1)
       }

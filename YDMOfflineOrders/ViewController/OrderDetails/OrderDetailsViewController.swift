@@ -27,12 +27,7 @@ class OrderDetailsViewController: UIViewController {
     setUpLayout()
     setUpBinds()
 
-//    guard let count = viewModel?.order.value.products?.count,
-//          count > 3 else {
-//      return
-//    }
-
-    viewModel?.getProjects()
+    viewModel?.getProducts()
   }
 
   // MARK: Actions

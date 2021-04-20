@@ -32,6 +32,7 @@ extension YDMOfflineOrdersViewController {
     viewModel?.newOrdersForList.bind { [weak self] hasMore in
       guard let self = self else { return }
       print("newOrdersForList \(hasMore)")
+      print("canLoadMore", self.canLoadMore)
       if hasMore {
         self.addNewOrders()
       } else {
@@ -68,6 +69,19 @@ extension YDMOfflineOrdersViewController {
       let snackBar = YDSnackBarView(parent: self.view)
       snackBar.delegate = self
       snackBar.showMessage(message, ofType: .withButton(buttonName: "atualizar"))
+
+      self.collectionView.scrollToItem(
+        at: IndexPath(
+          item: self.collectionView.numberOfItems(inSection: 0) - 1,
+          section: 0
+        ),
+        at: .bottom,
+        animated: true
+      )
+
+      Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+        self.canLoadMore = true
+      }
     }
   }
 }

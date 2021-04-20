@@ -103,8 +103,10 @@ public class YDSegmentedControl: UIView {
       return segmentedControl.selectedSegmentIndex
     }
     set {
-      segmentedControl.selectedSegmentIndex = newValue
-      segmentedControlValueChanged(segmentedControl)
+      DispatchQueue.main.async {
+        self.segmentedControl.selectedSegmentIndex = newValue
+        self.segmentedControlValueChanged(self.segmentedControl)
+      }
     }
   }
 

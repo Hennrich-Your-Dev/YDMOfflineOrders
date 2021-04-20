@@ -74,10 +74,12 @@ public class YDStoreAndProductView: UIView {
 
     if description == nil {
       segmentedControl.setEnabled(false, forSegmentAt: 0)
+      textView.text = ""
     } else {
       segmentedControl.setEnabled(true, forSegmentAt: 0)
       segmentedControl.selectedSegmentIndex = 0
       changeSegmentControl(0)
+      textView.attributedText = description
     }
 
     if technicalInformation.isEmpty {
@@ -94,14 +96,5 @@ public class YDStoreAndProductView: UIView {
       storeName: store.name,
       storeAddress: store.formatAddress
     )
-  }
-
-  // MARK: Public Actions
-  public func updateUI(with type: UIStateEnum) {
-    if type == .normal {
-      //
-    } else if type == .loading {
-      //
-    }
   }
 }

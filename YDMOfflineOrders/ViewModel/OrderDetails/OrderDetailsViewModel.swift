@@ -25,13 +25,14 @@ protocol OrderDetailsViewModelDelegate: AnyObject {
 
   func goBack()
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
-  func getProjects()
+  func getProducts()
 }
 
 class OrderDetailsViewModel {
   // MARK: Properties
   let service: YDB2WServiceDelegate
   let navigation: OrderDetailsNavigation
+
   var order: Binder<YDOfflineOrdersOrder>
 
   // MARK: Init
@@ -44,6 +45,38 @@ class OrderDetailsViewModel {
     self.navigation = navigation
     self.order = Binder(order)
   }
+
+  // Actions
+  func useOfflineProducts() {
+    guard let products = order.value.products else {
+      return
+    }
+
+    for product in products {
+      if product.products != nil { continue }
+
+      let productForOnlineOffline = YDProduct(
+        attributes: nil,
+        description: nil,
+        id: nil,
+        ean: product.ean,
+        images: nil,
+        name: product.name,
+        price: product.howMany == 1 ?
+          product.totalPrice :
+          (product.totalPrice / Double(product.howMany)),
+        rating: nil,
+        isAvailable: false
+      )
+
+      product.products = YDProductOnlineOffline(
+        online: nil,
+        offline: productForOnlineOffline
+      )
+    }
+
+    self.order.fire()
+  }
 }
 
 extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
@@ -55,7 +88,7 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
     navigation.openDetailsForProduct(product, withinOrder: order.value)
   }
 
-  func getProjects() {
+  func getProducts() {
     guard let products = order.value.products,
           let storeId = order.value.storeId
     else { return }
@@ -73,12 +106,23 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
           restql.products.enumerated().forEach { productsIndex, onlineOffline in
             if self.order.value.products?.at(productsIndex) != nil {
               self.order.value.products?[productsIndex].products = onlineOffline
+
+              guard let totalPrice = self.order.value
+                .products?[productsIndex].totalPrice,
+                    let howMany = self.order.value
+                      .products?[productsIndex].howMany
+              else { return }
+
+              self.order.value.products?[productsIndex]
+                .products?.offline?.price = howMany == 1 ?
+                totalPrice : (totalPrice / Double(howMany))
             }
-            self.order.fire()
           }
+          self.order.fire()
 
         case .failure(let error):
           print(error.message)
+          self.useOfflineProducts()
       }
     }
   }
