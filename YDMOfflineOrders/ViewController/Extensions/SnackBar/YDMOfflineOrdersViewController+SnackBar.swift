@@ -12,6 +12,6 @@ import YDB2WComponents
 // MARK: YDSnackBarDelegate
 extension YDMOfflineOrdersViewController: YDSnackBarDelegate {
   public func onSnackAction() {
-    //
+    viewModel?.getMoreOrders()
   }
 }

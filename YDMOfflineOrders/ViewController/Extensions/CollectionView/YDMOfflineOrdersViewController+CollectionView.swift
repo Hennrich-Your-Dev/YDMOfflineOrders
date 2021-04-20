@@ -144,6 +144,21 @@ extension YDMOfflineOrdersViewController {
       )
     }
 
+    // Load more content logic
+    if indexPath.row == (collectionView.numberOfItems(inSection: indexPath.section) - 1) {
+      if viewModel?.noMoreOrderToLoad == false {
+        if canLoadMore {
+          canLoadMore = false
+          viewModel?.getMoreOrders()
+        }
+
+      } else {
+        // hide shimmer
+        loadMoreShimmer?.stopShimmerAndHide()
+        collectionView.collectionViewLayout.invalidateLayout()
+      }
+    }
+
     return cell
   }
 }
@@ -215,32 +230,11 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     }
   }
 
+  // Will display Footer
   public func collectionView(
     _ collectionView: UICollectionView,
     willDisplaySupplementaryView view: UICollectionReusableView,
     forElementKind elementKind: String,
-    at indexPath: IndexPath
-  ) {
-    if collectionView == shimmerCollectionView ||
-        elementKind == UICollectionView.elementKindSectionHeader { return }
-
-    if viewModel?.noMoreOrderToLoad == false {
-      if canLoadMore {
-        canLoadMore = false
-        viewModel?.getMoreOrders()
-      }
-
-    } else {
-      // hide shimmer
-      loadMoreShimmer?.stopShimmerAndHide()
-      collectionView.collectionViewLayout.invalidateLayout()
-    }
-  }
-
-  public func collectionView(
-    _ collectionView: UICollectionView,
-    didEndDisplayingSupplementaryView view: UICollectionReusableView,
-    forElementOfKind elementKind: String,
     at indexPath: IndexPath
   ) {
     if collectionView == shimmerCollectionView ||
