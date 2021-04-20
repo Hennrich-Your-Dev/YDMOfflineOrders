@@ -27,11 +27,12 @@ protocol OfflineOrdersNavigationDelegate: AnyObject {
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
   var loading: Binder<Bool> { get }
+  var hasPreviousAddressFromIntegration: Bool { get }
   var orderListFirstRequest: Binder<Bool> { get }
   var orderList: Binder<[OrderListConfig]> { get }
   var newOrdersForList: Binder<Bool> { get }
-  var hasPreviousAddressFromIntegration: Bool { get }
   var noMoreOrderToLoad: Bool { get }
+  var loadMoreError: Binder<String?> { get }
 
   subscript(_ row: Int) -> OrderListConfig? { get }
 
@@ -58,17 +59,20 @@ class YDMOfflineOrdersViewModel {
   lazy var logger = YDUtilities.Logger.forClass(Self.self)
   let service: YDB2WServiceDelegate = YDB2WService()
   let navigation: OfflineOrdersNavigationDelegate
+  var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
 
   var error: Binder<String> = Binder("")
   var loading: Binder<Bool> = Binder(false)
+
   var orderListFirstRequest: Binder<Bool> = Binder(false)
   var orderList: Binder<[OrderListConfig]> = Binder([])
   var newOrdersForList: Binder<Bool> = Binder(false)
-  var userToken: String
-  var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
+  var loadMoreError: Binder<String?> = Binder(nil)
+  var noMoreOrderToLoad = false
   let lazyLoadingOrders: Int
   var currentPage = 0
-  var noMoreOrderToLoad = false
+
+  var userToken: String
 
   // MARK: Init
   init(
@@ -219,6 +223,11 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
   func getMoreOrders() {
     currentPage += 1
 
+    if currentPage == 2 {
+      loadMoreError.value = "Ops! Falha ao carregar mais compras realizadas nas lojas físicas."
+      return
+    }
+
     if currentPage >= 3 {
       addOrdersToList([], append: true)
       return
@@ -333,9 +342,12 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
   ) {
     guard let order = orderList.value.at(index)?.order,
           let products = order.products,
-          products.first?.products == nil,
+          products.firstIndex(where: { $0.products != nil }) == nil,
           let storeId = order.storeId
-    else { return }
+    else {
+      completion(false)
+      return
+    }
 
     let eans = Array(products.map { $0.ean }.compactMap { $0 }.prefix(3))
 

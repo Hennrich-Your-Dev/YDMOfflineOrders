@@ -23,6 +23,19 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
   var noteButton = UIButton()
   var priceView = UIView()
 
+  lazy var shimmersViews: [UIView] = {
+    [
+      storeNameView,
+      addressView,
+      dateView,
+      topView,
+      photoView,
+      productNameView,
+      productSubNameView,
+      priceView
+    ]
+  }()
+
   override init(frame: CGRect) {
     super.init(frame: frame)
 
@@ -55,28 +68,14 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
   func startShimmer() {
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
-      self.storeNameView.startShimmer()
-      self.addressView.startShimmer()
-      self.dateView.startShimmer()
-      self.topView.startShimmer()
-      self.photoView.startShimmer()
-      self.productNameView.startShimmer()
-      self.productSubNameView.startShimmer()
-      self.priceView.startShimmer()
+      self.shimmersViews.forEach { $0.startShimmer() }
     }
   }
 
   func stopShimmerAndHide() {
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
-      self.storeNameView.stopShimmer()
-      self.addressView.stopShimmer()
-      self.dateView.stopShimmer()
-      self.topView.stopShimmer()
-      self.photoView.stopShimmer()
-      self.productNameView.stopShimmer()
-      self.productSubNameView.stopShimmer()
-      self.priceView.stopShimmer()
+      self.self.shimmersViews.forEach { $0.stopShimmer() }
       self.contentView.isHidden = true
     }
   }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C3F4D0C12F619F69EDCA0BD /* Pods_YDMOfflineOrders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70287360930BDEB419B41D16 /* Pods_YDMOfflineOrders.framework */; };
 		C129AB8225DEEA5B003D3882 /* YDMOfflineOrders.h in Headers */ = {isa = PBXBuildFile; fileRef = C129AB8025DEEA5B003D3882 /* YDMOfflineOrders.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C161316D262E8A50007EF603 /* YDMOfflineOrdersViewController+SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C161316C262E8A50007EF603 /* YDMOfflineOrdersViewController+SnackBar.swift */; };
 		C168175825E9838D009B7114 /* ProductDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168175725E9838D009B7114 /* ProductDetailsViewController.swift */; };
 		C168175C25E98446009B7114 /* ProductDetailsViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168175B25E98446009B7114 /* ProductDetailsViewController+Layout.swift */; };
 		C17148ED25FAAFC9002AA296 /* OrdersShimmerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17148EC25FAAFC9002AA296 /* OrdersShimmerCollectionViewCell.swift */; };
@@ -48,6 +49,7 @@
 		C129AB7D25DEEA5B003D3882 /* YDMOfflineOrders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YDMOfflineOrders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C129AB8025DEEA5B003D3882 /* YDMOfflineOrders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YDMOfflineOrders.h; sourceTree = "<group>"; };
 		C129AB8125DEEA5B003D3882 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C161316C262E8A50007EF603 /* YDMOfflineOrdersViewController+SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YDMOfflineOrdersViewController+SnackBar.swift"; sourceTree = "<group>"; };
 		C168175725E9838D009B7114 /* ProductDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewController.swift; sourceTree = "<group>"; };
 		C168175B25E98446009B7114 /* ProductDetailsViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDetailsViewController+Layout.swift"; sourceTree = "<group>"; };
 		C17148EC25FAAFC9002AA296 /* OrdersShimmerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersShimmerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -142,6 +144,14 @@
 				C129AB8125DEEA5B003D3882 /* Info.plist */,
 			);
 			path = YDMOfflineOrders;
+			sourceTree = "<group>";
+		};
+		C161316B262E8A3C007EF603 /* SnackBar */ = {
+			isa = PBXGroup;
+			children = (
+				C161316C262E8A50007EF603 /* YDMOfflineOrdersViewController+SnackBar.swift */,
+			);
+			path = SnackBar;
 			sourceTree = "<group>";
 		};
 		C168171E25E97095009B7114 /* ProductDetails */ = {
@@ -366,8 +376,8 @@
 			isa = PBXGroup;
 			children = (
 				C17B898925FEB89F0053FCE8 /* LoadFail */,
-				C17148EB25FAAFA0002AA296 /* Shimmer */,
 				C17148E925FAAF92002AA296 /* Orders */,
+				C17148EB25FAAFA0002AA296 /* Shimmer */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -436,6 +446,7 @@
 				C1F4C1FD25F95553002FE760 /* Binds */,
 				C1CD12C625E3DF1200BB578F /* CollectionView */,
 				C1DEC61125E306EA00CA7405 /* ScrollView */,
+				C161316B262E8A3C007EF603 /* SnackBar */,
 				C17B899E25FEDFC70053FCE8 /* YDDialog */,
 			);
 			path = Extensions;
@@ -608,6 +619,7 @@
 				C1AEF59B25FBC9D500201116 /* OrderDetailsViewController.swift in Sources */,
 				C1AEF5DB25FBE67800201116 /* OrderDetailsProductView.swift in Sources */,
 				C1AB507D260E4A0300A8B889 /* ProductDetailsViewController+Binds.swift in Sources */,
+				C161316D262E8A50007EF603 /* YDMOfflineOrdersViewController+SnackBar.swift in Sources */,
 				C1F4C1FF25F95566002FE760 /* YDMOfflineOrdersViewController+Binds.swift in Sources */,
 				C17B898B25FEB9500053FCE8 /* LoadFailCollectionViewCell.swift in Sources */,
 				C1AB5087260E4DE600A8B889 /* ProductDetailsViewController+StoreAndProduct.swift in Sources */,

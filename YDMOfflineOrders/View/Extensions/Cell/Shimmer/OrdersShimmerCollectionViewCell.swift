@@ -24,6 +24,19 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
   var noteButton = UIButton()
   var priceView = UIView()
 
+  lazy var shimmersViews: [UIView] = {
+    [
+      storeNameView,
+      addressView,
+      dateView,
+      topView,
+      photoView,
+      productNameView,
+      productSubNameView,
+      priceView
+    ]
+  }()
+
   // MARK: Init
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -54,14 +67,7 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
   }
 
   override func prepareForReuse() {
-    storeNameView.layer.removeAllAnimations()
-    addressView.layer.removeAllAnimations()
-    dateView.layer.removeAllAnimations()
-    topView.layer.removeAllAnimations()
-    priceView.layer.removeAllAnimations()
-    photoView.layer.removeAllAnimations()
-    productNameView.layer.removeAllAnimations()
-    productSubNameView.layer.removeAllAnimations()
+    shimmersViews.forEach { $0.stopShimmer() }
 
     super.prepareForReuse()
   }
@@ -69,14 +75,8 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
   // MARK: Actions
   func startShimmerForCell() {
     DispatchQueue.main.async { [weak self] in
-      self?.storeNameView.startShimmer()
-      self?.addressView.startShimmer()
-      self?.dateView.startShimmer()
-      self?.topView.startShimmer()
-      self?.photoView.startShimmer()
-      self?.productNameView.startShimmer()
-      self?.productSubNameView.startShimmer()
-      self?.priceView.startShimmer()
+      guard let self = self else { return }
+      self.shimmersViews.forEach { $0.startShimmer() }
     }
   }
 }
@@ -262,8 +262,6 @@ extension OrdersShimmerCollectionViewCell {
       noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
       noteButton.heightAnchor.constraint(equalToConstant: 35)
     ])
-//    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-//    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
 
   func createValueLabel(parent: UIView) {
@@ -285,6 +283,5 @@ extension OrdersShimmerCollectionViewCell {
       ),
       priceView.heightAnchor.constraint(equalToConstant: 13)
     ])
-//    priceView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
 }

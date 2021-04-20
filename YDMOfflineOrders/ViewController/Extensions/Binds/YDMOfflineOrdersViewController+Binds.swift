@@ -8,6 +8,7 @@
 import UIKit
 
 import YDUtilities
+import YDB2WComponents
 
 extension YDMOfflineOrdersViewController {
   func setUpBinds() {
@@ -57,6 +58,16 @@ extension YDMOfflineOrdersViewController {
     viewModel?.error.bind { [weak self] _ in
       guard let self = self else { return }
       self.showFeedbackStateView(ofType: .error)
+    }
+
+    viewModel?.loadMoreError.bind { [weak self] message in
+      guard let self = self,
+            let message = message
+      else { return }
+
+      let snackBar = YDSnackBarView(parent: self.view)
+      snackBar.delegate = self
+      snackBar.showMessage(message, ofType: .withButton(buttonName: "atualizar"))
     }
   }
 }
