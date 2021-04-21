@@ -44,7 +44,7 @@ class ProductDetailsViewModel {
 
     currentStore.value = YDStore(
       id: "\(order.storeId ?? 0)",
-      name: order.storeName,
+      name: order.formattedStoreName,
       address: address
     )
   }
