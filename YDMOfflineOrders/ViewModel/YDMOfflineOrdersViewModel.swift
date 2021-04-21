@@ -205,7 +205,7 @@ class YDMOfflineOrdersViewModel {
 
     if !sorted.isEmpty {
       for curr in sorted {
-        guard let sectionDate = curr.formatedDateSection else { continue }
+        guard let sectionDate = curr.formattedDateSection else { continue }
 
         if let lastIndex = orderList.value.lastIndex(
           where: { $0.type == .row && $0.headerString == sectionDate }

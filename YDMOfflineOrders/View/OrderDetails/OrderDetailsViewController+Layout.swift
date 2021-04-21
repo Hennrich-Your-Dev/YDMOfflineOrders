@@ -53,7 +53,7 @@ extension OrderDetailsViewController {
     nameLabel.textColor = UIColor.Zeplin.black
     nameLabel.font = .systemFont(ofSize: 16, weight: .bold)
     nameLabel.textAlignment = .left
-    nameLabel.text = order.storeName
+    nameLabel.text = order.formattedStoreName
 
     view.addSubview(nameLabel)
 
@@ -77,7 +77,7 @@ extension OrderDetailsViewController {
     addressLabel.textAlignment = .left
     addressLabel.textColor = UIColor.Zeplin.grayLight
     addressLabel.numberOfLines = 2
-    addressLabel.text = order.formatedAddress
+    addressLabel.text = order.formattedAddress
 
     view.addSubview(addressLabel)
 
@@ -96,7 +96,7 @@ extension OrderDetailsViewController {
     dateLabel.font = .systemFont(ofSize: 13)
     dateLabel.textAlignment = .left
     dateLabel.textColor = UIColor.Zeplin.grayLight
-    dateLabel.text = order.formatedDate
+    dateLabel.text = order.formattedDate
     view.addSubview(dateLabel)
 
     dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -286,7 +286,7 @@ extension OrderDetailsViewController {
     priceLabel.textAlignment = .left
     priceLabel.textColor = UIColor.Zeplin.black
     priceLabel.numberOfLines = 1
-    priceLabel.text = order.formatedPrice
+    priceLabel.text = order.formattedPrice
     parent.addSubview(priceLabel)
 
     priceLabel.translatesAutoresizingMaskIntoConstraints = false

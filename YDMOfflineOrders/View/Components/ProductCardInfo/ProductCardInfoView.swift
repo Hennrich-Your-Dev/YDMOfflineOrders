@@ -38,7 +38,7 @@ class ProductCardInfoView: UIView {
     currentProduct = product
 
     photo.setImage(product.image, placeholder: Icons.imagePlaceHolder)
-    name.text = product.name
+    name.text = product.name?.lowercased()
 
     if product.howMany > 1 {
       badgeContainer.isHidden = false

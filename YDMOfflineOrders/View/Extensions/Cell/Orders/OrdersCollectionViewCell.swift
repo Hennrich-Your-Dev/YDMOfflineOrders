@@ -108,10 +108,10 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   // Actions
   func config(with order: YDOfflineOrdersOrder) {
     currentOrder = order
-    storeNameLabel.text = order.storeName
-    addressLabel.text = order.formatedAddress
-    dateLabel.text = order.formatedDate
-    priceLabel.text = order.formatedPrice
+    storeNameLabel.text = order.formattedStoreName
+    addressLabel.text = order.formattedAddress
+    dateLabel.text = order.formattedDate
+    priceLabel.text = order.formattedPrice
 
     if let products = order.products {
       productsCount.text = "total de produtos: \(products.count)"

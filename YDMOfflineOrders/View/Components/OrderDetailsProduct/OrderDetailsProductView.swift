@@ -63,7 +63,7 @@ class OrderDetailsProductView: UIView {
       shimmerContainer.isHidden = true
 
       photo.setImage(product.image, placeholder: Icons.imagePlaceHolder)
-      name.text = product.name
+      name.text = product.name?.lowercased()
       price.text = product.formatedPrice
 
       if product.howMany > 1 {
