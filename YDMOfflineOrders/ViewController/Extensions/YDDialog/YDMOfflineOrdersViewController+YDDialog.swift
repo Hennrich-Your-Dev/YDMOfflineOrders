@@ -20,7 +20,10 @@ extension YDMOfflineOrdersViewController: YDDialogCoordinatorDelegate {
       .trackEvent(
         withName: .offlineOrders,
         ofType: .action,
-        withParameters: ["&el=": "noteButton"]
+        withParameters: [
+          "&ea=": "clique-botao",
+          "&el=": "Botão ver nota fiscal"
+        ]
       )
 
     UIApplication.shared.open(url)
