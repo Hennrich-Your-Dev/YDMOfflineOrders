@@ -108,7 +108,9 @@ extension YDMOfflineOrdersViewController {
 
     cell.config(with: order)
 
+    cell.changeUIState(with: .loading)
     viewModel?.getProductsForOrder(at: indexPath.row) { success in
+      cell.changeUIState(with: .normal)
       if success {
         DispatchQueue.main.async { [weak self] in
           guard let self = self else { return }

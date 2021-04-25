@@ -37,23 +37,25 @@ extension YDMFindStoreViewController {
       if let store = location.store,
          let latitude = store.geolocation?.latitude,
          let longitude = store.geolocation?.longitude {
-        
+
         let userCoords = self.mapView.userLocation.coordinate
         let nearstStoreCoords = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        
+
         self.setMapCenterBetween(positionA: userCoords, positionB: nearstStoreCoords)
       }
     }
 
     viewModel?.stores.bind { [weak self] stores in
-      self?.addPinsOnMap(with: stores)
-      self?.collectionView.reloadData()
-      self?.collectionView.scrollToItem(
+      guard let self = self else { return }
+      self.addPinsOnMap(with: stores)
+      self.collectionView.reloadData()
+      self.verticalCollectionView.reloadData()
+      self.collectionView.scrollToItem(
         at: IndexPath(row: 0, section: 0),
         at: .centeredHorizontally,
         animated: true
       )
-      self?.formatHowManyStoresOnList(with: stores.count)
+      self.formatHowManyStoresOnList(with: stores.count)
     }
   }
 }

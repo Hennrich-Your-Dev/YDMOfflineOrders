@@ -36,14 +36,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="54L-ze-xPP">
-                                        <rect key="frame" x="322" y="0.0" width="76" height="32"/>
+                                        <rect key="frame" x="338" y="0.0" width="60" height="32"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="76" id="Dbc-T4-pum"/>
                                             <constraint firstAttribute="height" constant="32" id="rc8-Zh-xSG"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="-15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="lista"/>
                                         <connections>
                                             <action selector="onListAction:" destination="UXH-5u-6h3" eventType="touchUpInside" id="7Ac-lr-4RN"/>
@@ -67,11 +67,6 @@
                                     <constraint firstItem="PWu-oF-Qq7" firstAttribute="centerY" secondItem="VKp-y9-d1F" secondAttribute="centerY" id="vaF-rN-zNl"/>
                                     <constraint firstItem="Wqg-BA-0yW" firstAttribute="leading" secondItem="VKp-y9-d1F" secondAttribute="leading" constant="16" id="wzu-yw-OYk"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="54L-ze-xPP"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c5b-z3-qTh">
                                 <rect key="frame" x="0.0" y="112" width="414" height="22"/>

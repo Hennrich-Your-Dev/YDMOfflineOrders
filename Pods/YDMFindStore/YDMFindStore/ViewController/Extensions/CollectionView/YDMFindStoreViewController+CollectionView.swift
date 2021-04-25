@@ -13,11 +13,16 @@ import YDExtensions
 extension YDMFindStoreViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     guard let stores = viewModel?.stores.value else {
-      storesListContainer.isHidden = true
+      if collectionView == self.collectionView {
+        storesListContainer.isHidden = true
+      }
       return 0
     }
 
-    storesListContainer.isHidden = stores.isEmpty
+    if collectionView == self.collectionView {
+      storesListContainer.isHidden = stores.isEmpty
+    }
+
     return stores.count
   }
 
@@ -47,7 +52,6 @@ extension YDMFindStoreViewController: UICollectionViewDataSource {
     switch kind {
 
     case UICollectionView.elementKindSectionHeader:
-
       let headerView = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
         withReuseIdentifier: "Header",

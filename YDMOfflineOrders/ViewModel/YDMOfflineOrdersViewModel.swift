@@ -83,109 +83,22 @@ class YDMOfflineOrdersViewModel {
     self.navigation = navigation
     self.userToken = userToken
     self.lazyLoadingOrders = lazyLoadingOrders
+
+    trackEvent(withName: .offlineOrders, ofType: .state)
   }
 
   // MARK: Actions
-  private func fromMock() {
-    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
-      guard let self = self else { return }
-      let orders = YDOfflineOrdersOrder.mock()
-      //      let sorted = self.sortOrdersList([])
-      let sorted = self.sortOrdersList(orders)
-      self.addOrdersToList(sorted, append: false)
-      self.loading.value = false
-      //      self.error.value = "a"
-    }
-  }
-
-  private func getMoreOrdersFromMock() {
-    if currentPage == 2 {
-      loadMoreError.value = "Ops! Falha ao carregar mais compras realizadas nas lojas físicas."
-      currentPage = 1
-      return
-    }
-
-    if currentPage >= 3 {
-      addOrdersToList([], append: true)
-      return
-    }
-
-    let jsonString = """
-    [
-      {
-        "cupom": 1,
-        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
-        "data": "2020-12-10T00:00:00",
-        "valorTotal": 999999,
-        "codigoLoja": 1230,
-        "nomeLoja": "PINHEIRO",
-        "logradouro": "PRACA JOSE SARNEY S N",
-        "cep": "65200-000",
-        "cidade": "PINHEIRO",
-        "uf": "MA",
-        "itens": [
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "ADICIONADO",
-            "qtde": 1,
-            "valorTotalItem": 999999
-          },
-        ]
-      },
-      {
-        "cupom": 1,
-        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
-        "data": "2020-12-10T00:00:00",
-        "valorTotal": 999999,
-        "codigoLoja": 1230,
-        "nomeLoja": "PINHEIRO",
-        "logradouro": "PRACA JOSE SARNEY S N",
-        "cep": "65200-000",
-        "cidade": "PINHEIRO",
-        "uf": "MA",
-        "itens": [
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "ADICIONADO",
-            "qtde": 1,
-            "valorTotalItem": 999999
-          },
-        ]
-      },
-      {
-        "cupom": 1,
-        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
-        "data": "2020-11-10T00:00:00",
-        "valorTotal": 999999,
-        "codigoLoja": 1230,
-        "nomeLoja": "PINHEIRO",
-        "logradouro": "PRACA JOSE SARNEY S N",
-        "cep": "65200-000",
-        "cidade": "PINHEIRO",
-        "uf": "MA",
-        "itens": [
-          {
-            "codigoItem": 1,
-            "ean": "7891356075599",
-            "item": "ADICIONADO",
-            "qtde": 1,
-            "valorTotalItem": 999999
-          },
-        ]
-      }
-    ]
-    """
-
-    guard let data = jsonString.data(using: .utf8),
-          let parsed = try? JSONDecoder().decode(YDOfflineOrdersOrdersList.self, from: data)
-    else {
-      return
-    }
-
-    let sorted = sortOrdersList(parsed)
-    addOrdersToList(sorted, append: true)
+  func trackEvent(
+    withName name: TrackEvents,
+    ofType type: TrackType,
+    withParameters params: [String: Any]? = nil
+  ) {
+    YDIntegrationHelper.shared
+      .trackEvent(
+        withName: name,
+        ofType: type,
+        withParameters: params
+      )
   }
 
   private func sortOrdersList(
@@ -411,5 +324,111 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           completion(false)
       }
     }
+  }
+}
+
+// MARK: Mock
+extension YDMOfflineOrdersViewModel {
+  // MARK: Actions
+  private func fromMock() {
+    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [weak self] _ in
+      guard let self = self else { return }
+      let orders = YDOfflineOrdersOrder.mock()
+      //      let sorted = self.sortOrdersList([])
+      let sorted = self.sortOrdersList(orders)
+      self.addOrdersToList(sorted, append: false)
+      self.loading.value = false
+      //      self.error.value = "a"
+    }
+  }
+
+  private func getMoreOrdersFromMock() {
+    if currentPage == 2 {
+      loadMoreError.value = "Ops! Falha ao carregar mais compras realizadas nas lojas físicas."
+      currentPage = 1
+      return
+    }
+
+    if currentPage >= 3 {
+      addOrdersToList([], append: true)
+      return
+    }
+
+    let jsonString = """
+    [
+      {
+        "cupom": 1,
+        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
+        "data": "2020-12-10T00:00:00",
+        "valorTotal": 999999,
+        "codigoLoja": 1230,
+        "nomeLoja": "PINHEIRO",
+        "logradouro": "PRACA JOSE SARNEY S N",
+        "cep": "65200-000",
+        "cidade": "PINHEIRO",
+        "uf": "MA",
+        "itens": [
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "ADICIONADO",
+            "qtde": 1,
+            "valorTotalItem": 999999
+          },
+        ]
+      },
+      {
+        "cupom": 1,
+        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
+        "data": "2020-12-10T00:00:00",
+        "valorTotal": 999999,
+        "codigoLoja": 1230,
+        "nomeLoja": "PINHEIRO",
+        "logradouro": "PRACA JOSE SARNEY S N",
+        "cep": "65200-000",
+        "cidade": "PINHEIRO",
+        "uf": "MA",
+        "itens": [
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "ADICIONADO",
+            "qtde": 1,
+            "valorTotalItem": 999999
+          },
+        ]
+      },
+      {
+        "cupom": 1,
+        "chaveNfe": "NFe21201233014556116658653060000071951662105676",
+        "data": "2020-11-10T00:00:00",
+        "valorTotal": 999999,
+        "codigoLoja": 1230,
+        "nomeLoja": "PINHEIRO",
+        "logradouro": "PRACA JOSE SARNEY S N",
+        "cep": "65200-000",
+        "cidade": "PINHEIRO",
+        "uf": "MA",
+        "itens": [
+          {
+            "codigoItem": 1,
+            "ean": "7891356075599",
+            "item": "ADICIONADO",
+            "qtde": 1,
+            "valorTotalItem": 999999
+          },
+        ]
+      }
+    ]
+    """
+
+    guard let data = jsonString.data(using: .utf8),
+          let parsed = try? JSONDecoder().decode(YDOfflineOrdersOrdersList.self, from: data)
+    else {
+      return
+    }
+
+    let sorted = sortOrdersList(parsed)
+    addOrdersToList(sorted, append: true)
   }
 }

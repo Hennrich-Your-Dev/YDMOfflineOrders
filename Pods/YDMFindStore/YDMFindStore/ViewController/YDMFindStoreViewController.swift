@@ -21,6 +21,16 @@ class YDMFindStoreViewController: UIViewController {
   var initialCoords: CLLocationCoordinate2D?
   var reAdjustinRect = false
   var currentStoreIndex = 0
+  var showingVerticalList = false
+
+  // MARK: Components
+  let blurView = UIVisualEffectView()
+  let verticalListContainer = UIView()
+  let howManyStoresVerticalLabel = UILabel()
+  let verticalCollectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewLayout()
+  )
 
   // MARK: IBOutlets
   @IBOutlet weak var mapView: MKMapView! {
@@ -163,7 +173,26 @@ class YDMFindStoreViewController: UIViewController {
   }
 
   @IBAction func onListAction(_ sender: Any) {
-    viewModel?.onList()
+    storesListContainer.isHidden = !showingVerticalList
+    myLocationButton.isHidden = !showingVerticalList
+    blurView.isHidden = showingVerticalList
+    verticalListContainer.isHidden = showingVerticalList
+
+    listButton.setImage(
+      showingVerticalList ?
+        Icons.bars :
+        Icons.map,
+      for: .normal
+    )
+
+    listButton.setTitle(
+      showingVerticalList ?
+        "lista" :
+        "mapa",
+      for: .normal
+    )
+
+    showingVerticalList = !showingVerticalList
   }
 
   @IBAction func onLocationAction(_ sender: Any) {
@@ -201,5 +230,10 @@ class YDMFindStoreViewController: UIViewController {
 extension YDMFindStoreViewController {
   func formatHowManyStoresOnList(with howMany: Int) {
     howManyStoresLabel.text = String(format: howManyStoresLabel.text ?? "", howMany)
+
+    howManyStoresVerticalLabel.text = String(
+      format: howManyStoresLabel.text ?? "",
+      howMany
+    )
   }
 }

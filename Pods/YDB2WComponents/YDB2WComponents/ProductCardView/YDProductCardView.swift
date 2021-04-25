@@ -54,7 +54,7 @@ public class YDProductCardView: UIView {
     guard let product = self.product else { return }
 
     photoImageView.setImage(product.image, placeholder: Icons.imagePlaceHolder)
-    productNameLabel.text = product.name
+    productNameLabel.text = product.name?.lowercased()
     productPriceLabel.text = product.formatedPrice
 
     if let rate = product.rating?.average,

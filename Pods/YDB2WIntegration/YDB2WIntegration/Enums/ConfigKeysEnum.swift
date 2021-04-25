@@ -42,6 +42,7 @@ public enum YDConfigProperty: String {
   case liveYouTubePlayerResetVideoWhenPaused
   case liveYouTubePlayerEnableFullScreenButton
 
+  case preLiveHotsite
   case liveHotsiteId = "liveHotsite"
   case liveChatEnabled = "chatEnabled"
   case liveChatLikesEnabled = "chatLikesEnabled"
