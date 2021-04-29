@@ -39,7 +39,7 @@ PODS:
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDLocationModule (1.0.5)
-  - YDMFindStore (1.1.3):
+  - YDMFindStore (1.1.4):
     - Alamofire (= 4.9.1)
     - curvyRoute
     - YDB2WAssets (~> 1.0.33)
@@ -99,7 +99,7 @@ SPEC CHECKSUMS:
   YDB2WServices: d2af513ddcf4fe7480c4c6535cedeacb2a48f6d2
   YDExtensions: 39587ea6186689aebf6d27528b423bd04cb58dfd
   YDLocationModule: 35cddec317442e18078cb64e1542d7cd360ccb43
-  YDMFindStore: 612aafded244e61aa7cd69747cdeb0e4503cbd87
+  YDMFindStore: 310f7fb7a4064dd80f5f37494fba9c05c1954d88
   YDUtilities: 598917bfa1443aa4f6fa2cf82d85c6ec3f00d8a9
 
 PODFILE CHECKSUM: 61aede2113043abbef398405f6ffb20e1039dd9c

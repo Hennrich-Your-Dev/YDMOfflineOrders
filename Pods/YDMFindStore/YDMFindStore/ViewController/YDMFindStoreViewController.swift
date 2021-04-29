@@ -148,6 +148,7 @@ class YDMFindStoreViewController: UIViewController {
     super.viewDidLoad()
 
     createMapGradient()
+    createVerticalListLayout()
     setUpBinds()
 
     collectionView.reloadData()

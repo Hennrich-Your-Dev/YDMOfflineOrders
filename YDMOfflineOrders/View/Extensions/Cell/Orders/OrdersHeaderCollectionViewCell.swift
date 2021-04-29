@@ -37,7 +37,7 @@ extension OrdersHeaderCollectionViewCell {
     let dateContainer = UIView()
     dateContainer.backgroundColor = UIColor.Zeplin.white
     dateContainer.layer.cornerRadius = 10
-    dateContainer.layer.applyShadow()
+    dateContainer.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
     contentView.addSubview(dateContainer)
 
     dateContainer.translatesAutoresizingMaskIntoConstraints = false
