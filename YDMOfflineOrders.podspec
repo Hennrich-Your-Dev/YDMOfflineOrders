@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "YDMOfflineOrders"
-  spec.version      = "1.1.31"
+  spec.version      = "1.1.32"
   spec.summary      = "A short description of YDMOfflineOrders."
   spec.homepage     = "http://yourdev/YDMOfflineOrders"
 
@@ -14,10 +14,6 @@ Pod::Spec.new do |spec|
   spec.source           = { :git => "https://github.com/Hennrich-Your-Dev/YDMOfflineOrders.git", :tag => "#{spec.version}" }
 
   spec.source_files     = "YDMOfflineOrders/**/*.{h,m,swift}"
-#  spec.resources        = [
-#    "YDMOfflineOrders/**/*.{xib,storyboard,json,xcassets}",
-#    "YDMOfflineOrders/*.{xib,storyboard,json,xcassets}"
-#  ]
 
   spec.dependency "Cosmos"
 
