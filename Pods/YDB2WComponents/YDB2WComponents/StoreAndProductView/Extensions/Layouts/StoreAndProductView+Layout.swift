@@ -89,11 +89,15 @@ extension YDStoreAndProductView {
     textView.isEditable = false
     textView.alwaysBounceVertical = true
     textView.delegate = self
+    textView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
     addSubview(textView)
 
     textView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      textView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 18),
+      textView.topAnchor.constraint(
+        equalTo: segmentedControl.bottomAnchor,
+        constant: 2
+      ),
       textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)

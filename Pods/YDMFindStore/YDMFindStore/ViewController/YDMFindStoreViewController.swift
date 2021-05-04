@@ -22,6 +22,24 @@ class YDMFindStoreViewController: UIViewController {
   var reAdjustinRect = false
   var currentStoreIndex = 0
   var showingVerticalList = false
+  lazy var cardWidthSize: CGFloat = {
+    var margin: CGFloat = 71
+
+    if UIDevice.iPhone5 {
+      margin = 20
+    }
+
+    return view.frame.size.width - margin
+  }()
+  lazy var verticalCardWidthSize: CGFloat = {
+    var margin: CGFloat = 30
+
+    if UIDevice.iPhone5 {
+      margin = 10
+    }
+
+    return view.frame.size.width - margin
+  }()
 
   // MARK: Components
   let blurView = UIVisualEffectView()
@@ -90,6 +108,11 @@ class YDMFindStoreViewController: UIViewController {
     didSet {
       listButton.layer.cornerRadius = 16
       listButton.setImage(Icons.bars, for: .normal)
+
+      if UIDevice.iPhone5 {
+        listButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        listButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -7, bottom: 0, right: 0)
+      }
     }
   }
 
@@ -133,16 +156,14 @@ class YDMFindStoreViewController: UIViewController {
       )
     }
   }
-  
+
   @IBOutlet weak var myLocationButton: UIButton! {
     didSet {
       myLocationButton.layer.cornerRadius = myLocationButton.frame.height / 2
       myLocationButton.setImage(Icons.gps, for: .normal)
-//      myLocationButton.imageView?.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
-//      myLocationButton.imageView?.center = myLocationButton.center
     }
   }
-  
+
   // MARK: Life cycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -200,17 +221,17 @@ class YDMFindStoreViewController: UIViewController {
     locationActivity()
     viewModel?.onGetLocation()
   }
-  
+
   @IBAction func onMyLocationAction(_ sender: UIButton) {
     let userCoords = mapView.userLocation.coordinate
-    
+
     if let firstStoreCoords = viewModel?.stores.value.first?.geolocation,
        let latitude = firstStoreCoords.latitude,
        let longitude = firstStoreCoords.longitude {
-      
+
       let nearstStoreCoords = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
       setMapCenterBetween(positionA: userCoords, positionB: nearstStoreCoords)
-      
+
       // To make list scroll to first item
       do {
         collectionView.scrollToItem(
@@ -219,7 +240,7 @@ class YDMFindStoreViewController: UIViewController {
           animated: true
         )
       }
-      
+
     } else {
       let span = mapView.region.span
       zoomToPosition(userCoords, withSpan: span)

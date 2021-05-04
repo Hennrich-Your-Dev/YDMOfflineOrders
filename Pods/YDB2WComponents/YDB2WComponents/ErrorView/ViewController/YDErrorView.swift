@@ -19,7 +19,7 @@ public class YDErrorView: UIView {
 
   @IBOutlet weak var iconImageView: UIImageView! {
     didSet {
-      iconImageView.tintColor = UIColor.Zeplin.colorPrimaryLight
+      iconImageView.tintColor = UIColor.Zeplin.grayNight
       iconImageView.image = Icons.sadFace
     }
   }
@@ -38,7 +38,7 @@ public class YDErrorView: UIView {
 
   @IBOutlet var actionButton: UIButton! {
     didSet {
-      actionButton.layer.borderColor = UIColor.Zeplin.colorPrimaryLight.cgColor
+      actionButton.layer.borderColor = UIColor.Zeplin.redBranding.cgColor
       actionButton.layer.borderWidth = 1
       actionButton.layer.cornerRadius = 4
     }

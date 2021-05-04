@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,28 +35,31 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Falha na conexão!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHt-wt-15x" userLabel="Title Label">
                             <rect key="frame" x="57" y="346.5" width="300" height="29"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" name="black"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Não foi possível carregar as informações. Verifique sua conexão com a internet e tente novamente." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cn-Oi-NfK" userLabel="Description Label">
                             <rect key="frame" x="56" y="383.5" width="302" height="57.5"/>
                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
-                            <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" name="grayLight"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4W-1H-6Z4" userLabel="Action Button">
-                            <rect key="frame" x="57" y="482" width="300" height="40"/>
+                            <rect key="frame" x="125.5" y="482" width="163" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="LPX-zk-gVe"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                            <color key="tintColor" red="0.98823529409999999" green="0.050980392159999999" blue="0.1058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" name="redBranding"/>
+                            <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
                             <state key="normal" title="tentar novamente"/>
+                            <connections>
+                                <action selector="onAction:" destination="-1" eventType="touchUpInside" id="4JR-Jn-FMC"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.92156862750000001" green="0.92941176469999998" blue="0.93725490199999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="t4W-1H-6Z4" firstAttribute="leading" secondItem="D1k-Tc-1M7" secondAttribute="leading" constant="57" id="0Mk-fU-lEn"/>
                         <constraint firstAttribute="trailing" secondItem="4Cn-Oi-NfK" secondAttribute="trailing" constant="56" id="RKo-bJ-MOj"/>
                         <constraint firstAttribute="trailing" secondItem="iHt-wt-15x" secondAttribute="trailing" constant="57" id="Vea-Tf-1YP"/>
                         <constraint firstItem="iEE-M8-2iC" firstAttribute="centerY" secondItem="D1k-Tc-1M7" secondAttribute="centerY" multiplier="0.7" constant="-45.024999999999991" id="YoD-Jc-4rC"/>
@@ -63,7 +67,7 @@
                         <constraint firstItem="4Cn-Oi-NfK" firstAttribute="top" secondItem="iHt-wt-15x" secondAttribute="bottom" constant="8" id="czU-qv-g96"/>
                         <constraint firstItem="iHt-wt-15x" firstAttribute="top" secondItem="iEE-M8-2iC" secondAttribute="bottom" constant="20" id="dfN-ih-5RH"/>
                         <constraint firstItem="t4W-1H-6Z4" firstAttribute="top" secondItem="4Cn-Oi-NfK" secondAttribute="bottom" constant="41" id="ey6-sj-XYY"/>
-                        <constraint firstAttribute="trailing" secondItem="t4W-1H-6Z4" secondAttribute="trailing" constant="57" id="qgI-a6-pbK"/>
+                        <constraint firstItem="t4W-1H-6Z4" firstAttribute="centerX" secondItem="D1k-Tc-1M7" secondAttribute="centerX" id="rgA-NY-snA"/>
                         <constraint firstItem="iHt-wt-15x" firstAttribute="leading" secondItem="D1k-Tc-1M7" secondAttribute="leading" constant="57" id="s1D-lE-Zzm"/>
                         <constraint firstItem="iEE-M8-2iC" firstAttribute="centerX" secondItem="D1k-Tc-1M7" secondAttribute="centerX" id="ugF-AY-bTa"/>
                     </constraints>
@@ -80,4 +84,15 @@
             <point key="canvasLocation" x="140.57971014492756" y="153.34821428571428"/>
         </view>
     </objects>
+    <resources>
+        <namedColor name="black">
+            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="grayLight">
+            <color red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="redBranding">
+            <color red="0.90196078431372551" green="0.0" blue="0.078431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

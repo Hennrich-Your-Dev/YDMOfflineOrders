@@ -11,23 +11,23 @@ import CoreLocation
 import YDB2WIntegration
 import YDLocationModule
 import YDB2WModels
-import YDUtilities
+import YDB2WServices
 
 extension YDMFindStoreViewModel {
-
   func callAddressModuleFromB2W() {
     YDIntegrationHelper.shared.onAddressModule { [weak self] addressComponentOpt in
+      guard let self = self else { return }
       guard let addressComponent = addressComponentOpt,
             let coordinates = addressComponent.coords
       else {
-        self?.location.fire()
+        self.location.fire()
         return
       }
 
       let address = addressComponent.formatAddress
       let type = addressComponent.type
 
-      self?.searchForNewStore(
+      self.searchForNewStore(
         with: coordinates,
         givingAddress: address,
         givingType: type
@@ -40,30 +40,32 @@ extension YDMFindStoreViewModel {
     givingAddress address: String? = nil,
     givingType type: YDAddressType? = .unknown
   ) {
-    DispatchQueue.global().async { [weak self] in
-      self?.service.getNearstLasas(with: location) { [weak self] (response: Result<[YDStore], YDServiceError>) in
-        switch response {
-        case .success(let stores):
+    service.getNearstLasa(
+      with: location
+    ) { [weak self] (response: Result<YDStores, YDServiceError>) in
+      guard let self = self else { return }
+
+      switch response {
+        case .success(let list):
           var currentAddress = address
 
           if currentAddress == nil,
-            let storeAddress = stores.first?.formatAddress {
+             let storeAddress = list.stores.first?.formatAddress {
             currentAddress = storeAddress
           }
 
-          self?.location.value = YDLocationViewModel(
+          self.location.value = YDLocationViewModel(
             address: currentAddress ?? "",
             location: location,
-            store: stores.first
+            store: list.stores.first
           )
 
           //
-          self?.stores.value = stores
+          self.stores.value = list.stores
 
         case .failure(let error):
-          self?.location.fire()
-          self?.logger.error(error.localizedDescription)
-        }
+          self.location.fire()
+          self.logger.error(error.localizedDescription)
       }
     }
   }
@@ -88,11 +90,20 @@ extension YDMFindStoreViewModel: YDLocationDelegate {
   }
 
   public func onLocation(_ location: CLLocation) {
-    DispatchQueue.global().async { [weak self] in
-      self?.geocoder.getAddress(with: location.coordinate) { [weak self] result in
-        switch result {
-        case .success(let address):
-          self?.searchForNewStore(
+    service.getAddressFromLocation(
+      location.coordinate
+    ) { [weak self] (response: Result<[YDAddress], YDServiceError>) in
+      guard let self = self else { return }
+
+      switch response {
+        case .success(let addresses):
+          guard let address = addresses.first else {
+            self.logger.error(YDServiceError.notFound.message)
+            self.location.fire()
+            return
+          }
+
+          self.searchForNewStore(
             with: location.coordinate,
             givingAddress: address.formatAddress,
             givingType: .location
@@ -105,9 +116,8 @@ extension YDMFindStoreViewModel: YDLocationDelegate {
           )
 
         case .failure(let error):
-          self?.logger.error(error.localizedDescription)
-          self?.location.fire()
-        }
+          self.logger.error(error.message)
+          self.location.fire()
       }
     }
   }

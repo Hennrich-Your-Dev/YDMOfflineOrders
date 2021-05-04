@@ -12,6 +12,8 @@ import YDUtilities
 import YDExtensions
 import YDB2WModels
 import YDLocationModule
+import YDB2WServices
+import YDB2WDeepLinks
 
 // MARK: Delegates
 protocol YDMFindStoreNavigationDelegate {
@@ -28,7 +30,6 @@ protocol YDMFindStoreViewModelDelegate {
 
   // Buttons actions
   func onExit()
-  func onList()
   func onGetLocation()
   func onGetCurrentLocation()
   func onStoreCardAction(type: OnStoreCardActionEnum, store: YDStore)
@@ -39,8 +40,7 @@ class YDMFindStoreViewModel {
   // MARK: Properties
   lazy var logger = Logger.forClass(Self.self)
   let navigation: YDMFindStoreNavigationDelegate
-  let service: YDMFindStoreServiceDelegate
-  let geocoder: YDMFindStoreReverseGeocoderServiceDelegate
+  let service: YDB2WServiceDelegate
 
   var location: Binder<YDLocationViewModel?> = Binder(nil)
   var stores: Binder<[YDStore]> = Binder([])
@@ -51,12 +51,10 @@ class YDMFindStoreViewModel {
   // MARK: Init
   init(
     navigation: YDMFindStoreNavigationDelegate,
-    service: YDMFindStoreServiceDelegate,
-    geocoder: YDMFindStoreReverseGeocoderServiceDelegate
+    service: YDB2WServiceDelegate = YDB2WService()
   ) {
     self.navigation = navigation
     self.service = service
-    self.geocoder = geocoder
   }
 }
 
@@ -73,14 +71,15 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
 
   func getPreviousAddress() {
     YDIntegrationHelper.shared.getAddress { [weak self] currentAddress in
+      guard let self = self else { return }
       guard let address = currentAddress,
             let coordinates = address.coords
       else {
-        self?.onGetLocation()
+        self.onGetLocation()
         return
       }
 
-      self?.searchForNewStore(
+      self.searchForNewStore(
         with: coordinates,
         givingAddress: address.formatAddress,
         givingType: address.type
@@ -90,10 +89,6 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
 
   func onExit() {
     navigation.onExit()
-  }
-
-  func onList() {
-
   }
 
   func onGetLocation() {
@@ -126,7 +121,7 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
         "storeId": store.sellerStoreID ?? ""
       ]
 
-      guard let urlString = queryString("acom://lasa-store", params: parameters),
+      guard let urlString = queryString(YDDeepLinks.lasaStore.rawValue, params: parameters),
             let url = URL(string: urlString),
             !url.absoluteString.isEmpty else {
         return

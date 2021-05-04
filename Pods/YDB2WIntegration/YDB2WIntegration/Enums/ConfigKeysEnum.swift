@@ -30,6 +30,7 @@ public enum YDConfigProperty: String {
   // Store Mode
   case npsEnabled
   case npsFeedbackMessage
+  case npsMinutesToPrune
   case productsQueryVersion = "lasaB2WProductsQueryVersion"
   case offlineAccountEnabled
 
@@ -43,6 +44,8 @@ public enum YDConfigProperty: String {
   case liveYouTubePlayerEnableFullScreenButton
 
   case preLiveHotsite
+  case liveStartTimeMinusMinutes
+  case checkForLiveTimerConfig
   case liveHotsiteId = "liveHotsite"
   case liveChatEnabled = "chatEnabled"
   case liveChatLikesEnabled = "chatLikesEnabled"

@@ -210,7 +210,7 @@ public class YDSnackBarView: UIView {
       self.parent.layoutIfNeeded()
       self.layoutIfNeeded()
       UIView.animate(withDuration: self.animateDuration) {
-        self.bottomConstraint?.constant = self.bottomValue
+        self.bottomConstraint?.constant = (self.frame.size.height + 40)
         self.parent.layoutIfNeeded()
       }
     }

@@ -23,23 +23,28 @@ public class YDSpaceyComponentBanner: Decodable {
     var image: String? = nil
 
     switch defaultSize {
-      case .small:
-        image = small
+    case .small:
+      image = small
 
-      case .medium:
-        image = medium
+    case .medium:
+      image = medium
 
-      case .big:
-        image = big
+    case .big:
+      image = big
 
-      case .large:
-        image = large
+    case .large:
+      image = large
 
-      case .extralarge:
-        image = extralarge
+    case .extralarge:
+      image = extralarge
     }
 
-    return image ?? extralarge ?? large ?? big ?? medium ?? small
+    if image?.isEmpty ?? true {
+      let images = [extralarge, large, big, medium, small].compactMap { $0 }
+      return images.first(where: { !$0.isEmpty })
+    }
+
+    return image
   }
 
   // Coding Keys

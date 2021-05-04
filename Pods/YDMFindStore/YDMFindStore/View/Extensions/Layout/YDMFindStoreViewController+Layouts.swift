@@ -91,7 +91,7 @@ extension YDMFindStoreViewController {
     layout.minimumLineSpacing = 16
     layout.itemSize = CGSize(width: view.frame.size.width - 32, height: 130)
     layout.sectionInset = UIEdgeInsets(
-      top: 26,
+      top: 12,
       left: 0,
       bottom: view.safeAreaInsets.bottom + 20,
       right: 0
@@ -116,7 +116,7 @@ extension YDMFindStoreViewController {
     NSLayoutConstraint.activate([
       verticalCollectionView.topAnchor.constraint(
         equalTo: howManyStoresVerticalLabel.bottomAnchor,
-        constant: 2
+        constant: 8
       ),
       verticalCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       verticalCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

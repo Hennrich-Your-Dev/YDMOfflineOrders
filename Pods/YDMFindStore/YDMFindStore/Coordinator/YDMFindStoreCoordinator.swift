@@ -54,26 +54,12 @@ public class YDMFindStoreCoordinator {
   }
   
   func startFindStore(userLocation: CLLocationCoordinate2D) {
-    guard let viewController = YDMFindStoreViewController.initializeFromStoryboard(),
-          let storesUrl = YDIntegrationHelper.shared.getFeature(featureName: YDConfigKeys.storeService.rawValue)?.endpoint,
-          let addressUrl = YDIntegrationHelper.shared.getFeature(featureName: YDConfigKeys.addressService.rawValue)?.endpoint
+    guard let viewController = YDMFindStoreViewController.initializeFromStoryboard()
     else {
       fatalError("YDMFindStoreViewController.initializeFromStoryboard")
     }
 
-    let service = YDServiceClient()
-    let serviceFindStore = YDMFindStoreService(service: service, storesUrl: storesUrl)
-
-    let serviceReverseGeocoder = YDMFindStoreReverseGeocoderService(
-      service: service,
-      reverseGeocodeUrl: addressUrl
-    )
-
-    findStoreViewModel = YDMFindStoreViewModel(
-      navigation: self,
-      service: serviceFindStore,
-      geocoder: serviceReverseGeocoder
-    )
+    findStoreViewModel = YDMFindStoreViewModel(navigation: self)
     findStoreViewModel?.trackMetric()
 
     viewController.viewModel = findStoreViewModel
