@@ -22,6 +22,7 @@ protocol OrderDetailsNavigation {
 
 protocol OrderDetailsViewModelDelegate: AnyObject {
   var order: Binder<YDOfflineOrdersOrder> { get }
+  var snackBar: Binder<(message: String, button: String?)> { get }
 
   func goBack()
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct)
@@ -34,6 +35,7 @@ class OrderDetailsViewModel {
   let navigation: OrderDetailsNavigation
 
   var order: Binder<YDOfflineOrdersOrder>
+  var snackBar: Binder<(message: String, button: String?)> = Binder(("", nil))
 
   // MARK: Init
   init(
@@ -85,6 +87,13 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
   }
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
+    product.products?.online = nil
+
+    if product.products?.online == nil {
+      snackBar.value = ("Ops! O produto escolhido está indisponível no momento.", "ok, entendi")
+      return
+    }
+
     navigation.openDetailsForProduct(product, withinOrder: order.value)
   }
 

@@ -236,7 +236,7 @@ extension OrdersCollectionViewCell {
       ),
       addressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
       addressLabel.trailingAnchor.constraint(
-        equalTo: containerView.trailingAnchor,
+        equalTo: contentView.trailingAnchor,
         constant: -9.3
       ),
       addressLabel.heightAnchor.constraint(equalToConstant: 16)
@@ -741,7 +741,7 @@ extension OrdersCollectionViewCell: UIStateDelegate {
           self.shimmersViews.forEach { $0.startShimmer() }
         }
 
-      case .error:
+      default:
         break
     }
   }

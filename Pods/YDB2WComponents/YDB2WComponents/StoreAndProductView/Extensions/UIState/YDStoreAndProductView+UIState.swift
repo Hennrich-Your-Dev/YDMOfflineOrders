@@ -11,32 +11,58 @@ import YDUtilities
 
 extension YDStoreAndProductView: UIStateDelegate {
   public func changeUIState(with type: UIStateEnum) {
-    if type == .normal {
-      DispatchQueue.main.async { [weak self] in
-        guard let self = self else { return }
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
 
-        self.textView.isHidden = false
-        self.shimmerTextView.isHidden = true
-        self.shimmerTextView.subviews.forEach { $0.stopShimmer() }
-        self.storeNameAndAddressView.changeUIState(with: .normal)
-        self.productCardView.changeUIState(with: .normal)
-        self.updateLayoutWithProduct()
-      }
-      //
-    } else if type == .loading {
-      DispatchQueue.main.async { [weak self] in
-        guard let self = self else { return }
+      switch type {
+        case .normal:
+          self.emptyView.isHidden = true
+          self.errorView.isHidden = true
+          self.textView.isHidden = false
+          self.shimmerTextView.isHidden = true
+          self.shimmerTextView.subviews.forEach { $0.stopShimmer() }
+          self.storeNameAndAddressView.changeUIState(with: .normal)
+          self.productCardView.isHidden = false
+          self.productCardView.changeUIState(with: .normal)
+          self.updateLayoutWithProduct()
 
-        self.textView.isHidden = true
-        self.textView.text = ""
-        self.tableView.contentOffset = .zero
-        self.shimmerTextView.isHidden = false
-        self.shimmerTextView.subviews.forEach { $0.startShimmer() }
-        self.storeNameAndAddressView.changeUIState(with: .loading)
-        self.productCardView.changeUIState(with: .loading)
-        self.segmentedControl.selectedSegmentIndex = 0
-        self.segmentedControl.setEnabled(false, forSegmentAt: 0)
-        self.segmentedControl.setEnabled(false, forSegmentAt: 1)
+        case .loading:
+          self.emptyView.isHidden = true
+          self.errorView.isHidden = true
+          self.textView.isHidden = true
+          self.textView.text = ""
+          self.tableView.contentOffset = .zero
+          self.shimmerTextView.isHidden = false
+          self.shimmerTextView.subviews.forEach { $0.startShimmer() }
+          self.storeNameAndAddressView.changeUIState(with: .loading)
+          self.productCardView.isHidden = false
+          self.productCardView.changeUIState(with: .loading)
+          self.segmentedControl.selectedSegmentIndex = 0
+          self.segmentedControl.setEnabled(false, forSegmentAt: 0)
+          self.segmentedControl.setEnabled(false, forSegmentAt: 1)
+
+        case .empty:
+          self.emptyView.isHidden = false
+          self.errorView.isHidden = true
+          self.textView.isHidden = true
+          self.textView.text = ""
+          self.tableView.contentOffset = .zero
+          self.shimmerTextView.isHidden = true
+          self.shimmerTextView.subviews.forEach { $0.stopShimmer() }
+          self.productCardView.isHidden = true
+
+        case .error:
+          self.errorView.isHidden = false
+          self.emptyView.isHidden = true
+          self.textView.isHidden = true
+          self.textView.text = ""
+          self.tableView.contentOffset = .zero
+          self.shimmerTextView.isHidden = true
+          self.shimmerTextView.subviews.forEach { $0.stopShimmer() }
+          self.productCardView.isHidden = true
+
+        default:
+          break
       }
     }
   }

@@ -27,6 +27,7 @@ protocol OfflineOrdersNavigationDelegate: AnyObject {
 protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var error: Binder<String> { get }
   var loading: Binder<Bool> { get }
+  var snackBar: Binder<(message: String, button: String?)> { get }
   var hasPreviousAddressFromIntegration: Bool { get }
   var orderListFirstRequest: Binder<Bool> { get }
   var orderList: Binder<[OrderListConfig]> { get }
@@ -63,6 +64,7 @@ class YDMOfflineOrdersViewModel {
 
   var error: Binder<String> = Binder("")
   var loading: Binder<Bool> = Binder(false)
+  var snackBar: Binder<(message: String, button: String?)> = Binder(("", nil))
 
   var orderListFirstRequest: Binder<Bool> = Binder(false)
   var orderList: Binder<[OrderListConfig]> = Binder([])
@@ -199,8 +201,8 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     loading.value = true
 
     // Mock
-//    fromMock()
-//    return;
+    fromMock()
+    return;
 
     service.offlineOrdersGetOrders(
       userToken: userToken,
@@ -262,6 +264,11 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     _ product: YDOfflineOrdersProduct,
     withinOrder order: YDOfflineOrdersOrder
   ) {
+    if product.products?.online == nil {
+      snackBar.value = ("Ops! O produto escolhido está indisponível no momento.", "ok, entendi")
+      return
+    }
+
     navigation.openDetailsForProduct(product, withinOrder: order)
   }
 

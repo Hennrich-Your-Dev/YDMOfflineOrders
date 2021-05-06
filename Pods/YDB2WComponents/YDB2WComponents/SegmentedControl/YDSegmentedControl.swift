@@ -84,6 +84,14 @@ public class YDSegmentedControl: UIView {
     return segmentedControl
   }()
 
+  // Separator Line
+  public lazy var separatorLineView: UIView = {
+    let separator = UIView()
+    separator.backgroundColor = UIColor.Zeplin.grayNight
+    separator.translatesAutoresizingMaskIntoConstraints = false
+    return separator
+  }()
+
   // The underline view below the segmented control
   private lazy var bottomUnderlineView: UIView = {
     let underlineView = UIView()
@@ -171,6 +179,7 @@ public class YDSegmentedControl: UIView {
 extension YDSegmentedControl {
   func setLayout() {
     addSubview(segmentedControl)
+    addSubview(separatorLineView)
     addSubview(bottomUnderlineView)
 
     // Constrain the segmented control to the container view
@@ -179,6 +188,14 @@ extension YDSegmentedControl {
       segmentedControl.leadingAnchor.constraint(equalTo: leadingAnchor),
       segmentedControl.centerXAnchor.constraint(equalTo: centerXAnchor),
       segmentedControl.centerYAnchor.constraint(equalTo: centerYAnchor)
+    ])
+
+    // Separator Line
+    NSLayoutConstraint.activate([
+      separatorLineView.bottomAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
+      separatorLineView.heightAnchor.constraint(equalToConstant: 1),
+      separatorLineView.leadingAnchor.constraint(equalTo: segmentedControl.leadingAnchor),
+      separatorLineView.trailingAnchor.constraint(equalTo: segmentedControl.trailingAnchor)
     ])
 
     // Constrain the underline view relative to the segmented control

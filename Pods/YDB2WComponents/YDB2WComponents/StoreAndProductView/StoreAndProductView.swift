@@ -38,6 +38,11 @@ public class YDStoreAndProductView: UIView {
   }
   public weak var delegate: YDStoreAndProductDelegate?
   var lastContentOffset: CGFloat = 0
+  public var errorStateActionCallback: ((UIButton) -> Void)? {
+    didSet {
+      errorViewActionButton.callback = errorStateActionCallback
+    }
+  }
 
   // MARK: Components
   let storeNameAndAddressView = YDStoreNameAddressView(withButton: true)
@@ -46,8 +51,10 @@ public class YDStoreAndProductView: UIView {
   let segmentedControl = YDSegmentedControl()
   let textView = UITextView()
   let tableView = UITableView()
-
   let shimmerTextView = UIView()
+  let emptyView = UIView()
+  let errorView = UIView()
+  let errorViewActionButton = YDWireButton(withTitle: "atualizar")
 
   // MARK: Init
   public init() {

@@ -33,15 +33,15 @@ public extension YDIntegrationHelper {
     )
     list.append(starComponent)
 
-//    let queueQuestion = YDMNPSListConfig(
-//      uniqueId: "largeHorizontal1",
-//      title: "Você pegou fila?",
-//      items: [
-//        YDMNPSListConfigItems(value: "Não, estava livre"),
-//        YDMNPSListConfigItems(value: "Sim, tinha fila")
-//      ]
-//    )
-//    list.append(queueQuestion)
+    let queueQuestion = YDMNPSListConfig(
+      uniqueId: "largeHorizontal1",
+      title: "Alguma pergunta",
+      items: [
+        YDMNPSListConfigItems(value: "resposta A"),
+        YDMNPSListConfigItems(value: "resposta B")
+      ]
+    )
+    list.append(queueQuestion)
 
     //
     let indicateLevel = YDMNPSListConfig(

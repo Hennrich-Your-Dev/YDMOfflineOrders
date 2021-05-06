@@ -15,6 +15,7 @@ import YDB2WModels
 import YDB2WServices
 
 protocol ProductDetailsViewModelDelegate: AnyObject {
+  var error: Binder<Bool> { get }
   var loading: Binder<Bool> { get }
   var currentStore: Binder<YDStore?> { get }
   var currentProductOnlineOffline: Binder<YDProductOnlineOffline?> { get }
@@ -26,6 +27,7 @@ class ProductDetailsViewModel {
   // MARK: Properties
   let service: YDB2WServiceDelegate = YDB2WService()
   var order: YDOfflineOrdersOrder
+  var error: Binder<Bool> = Binder(false)
   var loading: Binder<Bool> = Binder(false)
   var currentStore: Binder<YDStore?> = Binder(nil)
   var currentProductOnlineOffline: Binder<YDProductOnlineOffline?> = Binder(nil)
@@ -83,7 +85,7 @@ extension ProductDetailsViewModel {
         switch response {
           case .success(let stores):
             let sorted = stores.stores.prefix(10).compactMap { $0 }.sorted {
-              $0.distance ?? 0 < $1.distance ?? 0
+              $0.distance ?? 100000 < $1.distance ?? 100000
             }
 
             completion(sorted.first)
@@ -112,10 +114,25 @@ extension ProductDetailsViewModel {
 
       switch response {
         case .success(let result):
-          self.currentProductOnlineOffline.value = result.products.first
+          // For testing
+          // self.error.fire()
+          // return;
+
+          guard let first = result.products.first else {
+            self.error.fire()
+            return
+          }
+
+          first.online = self.currentProductOnlineOffline.value?.online
+
+          // For Testing
+          // first.offline?.isAvailable = false
+
+          self.currentProductOnlineOffline.value = first
 
         case .failure(let error):
           print(#function, error.message)
+          self.error.fire()
       }
     }
   }

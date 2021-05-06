@@ -38,13 +38,20 @@ class ProductDetailsViewController: UIViewController {
     setUpBinds()
 
     bindCurrentProductAndStore()
+
+    storeAndProductView.errorStateActionCallback = { [weak self] _ in
+      guard let self = self else { return }
+      self.viewModel?.changeAddress()
+    }
   }
 }
 
 // MARK: Actions
 extension ProductDetailsViewController {
   private func updateLayoutWithOfflineProduct() {
-    guard let product = productOnlineOffline?.offline else {
+    guard let product = productOnlineOffline?.offline,
+          product.isAvailable else {
+      storeAndProductView.changeUIState(with: .empty)
       return
     }
 

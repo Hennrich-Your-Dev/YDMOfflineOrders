@@ -35,7 +35,7 @@ class YDMFindStoreViewController: UIViewController {
     var margin: CGFloat = 30
 
     if UIDevice.iPhone5 {
-      margin = 10
+      margin = 20
     }
 
     return view.frame.size.width - margin

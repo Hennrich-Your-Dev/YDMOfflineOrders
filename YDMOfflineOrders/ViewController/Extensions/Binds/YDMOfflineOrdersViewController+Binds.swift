@@ -83,5 +83,17 @@ extension YDMOfflineOrdersViewController {
         self.canLoadMore = true
       }
     }
+
+    viewModel?.snackBar.bind { [weak self] params in
+      guard let self = self else { return }
+
+      let snack = YDSnackBarView(parent: self.view)
+
+      if let buttonTitle = params.button {
+        snack.showMessage(params.message, ofType: .withButton(buttonName: buttonTitle))
+      } else {
+        snack.showMessage(params.message, ofType: .simple)
+      }
+    }
   }
 }

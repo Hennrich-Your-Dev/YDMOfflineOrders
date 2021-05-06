@@ -17,9 +17,16 @@ extension YDStoreAndProductView {
     createSegmentedControl()
     createTextView()
     createTableView()
+    bringSubviewToFront(segmentedControl)
 
     // Shimmer
     createTextViewShimmer()
+
+    // Empty View
+    createEmptyView()
+
+    // Error View
+    createErrorView()
   }
 
   // Store & Address
@@ -95,8 +102,7 @@ extension YDStoreAndProductView {
     textView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       textView.topAnchor.constraint(
-        equalTo: segmentedControl.bottomAnchor,
-        constant: 2
+        equalTo: segmentedControl.bottomAnchor
       ),
       textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       textView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -112,11 +118,14 @@ extension YDStoreAndProductView {
     tableView.dataSource = self
     tableView.rowHeight = UITableView.automaticDimension
     tableView.isHidden = true
+    tableView.tableHeaderView = UIView(
+      frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 16)
+    )
     addSubview(tableView)
 
     tableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 18),
+      tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor),
       tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
       tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
@@ -172,6 +181,90 @@ extension YDStoreAndProductView {
         constant: -50
       ),
       secoundView.heightAnchor.constraint(equalToConstant: 13)
+    ])
+  }
+}
+
+// MARK: Empty View
+extension YDStoreAndProductView {
+  func createEmptyView() {
+    addSubview(emptyView)
+    emptyView.isHidden = true
+    emptyView.backgroundColor = .white
+
+    emptyView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      emptyView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
+      emptyView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      emptyView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      emptyView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    ])
+
+    // Message
+    let messageLabel = UILabel()
+    emptyView.addSubview(messageLabel)
+
+    messageLabel.textColor = UIColor.Zeplin.grayLight
+    messageLabel.textAlignment = .center
+    messageLabel.font = .systemFont(ofSize: 16)
+    messageLabel.text = "ops! A loja escolhida está com o produto indisponível no momento."
+    messageLabel.numberOfLines = 0
+
+    messageLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      messageLabel.topAnchor.constraint(equalTo: emptyView.topAnchor, constant: 56),
+      messageLabel.leadingAnchor.constraint(equalTo: emptyView.leadingAnchor, constant: 42),
+      messageLabel.trailingAnchor.constraint(
+        equalTo: emptyView.trailingAnchor,
+        constant: -42
+      )
+    ])
+  }
+}
+
+// MARK: Error View
+extension YDStoreAndProductView {
+  func createErrorView() {
+    addSubview(errorView)
+    errorView.isHidden = true
+    errorView.backgroundColor = .white
+
+    errorView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      errorView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
+      errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      errorView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    ])
+
+    // Message
+    let messageLabel = UILabel()
+    errorView.addSubview(messageLabel)
+
+    messageLabel.textColor = UIColor.Zeplin.grayLight
+    messageLabel.textAlignment = .center
+    messageLabel.font = .systemFont(ofSize: 16)
+    messageLabel.text = "Ops! Falha ao carregar."
+    messageLabel.numberOfLines = 0
+
+    messageLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      messageLabel.topAnchor.constraint(equalTo: errorView.topAnchor, constant: 56),
+      messageLabel.leadingAnchor.constraint(equalTo: errorView.leadingAnchor, constant: 42),
+      messageLabel.trailingAnchor.constraint(
+        equalTo: errorView.trailingAnchor,
+        constant: -42
+      )
+    ])
+
+    // Button
+    errorView.addSubview(errorViewActionButton)
+    NSLayoutConstraint.activate([
+      errorViewActionButton.topAnchor.constraint(
+        equalTo: messageLabel.bottomAnchor,
+        constant: 24
+      ),
+      errorViewActionButton.centerXAnchor.constraint(equalTo: errorView.centerXAnchor)
     ])
   }
 }
