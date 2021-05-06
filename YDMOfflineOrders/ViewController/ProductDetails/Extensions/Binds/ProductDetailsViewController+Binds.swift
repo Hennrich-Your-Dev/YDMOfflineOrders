@@ -23,5 +23,10 @@ extension ProductDetailsViewController {
       guard let self = self else { return }
       self.store = newStore
     }
+
+    viewModel?.error.bind { [weak self] _ in
+      guard let self = self else { return }
+      self.storeAndProductView.changeUIState(with: .error)
+    }
   }
 }
