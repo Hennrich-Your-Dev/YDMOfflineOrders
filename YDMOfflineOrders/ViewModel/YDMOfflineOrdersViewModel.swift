@@ -201,8 +201,8 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     loading.value = true
 
     // Mock
-    fromMock()
-    return;
+//    fromMock()
+//    return;
 
     service.offlineOrdersGetOrders(
       userToken: userToken,
@@ -264,7 +264,9 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     _ product: YDOfflineOrdersProduct,
     withinOrder order: YDOfflineOrdersOrder
   ) {
-    if product.products?.online == nil {
+//    product.products?.online?.isAvailable = false
+
+    if product.products?.online?.isAvailable == false {
       snackBar.value = ("Ops! O produto escolhido está indisponível no momento.", "ok, entendi")
       return
     }

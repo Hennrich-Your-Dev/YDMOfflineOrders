@@ -87,9 +87,9 @@ extension OrderDetailsViewModel: OrderDetailsViewModelDelegate {
   }
 
   func openDetailsForProduct(_ product: YDOfflineOrdersProduct) {
-    product.products?.online = nil
+//    product.products?.online?.isAvailable = false
 
-    if product.products?.online == nil {
+    if product.products?.online?.isAvailable == false {
       snackBar.value = ("Ops! O produto escolhido está indisponível no momento.", "ok, entendi")
       return
     }

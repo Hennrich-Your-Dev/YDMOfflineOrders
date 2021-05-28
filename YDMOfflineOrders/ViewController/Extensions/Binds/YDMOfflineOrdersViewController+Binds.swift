@@ -70,15 +70,6 @@ extension YDMOfflineOrdersViewController {
       snackBar.delegate = self
       snackBar.showMessage(message, ofType: .withButton(buttonName: "atualizar"))
 
-      self.collectionView.scrollToItem(
-        at: IndexPath(
-          item: self.collectionView.numberOfItems(inSection: 0) - 1,
-          section: 0
-        ),
-        at: .bottom,
-        animated: true
-      )
-
       Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
         self.canLoadMore = true
       }

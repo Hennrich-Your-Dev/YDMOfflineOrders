@@ -114,7 +114,7 @@ extension ProductDetailsViewModel {
 
       switch response {
         case .success(let result):
-          // For testing
+          // For testing error state
           // self.error.fire()
           // return;
 
@@ -125,7 +125,7 @@ extension ProductDetailsViewModel {
 
           first.online = self.currentProductOnlineOffline.value?.online
 
-          // For Testing
+          // For Testing empty state
           // first.offline?.isAvailable = false
 
           self.currentProductOnlineOffline.value = first
