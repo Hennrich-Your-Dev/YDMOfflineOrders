@@ -15,6 +15,7 @@ public typealias YDMOfflineOrders = YDMOfflineOrdersCoordinator
 public class YDMOfflineOrdersCoordinator {
   var navigationController: UINavigationController?
 
+  let currentUser: YDCurrentCustomer
   private var lazyLoadingOrders: Int = 5
 
   public init() {
@@ -23,13 +24,19 @@ public class YDMOfflineOrdersCoordinator {
         .extras?[YDConfigProperty.lazyLoadingOrders.rawValue] as? Int {
       self.lazyLoadingOrders = limit
     }
+
+    guard let user = YDIntegrationHelper.shared.currentUser else {
+      fatalError("Não existe um usuário logado")
+    }
+
+    self.currentUser = user
   }
 
-  public func start(userToken: String, navController: UINavigationController?) {
+  public func start(navController: UINavigationController?) {
     let vc = YDMOfflineOrdersViewController()
     let viewModel = YDMOfflineOrdersViewModel(
       navigation: self,
-      userToken: userToken,
+      currentUser: currentUser,
       lazyLoadingOrders: self.lazyLoadingOrders
     )
     vc.viewModel = viewModel
@@ -37,11 +44,11 @@ public class YDMOfflineOrdersCoordinator {
     navigationController = navController
   }
 
-  public func start(userToken: String) -> YDMOfflineOrdersViewController {
+  public func start() -> YDMOfflineOrdersViewController {
     let vc = YDMOfflineOrdersViewController()
     let viewModel = YDMOfflineOrdersViewModel(
       navigation: self,
-      userToken: userToken,
+      currentUser: currentUser,
       lazyLoadingOrders: self.lazyLoadingOrders
     )
     vc.viewModel = viewModel

@@ -39,7 +39,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
 
   func setNavigationController(_ navigation: UINavigationController?)
 
-  func getOrderList()
+  func login()
   func getMoreOrders()
 
   func openNote(withKey key: String?)
@@ -74,16 +74,17 @@ class YDMOfflineOrdersViewModel {
   let lazyLoadingOrders: Int
   var currentPage = 1
 
-  var userToken: String
+  let currentUser: YDCurrentCustomer
+  var userToken = ""
 
   // MARK: Init
   init(
     navigation: OfflineOrdersNavigationDelegate,
-    userToken: String,
+    currentUser: YDCurrentCustomer,
     lazyLoadingOrders: Int
   ) {
     self.navigation = navigation
-    self.userToken = userToken
+    self.currentUser = currentUser
     self.lazyLoadingOrders = lazyLoadingOrders
 
     trackEvent(withName: .offlineOrders, ofType: .state)
@@ -117,7 +118,6 @@ class YDMOfflineOrdersViewModel {
   }
 
   private func addOrdersToList(_ sorted: [YDOfflineOrdersOrder], append: Bool) {
-
     if !sorted.isEmpty {
       for curr in sorted {
         guard let sectionDate = curr.formattedDateSection else { continue }
@@ -195,6 +195,26 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
 
   func getAllOrdersConfigs() -> [OrderListConfig] {
     return orderList.value
+  }
+
+  func login() {
+    loading.value = true
+
+    service.getLasaClientLogin(
+      user: currentUser
+    ) { [weak self] (response: Result<YDLasaClientLogin, YDServiceError>) in
+      guard let self = self else { return }
+
+      switch response {
+        case .success(let userLoginData):
+          self.userToken = userLoginData.token ?? ""
+          self.getOrderList()
+
+        case .failure(let error):
+          self.error.value = error.message
+          self.logger.error(error.message)
+      }
+    }
   }
 
   func getOrderList() {

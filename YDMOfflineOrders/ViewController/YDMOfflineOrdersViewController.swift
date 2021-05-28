@@ -63,7 +63,7 @@ public class YDMOfflineOrdersViewController: UIViewController {
 
     setUpLayout()
     setUpBinds()
-    viewModel?.getOrderList()
+    viewModel?.login()
   }
 
   public override func viewWillAppear(_ animated: Bool) {
@@ -114,7 +114,7 @@ extension YDMOfflineOrdersViewController {
     if feedbackStateType == .empty {
       viewModel?.onFeedbackButton()
     } else {
-      viewModel?.getOrderList()
+      viewModel?.login()
     }
   }
 }
