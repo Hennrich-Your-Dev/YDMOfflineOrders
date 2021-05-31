@@ -17,54 +17,55 @@ PODS:
   - libwebp/mux (1.2.0):
     - libwebp/demux
   - libwebp/webp (1.2.0)
-  - YDB2WAssets (1.0.39)
-  - YDB2WComponents (1.1.22):
+  - YDB2WAssets (1.4.0)
+  - YDB2WComponents (1.4.0):
     - Cosmos
-    - YDB2WAssets (~> 1.0.33)
-    - YDB2WModels (~> 1.1.0)
-    - YDExtensions (~> 1.0.42)
-    - YDUtilities (~> 1.1.0)
-  - YDB2WDeepLinks (1.0.3)
-  - YDB2WIntegration (1.1.11):
-    - YDB2WModels (~> 1.1.0)
-    - YDExtensions (~> 1.0.0)
-  - YDB2WModels (1.1.29):
-    - YDExtensions (~> 1.0.42)
-    - YDUtilities (~> 1.1.0)
-  - YDB2WServices (1.1.10):
+    - YDB2WAssets (~> 1.4.0)
+    - YDB2WModels (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
+    - YDUtilities (~> 1.4.0)
+  - YDB2WDeepLinks (1.4.0):
+    - YDExtensions (~> 1.4.0)
+  - YDB2WIntegration (1.4.0):
+    - YDB2WModels (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
+  - YDB2WModels (1.4.0):
+    - YDExtensions (~> 1.4.0)
+    - YDUtilities (~> 1.4.0)
+  - YDB2WServices (1.4.0):
     - Alamofire (~> 4.0)
-    - YDB2WIntegration (~> 1.1.0)
-    - YDB2WModels (~> 1.1.0)
-  - YDExtensions (1.0.55):
+    - YDB2WIntegration (~> 1.4.0)
+    - YDB2WModels (~> 1.4.0)
+  - YDExtensions (1.4.0):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDLocationModule (1.0.5)
-  - YDMFindStore (1.1.9):
+  - YDMFindStore (1.4.0):
     - Alamofire (= 4.9.1)
     - curvyRoute
-    - YDB2WAssets (~> 1.0.33)
-    - YDB2WComponents (~> 1.1.0)
-    - YDB2WDeepLinks (~> 1.0.0)
-    - YDB2WIntegration (~> 1.1.0)
-    - YDB2WModels (~> 1.1.0)
-    - YDB2WServices (~> 1.1.0)
-    - YDExtensions (~> 1.0.42)
+    - YDB2WAssets (~> 1.4.0)
+    - YDB2WComponents (~> 1.4.0)
+    - YDB2WDeepLinks (~> 1.4.0)
+    - YDB2WIntegration (~> 1.4.0)
+    - YDB2WModels (~> 1.4.0)
+    - YDB2WServices (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
     - YDLocationModule (~> 1.0.5)
-    - YDUtilities (~> 1.1.0)
-  - YDUtilities (1.1.1):
+    - YDUtilities (~> 1.4.0)
+  - YDUtilities (1.4.0):
     - Alamofire (~> 4.0)
 
 DEPENDENCIES:
   - Cosmos
-  - YDB2WAssets (~> 1.0.33)
-  - YDB2WComponents (~> 1.1.0)
-  - YDB2WDeepLinks (~> 1.0.0)
-  - YDB2WIntegration (~> 1.1.0)
-  - YDB2WModels (~> 1.1.0)
-  - YDB2WServices (~> 1.1.0)
-  - YDExtensions (~> 1.0.42)
-  - YDMFindStore (~> 1.1.0)
-  - YDUtilities (~> 1.1.0)
+  - YDB2WAssets (~> 1.4.0)
+  - YDB2WComponents (~> 1.4.0)
+  - YDB2WDeepLinks (~> 1.4.0)
+  - YDB2WIntegration (~> 1.4.0)
+  - YDB2WModels (~> 1.4.0)
+  - YDB2WServices (~> 1.4.0)
+  - YDExtensions (~> 1.4.0)
+  - YDMFindStore (~> 1.4.0)
+  - YDUtilities (~> 1.4.0)
 
 SPEC REPOS:
   "git@github.com:Hennrich-Your-Dev/YourDev-Pods.git":
@@ -93,17 +94,17 @@ SPEC CHECKSUMS:
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
-  YDB2WAssets: 6d42505f40e0ebd35bdf1a28f874e076aced50cb
-  YDB2WComponents: 731b25d42dc2196968f719c444bc5677ba85150f
-  YDB2WDeepLinks: 5df9534e41baa38c04bc58aafdefbdf505264371
-  YDB2WIntegration: 0fd359b65c9306cb5b6fc738ce9df0919fefd1e9
-  YDB2WModels: a7d6697cc1f500de127b848837193f23a2086a25
-  YDB2WServices: e2d4885e85f0bf786c170a7a0e46e9da39ab886d
-  YDExtensions: 39587ea6186689aebf6d27528b423bd04cb58dfd
+  YDB2WAssets: 193fe0067aad36f0f301b13e14a202f95eb9f62b
+  YDB2WComponents: b65dac2b6fc66bfa8b1872319ef2628b76439d4e
+  YDB2WDeepLinks: 904d06101691e4dce398bf88f4d8d5030d41d125
+  YDB2WIntegration: bb9f9c08715921b2fb90c61998260dd09644999b
+  YDB2WModels: d350b5a2094f1388bf503bfe8633398e9e42d2db
+  YDB2WServices: 8438c33b5dafa87a84293477f64b11483260d8c5
+  YDExtensions: d2db8d24ca8bba7833f8dfed0d32a743c7a68f36
   YDLocationModule: 35cddec317442e18078cb64e1542d7cd360ccb43
-  YDMFindStore: 7d855c4f995bfa5464c4c80f59b352d8ccfa52c9
-  YDUtilities: 3085ab9236e8f51b4418092976dca1cfdc86f69d
+  YDMFindStore: 76ede92b0a0615b3f6526c3633496c3a567d6a85
+  YDUtilities: 3a3b74ce2194b381c826977f7dd144d5a7f396c7
 
-PODFILE CHECKSUM: 66b5269b6be06d75bf6ac3ddfc785a4049a96c18
+PODFILE CHECKSUM: 555f9768b3acad51f0b13088273c65cbdf63d0de
 
 COCOAPODS: 1.10.1

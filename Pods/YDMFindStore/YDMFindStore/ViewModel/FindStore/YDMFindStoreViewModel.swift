@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 import YDB2WIntegration
 import YDUtilities
@@ -21,6 +22,8 @@ protocol YDMFindStoreNavigationDelegate {
 }
 
 protocol YDMFindStoreViewModelDelegate {
+  var error: Binder<Bool> { get }
+  var loading: Binder<Bool> { get }
   var location: Binder<YDLocationViewModel?> { get }
   var stores: Binder<[YDStore]> { get }
 
@@ -28,11 +31,11 @@ protocol YDMFindStoreViewModelDelegate {
   func getPreviousAddress()
   subscript(_ index: Int) -> YDStore? { get }
 
-  // Buttons actions
   func onExit()
   func onGetLocation()
   func onGetCurrentLocation()
   func onStoreCardAction(type: OnStoreCardActionEnum, store: YDStore)
+  func refreshRequest()
 }
 
 // MARK: View Model
@@ -42,8 +45,17 @@ class YDMFindStoreViewModel {
   let navigation: YDMFindStoreNavigationDelegate
   let service: YDB2WServiceDelegate
 
+  var error: Binder<Bool> = Binder(false)
+  var loading: Binder<Bool> = Binder(false)
   var location: Binder<YDLocationViewModel?> = Binder(nil)
   var stores: Binder<[YDStore]> = Binder([])
+
+  var latestLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(
+    latitude: 0,
+    longitude: 0
+  )
+  var latestAddress: String?
+  var latestType: YDAddressType? = .unknown
 
   private let locationManager = YDLocation.shared
   private var alreadyGetUsersPosition = false
@@ -60,7 +72,6 @@ class YDMFindStoreViewModel {
 
 // MARK: Extension delegate
 extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
-
   subscript(_ index: Int) -> YDStore? {
     return stores.value.at(index)
   }
@@ -131,5 +142,13 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
 
     case .whatsapp: break
     }
+  }
+
+  func refreshRequest() {
+    searchForNewStore(
+      with: latestLocation,
+      givingAddress: latestAddress,
+      givingType: latestType
+    )
   }
 }

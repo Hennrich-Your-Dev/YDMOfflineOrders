@@ -1,13 +1,13 @@
 //
-//  YDSpaceyProductInterface.swift
+//  YDProductFromIdInterface.swift
 //  YDB2WModels
 //
-//  Created by Douglas Hennrich on 14/04/21.
+//  Created by Douglas Hennrich on 23/05/21.
 //
 
-import UIKit
+import Foundation
 
-public class YDSpaceyProductInterface: Decodable {
+public class YDProductFromIdInterface: Decodable {
   public let partnerId: String?
   public let productId: String
   public let name: String
@@ -32,27 +32,5 @@ public class YDSpaceyProductInterface: Decodable {
     case priceConditions = "installment"
     case ean = "productSku"
     case stock
-  }
-}
-
-public struct YDSpaceyProductCarrouselContainer {
-  public var id: Int
-  public var items: [YDSpaceyProduct]
-  public var ids: [[String]]
-  public var pageNumber: Int
-  public var currentRectList: CGFloat?
-
-  public init(
-    id: Int,
-    items: [YDSpaceyProduct],
-    ids: [[String]],
-    pageNumber: Int,
-    currentRectList: CGFloat?
-  ) {
-    self.id = id
-    self.items = items
-    self.ids = ids
-    self.pageNumber = pageNumber
-    self.currentRectList = currentRectList
   }
 }

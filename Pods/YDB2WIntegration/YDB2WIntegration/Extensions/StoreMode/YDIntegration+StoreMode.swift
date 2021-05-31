@@ -9,8 +9,8 @@ import Foundation
 
 // MARK: Open store module
 public extension YDIntegrationHelper {
-  func openStoreMode() {
-    presentationDelegate?.presentStoreMode()
+  func openStoreMode(deeplink: String?) {
+    presentationDelegate?.presentStoreMode(deeplink: deeplink)
   }
 }
 
@@ -35,10 +35,10 @@ public extension YDIntegrationHelper {
 
     let queueQuestion = YDMNPSListConfig(
       uniqueId: "largeHorizontal1",
-      title: "Alguma pergunta",
+      title: "Achou o que procurava?",
       items: [
-        YDMNPSListConfigItems(value: "resposta A"),
-        YDMNPSListConfigItems(value: "resposta B")
+        YDMNPSListConfigItems(value: "Não"),
+        YDMNPSListConfigItems(value: "Sim")
       ]
     )
     list.append(queueQuestion)

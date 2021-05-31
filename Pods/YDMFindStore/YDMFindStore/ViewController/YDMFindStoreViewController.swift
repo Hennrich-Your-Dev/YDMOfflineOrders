@@ -12,6 +12,7 @@ import CoreLocation
 import YDB2WAssets
 import YDUtilities
 import YDExtensions
+import YDB2WComponents
 
 class YDMFindStoreViewController: UIViewController {
   // MARK: Properties
@@ -23,7 +24,7 @@ class YDMFindStoreViewController: UIViewController {
   var currentStoreIndex = 0
   var showingVerticalList = false
   lazy var cardWidthSize: CGFloat = {
-    var margin: CGFloat = 71
+    var margin: CGFloat = 41
 
     if UIDevice.iPhone5 {
       margin = 20
@@ -32,7 +33,7 @@ class YDMFindStoreViewController: UIViewController {
     return view.frame.size.width - margin
   }()
   lazy var verticalCardWidthSize: CGFloat = {
-    var margin: CGFloat = 30
+    var margin: CGFloat = 32
 
     if UIDevice.iPhone5 {
       margin = 20
@@ -49,6 +50,8 @@ class YDMFindStoreViewController: UIViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewLayout()
   )
+  let errorView = UIView()
+  let errorViewActionButton = YDWireButton(withTitle: "atualizar")
 
   // MARK: IBOutlets
   @IBOutlet weak var mapView: MKMapView! {
@@ -168,13 +171,18 @@ class YDMFindStoreViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    createMapGradient()
-    createVerticalListLayout()
+    configureLayout()
     setUpBinds()
 
-    collectionView.reloadData()
+    storesListContainer.isHidden = true
+    myLocationButton.isHidden = true
+
     locationActivity()
-    viewModel?.getPreviousAddress()
+
+    Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [weak self] _ in
+      guard let self = self else { return }
+      self.viewModel?.getPreviousAddress()
+    }
   }
 
   deinit {
@@ -229,17 +237,20 @@ class YDMFindStoreViewController: UIViewController {
        let latitude = firstStoreCoords.latitude,
        let longitude = firstStoreCoords.longitude {
 
-      let nearstStoreCoords = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+      let nearstStoreCoords = CLLocationCoordinate2D(
+        latitude: latitude,
+        longitude: longitude
+      )
       setMapCenterBetween(positionA: userCoords, positionB: nearstStoreCoords)
 
       // To make list scroll to first item
-      do {
-        collectionView.scrollToItem(
-          at: IndexPath(row: 0, section: 0),
-          at: .centeredHorizontally,
-          animated: true
-        )
-      }
+      collectionView.scrollToItem(
+        at: IndexPath(row: 0, section: 0),
+        at: .centeredHorizontally,
+        animated: true
+      )
+
+      redrawPins(highlightAt: 0, shouldCenterMap: false)
 
     } else {
       let span = mapView.region.span
@@ -251,11 +262,29 @@ class YDMFindStoreViewController: UIViewController {
 // MARK: Actions
 extension YDMFindStoreViewController {
   func formatHowManyStoresOnList(with howMany: Int) {
-    howManyStoresLabel.text = String(format: howManyStoresLabel.text ?? "", howMany)
+    howManyStoresLabel.text = "\(howMany) Americanas perto de você"
 
     howManyStoresVerticalLabel.text = String(
       format: howManyStoresLabel.text ?? "",
       howMany
     )
+
+    howManyStoresLabel.isHidden = false
+    howManyStoresVerticalLabel.isHidden = false
+  }
+
+  func onErrorActionButton(_ sender: UIButton) {
+    viewModel?.refreshRequest()
+  }
+
+  func showErrorView(hide: Bool = false) {
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+
+      self.errorView.isHidden = hide
+      self.listButton.isEnabled = hide
+      self.myLocationButton.isHidden = !hide
+      self.storesListContainer.isHidden = !hide
+    }
   }
 }

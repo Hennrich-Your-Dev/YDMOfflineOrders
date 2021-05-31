@@ -113,7 +113,7 @@ class YDMFindStoreStoreCardCollectionViewCell: UICollectionViewCell {
   }
 
   func transformTime(with time: String, open: Bool) {
-    let status = open ? "aberto" : "fechado"
+    let status = open ? "aberto" : "fechada"
     statusLabel.text = status
     statusLabel.textColor = open ? UIColor.Zeplin.green : UIColor.Zeplin.redBranding
 
