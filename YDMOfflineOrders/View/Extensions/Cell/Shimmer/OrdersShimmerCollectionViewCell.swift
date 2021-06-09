@@ -21,7 +21,7 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
   var photoView = UIView()
   var productNameView = UIView()
   var productSubNameView = UIView()
-  var noteButton = UIButton()
+  // var noteButton = UIButton()
   var priceView = UIView()
 
   lazy var shimmersViews: [UIView] = {
@@ -66,6 +66,14 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    contentView.layer.shadowPath = UIBezierPath(
+      roundedRect: contentView.bounds,
+      cornerRadius: 6
+    ).cgPath
+  }
+
   override func prepareForReuse() {
     shimmersViews.forEach { $0.stopShimmer() }
 
@@ -94,7 +102,7 @@ extension OrdersShimmerCollectionViewCell {
     createProductCard()
 
     let separatorUnderStack = createSeparator(firstSeparator: false)
-    createNoteButton(parent: separatorUnderStack)
+    // createNoteButton(parent: separatorUnderStack)
     createValueLabel(parent: separatorUnderStack)
   }
 
@@ -231,8 +239,10 @@ extension OrdersShimmerCollectionViewCell {
     productNameView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       productNameView.topAnchor.constraint(equalTo: middleView.topAnchor, constant: 8),
-      productNameView.leadingAnchor.constraint(equalTo: photoView.trailingAnchor, constant: 10),
-      productNameView.trailingAnchor.constraint(equalTo: middleView.trailingAnchor),
+      productNameView.leadingAnchor
+        .constraint(equalTo: photoView.trailingAnchor, constant: 10),
+      productNameView.trailingAnchor
+        .constraint(equalTo: middleView.trailingAnchor),
       productNameView.heightAnchor.constraint(equalToConstant: 13)
     ])
 
@@ -243,26 +253,29 @@ extension OrdersShimmerCollectionViewCell {
 
     productSubNameView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productSubNameView.topAnchor.constraint(equalTo: productNameView.bottomAnchor, constant: 7),
-      productSubNameView.leadingAnchor.constraint(equalTo: productNameView.leadingAnchor),
-      productSubNameView.trailingAnchor.constraint(equalTo: productNameView.centerXAnchor),
+      productSubNameView.topAnchor
+        .constraint(equalTo: productNameView.bottomAnchor, constant: 7),
+      productSubNameView.leadingAnchor
+        .constraint(equalTo: productNameView.leadingAnchor),
+      productSubNameView.trailingAnchor
+        .constraint(equalTo: productNameView.centerXAnchor),
       productSubNameView.heightAnchor.constraint(equalToConstant: 13)
     ])
   }
 
-  func createNoteButton(parent: UIView) {
-    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
-    noteButton.setTitleColor(UIColor.Zeplin.redBranding.withAlphaComponent(0.3), for: .normal)
-    noteButton.setTitle("ver nota fiscal", for: .normal)
-    contentView.addSubview(noteButton)
-
-    noteButton.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
-      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-      noteButton.heightAnchor.constraint(equalToConstant: 35)
-    ])
-  }
+//  func createNoteButton(parent: UIView) {
+//    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
+//    noteButton.setTitleColor(UIColor.Zeplin.redBranding.withAlphaComponent(0.3), for: .normal)
+//    noteButton.setTitle("ver nota fiscal", for: .normal)
+//    contentView.addSubview(noteButton)
+//
+//    noteButton.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
+//      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+//      noteButton.heightAnchor.constraint(equalToConstant: 35)
+//    ])
+//  }
 
   func createValueLabel(parent: UIView) {
     priceView.backgroundColor = UIColor.Zeplin.black
@@ -278,8 +291,8 @@ extension OrdersShimmerCollectionViewCell {
       ),
       priceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       priceView.trailingAnchor.constraint(
-        equalTo: noteButton.leadingAnchor,
-        constant: -50
+        equalTo: contentView.trailingAnchor,
+        constant: -16
       ),
       priceView.heightAnchor.constraint(equalToConstant: 13)
     ])

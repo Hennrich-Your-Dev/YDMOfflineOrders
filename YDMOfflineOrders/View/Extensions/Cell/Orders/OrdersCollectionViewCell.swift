@@ -14,6 +14,12 @@ import YDUtilities
 
 class OrdersCollectionViewCell: UICollectionViewCell {
   // Components
+  lazy var width: NSLayoutConstraint = {
+    let width = contentView.widthAnchor
+      .constraint(equalToConstant: bounds.size.width)
+    width.isActive = true
+    return width
+  }()
   let containerView = UIView()
   let storeNameLabel = UILabel()
   let addressLabel = UILabel()
@@ -61,24 +67,31 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     super.init(frame: frame)
 
     backgroundColor = .clear
-
     contentView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-      contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-      contentView.topAnchor.constraint(equalTo: topAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
-    ])
-
-    contentView.backgroundColor = UIColor.Zeplin.white
-    contentView.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
-    contentView.layer.cornerRadius = 6
-
     setUpLayout()
+  }
+
+  override func systemLayoutSizeFitting(
+    _ targetSize: CGSize,
+    withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
+    verticalFittingPriority: UILayoutPriority
+  ) -> CGSize {
+    width.constant = bounds.size.width
+    return contentView.systemLayoutSizeFitting(
+      CGSize(width: targetSize.width, height: 1)
+    )
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    containerView.layer.shadowPath = UIBezierPath(
+      roundedRect: containerView.bounds,
+      cornerRadius: 6
+    ).cgPath
   }
 
   override func prepareForReuse() {
@@ -99,6 +112,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     priceLabel.text = nil
     productCallback = nil
     currentOrder = nil
+    orderDetailsCallback = nil
     noteCallback = nil
     changeUIState(with: .normal)
 
@@ -184,12 +198,17 @@ extension OrdersCollectionViewCell {
 
   func createContainerView() {
     contentView.addSubview(containerView)
+    containerView.backgroundColor = UIColor.Zeplin.white
+    containerView.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
+    containerView.layer.cornerRadius = 6
 
     containerView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+      containerView.leadingAnchor
+        .constraint(equalTo: contentView.leadingAnchor, constant: 24),
+      containerView.trailingAnchor
+        .constraint(equalTo: contentView.trailingAnchor, constant: -24),
       containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     ])
   }
@@ -224,7 +243,7 @@ extension OrdersCollectionViewCell {
     addressLabel.font = .systemFont(ofSize: 14)
     addressLabel.textAlignment = .left
     addressLabel.textColor = UIColor.Zeplin.grayLight
-    addressLabel.numberOfLines = 1
+    addressLabel.numberOfLines = 2
     addressLabel.text = .loremIpsum(ofLength: 50)
     containerView.addSubview(addressLabel)
 
@@ -239,8 +258,12 @@ extension OrdersCollectionViewCell {
         equalTo: contentView.trailingAnchor,
         constant: -9.3
       ),
-      addressLabel.heightAnchor.constraint(equalToConstant: 16)
+      addressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
     ])
+    addressLabel.setContentCompressionResistancePriority(
+      .defaultHigh,
+      for: .vertical
+    )
   }
 
   func createDateLabel() {
@@ -436,7 +459,9 @@ extension OrdersCollectionViewCell {
         equalTo: containerView.trailingAnchor,
         constant: -16
       ),
-      priceLabel.heightAnchor.constraint(equalToConstant: 24)
+      priceLabel.heightAnchor.constraint(equalToConstant: 24),
+      priceLabel.bottomAnchor
+        .constraint(equalTo: containerView.bottomAnchor, constant: -16)
     ])
     priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
@@ -446,18 +471,24 @@ extension OrdersCollectionViewCell {
 extension OrdersCollectionViewCell {
   func createShimmerContainerView() {
     contentView.addSubview(shimmerContainerView)
+    shimmerContainerView.backgroundColor = UIColor.Zeplin.white
+    shimmerContainerView.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
+    shimmerContainerView.layer.cornerRadius = 6
     shimmerContainerView.isHidden = true
 
     shimmerContainerView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       shimmerContainerView.topAnchor.constraint(equalTo: contentView.topAnchor),
       shimmerContainerView.leadingAnchor.constraint(
-        equalTo: contentView.leadingAnchor
+        equalTo: contentView.leadingAnchor,
+        constant: 24
       ),
       shimmerContainerView.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor
+        equalTo: contentView.trailingAnchor,
+        constant: -24
       ),
-      shimmerContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+      shimmerContainerView.bottomAnchor
+        .constraint(equalTo: contentView.bottomAnchor)
     ])
   }
 
@@ -474,11 +505,12 @@ extension OrdersCollectionViewCell {
         constant: 16
       ),
       shimmerStoreNameLabel.leadingAnchor.constraint(
-        equalTo: contentView.leadingAnchor,
+        equalTo: shimmerContainerView.leadingAnchor,
         constant: 16
       ),
       shimmerStoreNameLabel.trailingAnchor.constraint(
-        equalTo: shimmerContainerView.trailingAnchor, constant: -54),
+        equalTo: shimmerContainerView.trailingAnchor, constant: -54
+      ),
       shimmerStoreNameLabel.heightAnchor.constraint(equalToConstant: 13)
     ])
   }
@@ -603,11 +635,11 @@ extension OrdersCollectionViewCell {
         constant: 12
       ),
       shimmerMiddleView.leadingAnchor.constraint(
-        equalTo: contentView.leadingAnchor,
+        equalTo: shimmerContainerView.leadingAnchor,
         constant: 16
       ),
       shimmerMiddleView.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor,
+        equalTo: shimmerContainerView.trailingAnchor,
         constant: -16
       ),
       shimmerMiddleView.heightAnchor.constraint(equalToConstant: 50)
