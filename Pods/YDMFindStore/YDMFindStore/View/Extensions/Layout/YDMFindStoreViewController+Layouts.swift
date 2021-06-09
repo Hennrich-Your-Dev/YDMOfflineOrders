@@ -11,6 +11,91 @@ import YDExtensions
 
 // MARK: Layout
 extension YDMFindStoreViewController {
+  func configureLayout() {
+    createMapGradient()
+    createVerticalListLayout()
+    createErrorView()
+  }
+
+  func createTopGradient() -> CAGradientLayer {
+    let gradientTop = CAGradientLayer()
+
+    gradientTop.frame = CGRect(
+      x: 0,
+      y: 0,
+      width: view.frame.width,
+      height: view.frame.height / 3
+    )
+    gradientTop.opacity = 0.75
+
+    gradientTop.colors = [
+      UIColor.black.withAlphaComponent(1).cgColor,
+      UIColor.black.withAlphaComponent(0.7).cgColor,
+      UIColor.black.withAlphaComponent(0.3).cgColor,
+      UIColor.black.withAlphaComponent(0.0).cgColor
+    ]
+    gradientTop.locations = [0, 0.3, 0.6, 1]
+
+    return gradientTop
+  }
+
+  // Error View
+  func createErrorView() {
+    view.insertSubview(errorView, aboveSubview: mapView)
+    errorView.backgroundColor = .white
+    errorView.isHidden = true
+
+    errorView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      errorView.topAnchor.constraint(equalTo: view.topAnchor),
+      errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      errorView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+    ])
+
+    errorView.layer.addSublayer(createTopGradient())
+
+    // Message
+    let messageLabel = UILabel()
+    errorView.addSubview(messageLabel)
+
+    messageLabel.textColor = Zeplin.grayLight
+    messageLabel.textAlignment = .center
+    messageLabel.font = .systemFont(ofSize: 16)
+    messageLabel.text = "Ops! Falha ao carregar."
+
+    messageLabel.translatesAutoresizingMaskIntoConstraints = false
+
+    NSLayoutConstraint(
+      item: messageLabel,
+      attribute: .centerY,
+      relatedBy: .equal,
+      toItem: errorView,
+      attribute: .centerY,
+      multiplier: 0.8,
+      constant: 0
+    ).isActive = true
+
+    messageLabel.centerXAnchor
+      .constraint(equalTo: errorView.centerXAnchor).isActive = true
+
+    // Action button
+    errorView.addSubview(errorViewActionButton)
+
+    NSLayoutConstraint.activate([
+      errorViewActionButton.topAnchor.constraint(
+        equalTo: messageLabel.bottomAnchor,
+        constant: 24
+      ),
+      errorViewActionButton.centerXAnchor.constraint(equalTo: errorView.centerXAnchor)
+    ])
+
+    errorViewActionButton.callback = onErrorActionButton
+  }
+}
+
+// MARK: Vertical list
+extension YDMFindStoreViewController {
   func createVerticalListLayout() {
     createBlurViewEffect()
     createVerticalListContainer()
@@ -61,6 +146,7 @@ extension YDMFindStoreViewController {
   func createHowManyStoresVertical() {
     verticalListContainer.addSubview(howManyStoresVerticalLabel)
 
+    howManyStoresVerticalLabel.isHidden = true
     howManyStoresVerticalLabel.font = .boldSystemFont(ofSize: 17)
     howManyStoresVerticalLabel.text = "%d Americanas perto de você"
     howManyStoresVerticalLabel.textColor = .white

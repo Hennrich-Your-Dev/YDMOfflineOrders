@@ -9,8 +9,8 @@ import UIKit
 import YDExtensions
 import YDB2WAssets
 
-class CustomUITextField: UITextField {
-  override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+public class CustomUITextField: UITextField {
+  public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
     if action == #selector(UIResponderStandardEditActions.paste(_:)) {
       return false
     }
@@ -92,7 +92,7 @@ public class YDMessageField: UIView {
   // MARK: IBOutlets
   @IBOutlet var contentView: UIView!
 
-  @IBOutlet weak var messageField: CustomUITextField! {
+  @IBOutlet public weak var messageField: CustomUITextField! {
     didSet {
       messageField.delegate = self
 
@@ -113,7 +113,7 @@ public class YDMessageField: UIView {
 
   @IBOutlet weak var messageFieldTrailingConstraint: NSLayoutConstraint!
 
-  @IBOutlet weak var actionButton: UIButton!
+  @IBOutlet public weak var actionButton: UIButton!
 
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 

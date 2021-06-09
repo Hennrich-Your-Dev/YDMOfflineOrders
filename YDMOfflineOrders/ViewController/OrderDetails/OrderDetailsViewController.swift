@@ -18,7 +18,7 @@ class OrderDetailsViewController: UIViewController {
   var navBarShadowOff = false
   var shadowTop = UIView()
   var shadowBottom = UIView()
-  var noteButton = UIButton()
+//  var noteButton = UIButton()
   var priceLabel = UILabel()
 
   // MARK: Life cycle

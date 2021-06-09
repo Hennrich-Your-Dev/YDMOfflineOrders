@@ -40,10 +40,17 @@ extension YDMFindStoreViewModel {
     givingAddress address: String? = nil,
     givingType type: YDAddressType? = .unknown
   ) {
+    loading.value = true
+
+    latestLocation = location
+    latestAddress = address
+    latestType = type
+
     service.getNearstLasa(
       with: location
     ) { [weak self] (response: Result<YDStores, YDServiceError>) in
       guard let self = self else { return }
+      self.loading.value = false
 
       switch response {
         case .success(let list):
@@ -60,11 +67,11 @@ extension YDMFindStoreViewModel {
             store: list.stores.first
           )
 
-          //
           self.stores.value = list.stores
 
         case .failure(let error):
           self.location.fire()
+          self.error.fire()
           self.logger.error(error.localizedDescription)
       }
     }
@@ -78,7 +85,7 @@ extension YDMFindStoreViewModel: YDLocationDelegate {
     //
     print("[YDLocation] status changed")
   }
-  
+
   public func permissionDenied() {
     print(#function)
     location.fire()

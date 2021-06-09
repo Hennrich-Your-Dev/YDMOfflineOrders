@@ -13,6 +13,7 @@ import YDExtensions
 public class YDErrorView: UIView {
   // MARK: Properties
   public weak var delegate: YDErrorViewDelegate?
+  public var callback: (() -> Void)?
 
   // MARK: IBOutlets
   @IBOutlet var contentView: UIView!

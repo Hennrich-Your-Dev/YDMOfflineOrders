@@ -23,7 +23,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   let productsCount = UILabel()
   let productsDetailsButton = UIButton()
   let stackView = UIStackView()
-  let noteButton = UIButton()
+//  let noteButton = UIButton()
   let priceLabel = UILabel()
 
   let shimmerContainerView = UIView()
@@ -36,7 +36,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   var shimmerProductNameView = UIView()
   var shimmerProductSubNameView = UIView()
   let shimmerPriceLabel = UIView()
-  let shimmerNoteButton = UIButton()
+//  let shimmerNoteButton = UIButton()
 
   // Properties
   var currentOrder: YDOfflineOrdersOrder?
@@ -163,7 +163,7 @@ extension OrdersCollectionViewCell {
     createStackView(parent: separatorView)
 
     let separatorUnderStack = createSeparator(firstSeparator: false)
-    createNoteButton(parent: separatorUnderStack)
+    // createNoteButton(parent: separatorUnderStack)
     createValueLabel(parent: separatorUnderStack)
 
     // Shimmer
@@ -178,7 +178,7 @@ extension OrdersCollectionViewCell {
     createShimmerProductCard()
 
     let shimmerSeparatorUnderStack = createShimmerSeparator(firstSeparator: false)
-    createShimmerNoteButton(parent: shimmerSeparatorUnderStack)
+    // createShimmerNoteButton(parent: shimmerSeparatorUnderStack)
     createShimmerPriceLabel(parent: shimmerSeparatorUnderStack)
   }
 
@@ -370,27 +370,27 @@ extension OrdersCollectionViewCell {
     ])
   }
 
-  func createNoteButton(parent: UIView) {
-    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
-    noteButton.setTitleColor(UIColor.Zeplin.redBranding, for: .normal)
-    noteButton.setTitle("ver nota fiscal", for: .normal)
-    containerView.addSubview(noteButton)
-
-    noteButton.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
-      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-      noteButton.heightAnchor.constraint(equalToConstant: 35)
-    ])
-    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-
-    noteButton.addTarget(
-      self,
-      action: #selector(onNoteAction),
-      for: .touchUpInside
-    )
-  }
+//  func createNoteButton(parent: UIView) {
+//    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
+//    noteButton.setTitleColor(UIColor.Zeplin.redBranding, for: .normal)
+//    noteButton.setTitle("ver nota fiscal", for: .normal)
+//    containerView.addSubview(noteButton)
+//
+//    noteButton.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
+//      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+//      noteButton.heightAnchor.constraint(equalToConstant: 35)
+//    ])
+//    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+//    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//
+//    noteButton.addTarget(
+//      self,
+//      action: #selector(onNoteAction),
+//      for: .touchUpInside
+//    )
+//  }
 
   func createValueLabel(parent: UIView) {
     let valueTotalLabel = UILabel()
@@ -433,8 +433,8 @@ extension OrdersCollectionViewCell {
         constant: 3
       ),
       priceLabel.trailingAnchor.constraint(
-        equalTo: noteButton.leadingAnchor,
-        constant: -10
+        equalTo: containerView.trailingAnchor,
+        constant: -16
       ),
       priceLabel.heightAnchor.constraint(equalToConstant: 24)
     ])
@@ -676,25 +676,25 @@ extension OrdersCollectionViewCell {
     ])
   }
 
-  func createShimmerNoteButton(parent: UIView) {
-    shimmerContainerView.addSubview(shimmerNoteButton)
-    shimmerNoteButton.titleLabel?.font = .systemFont(ofSize: 14)
-    shimmerNoteButton.setTitleColor(
-      UIColor.Zeplin.redBranding.withAlphaComponent(0.3),
-      for: .normal
-    )
-    shimmerNoteButton.setTitle("ver nota fiscal", for: .normal)
-
-    shimmerNoteButton.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      shimmerNoteButton.topAnchor.constraint(
-        equalTo: parent.bottomAnchor,
-        constant: 10
-      ),
-      shimmerNoteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-      shimmerNoteButton.heightAnchor.constraint(equalToConstant: 35)
-    ])
-  }
+//  func createShimmerNoteButton(parent: UIView) {
+//    shimmerContainerView.addSubview(shimmerNoteButton)
+//    shimmerNoteButton.titleLabel?.font = .systemFont(ofSize: 14)
+//    shimmerNoteButton.setTitleColor(
+//      UIColor.Zeplin.redBranding.withAlphaComponent(0.3),
+//      for: .normal
+//    )
+//    shimmerNoteButton.setTitle("ver nota fiscal", for: .normal)
+//
+//    shimmerNoteButton.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      shimmerNoteButton.topAnchor.constraint(
+//        equalTo: parent.bottomAnchor,
+//        constant: 10
+//      ),
+//      shimmerNoteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+//      shimmerNoteButton.heightAnchor.constraint(equalToConstant: 35)
+//    ])
+//  }
 
   func createShimmerPriceLabel(parent: UIView) {
     shimmerContainerView.addSubview(shimmerPriceLabel)
@@ -713,8 +713,8 @@ extension OrdersCollectionViewCell {
         constant: 16
       ),
       shimmerPriceLabel.trailingAnchor.constraint(
-        equalTo: noteButton.leadingAnchor,
-        constant: -50
+        equalTo: shimmerContainerView.trailingAnchor,
+        constant: -16
       ),
       shimmerPriceLabel.heightAnchor.constraint(equalToConstant: 13)
     ])

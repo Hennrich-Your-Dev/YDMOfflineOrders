@@ -78,10 +78,10 @@ extension YDMFindStoreViewController: UICollectionViewDataSource, UICollectionVi
     sizeForItemAt indexPath: IndexPath
   ) -> CGSize {
     if collectionView == verticalCollectionView {
-      return CGSize(width: verticalCardWidthSize, height: 130)
+      return CGSize(width: verticalCardWidthSize, height: 156)
     }
-    
-    return CGSize(width: cardWidthSize, height: 130)
+
+    return CGSize(width: cardWidthSize, height: 156)
   }
 }
 

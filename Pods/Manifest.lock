@@ -17,29 +17,30 @@ PODS:
   - libwebp/mux (1.2.0):
     - libwebp/demux
   - libwebp/webp (1.2.0)
-  - YDB2WAssets (1.0.39)
-  - YDB2WComponents (1.1.22):
+  - YDB2WAssets (1.0.41)
+  - YDB2WComponents (1.1.28):
     - Cosmos
     - YDB2WAssets (~> 1.0.33)
     - YDB2WModels (~> 1.1.0)
     - YDExtensions (~> 1.0.42)
     - YDUtilities (~> 1.1.0)
-  - YDB2WDeepLinks (1.0.3)
-  - YDB2WIntegration (1.1.11):
+  - YDB2WDeepLinks (1.0.6):
+    - YDExtensions (~> 1.0.42)
+  - YDB2WIntegration (1.1.18):
     - YDB2WModels (~> 1.1.0)
     - YDExtensions (~> 1.0.0)
-  - YDB2WModels (1.1.29):
+  - YDB2WModels (1.1.53):
     - YDExtensions (~> 1.0.42)
     - YDUtilities (~> 1.1.0)
-  - YDB2WServices (1.1.10):
+  - YDB2WServices (1.1.21):
     - Alamofire (~> 4.0)
     - YDB2WIntegration (~> 1.1.0)
     - YDB2WModels (~> 1.1.0)
-  - YDExtensions (1.0.55):
+  - YDExtensions (1.0.59):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDLocationModule (1.0.5)
-  - YDMFindStore (1.1.9):
+  - YDMFindStore (1.1.18):
     - Alamofire (= 4.9.1)
     - curvyRoute
     - YDB2WAssets (~> 1.0.33)
@@ -93,15 +94,15 @@ SPEC CHECKSUMS:
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
-  YDB2WAssets: 6d42505f40e0ebd35bdf1a28f874e076aced50cb
-  YDB2WComponents: 731b25d42dc2196968f719c444bc5677ba85150f
-  YDB2WDeepLinks: 5df9534e41baa38c04bc58aafdefbdf505264371
-  YDB2WIntegration: 0fd359b65c9306cb5b6fc738ce9df0919fefd1e9
-  YDB2WModels: a7d6697cc1f500de127b848837193f23a2086a25
-  YDB2WServices: e2d4885e85f0bf786c170a7a0e46e9da39ab886d
-  YDExtensions: 39587ea6186689aebf6d27528b423bd04cb58dfd
+  YDB2WAssets: 061b8e2d38eaede22b14800ca9888c25700bcfec
+  YDB2WComponents: a5e341b59c0bc529d6ac17cf02812e1be4fff1f7
+  YDB2WDeepLinks: 78e7a71fd84daa60477ba5f9868dfd30e6bdb5cd
+  YDB2WIntegration: 9afd13466c39059506cccb6d192798e3722fa567
+  YDB2WModels: 79d8c30d66df1e6b12eb9aa199bbe17f20586059
+  YDB2WServices: e90acdcbc1d201e8ccc241bfeabd57863a6e7fb0
+  YDExtensions: 086d64e8aaa8476de4be32c57ee4be06c1a01f5a
   YDLocationModule: 35cddec317442e18078cb64e1542d7cd360ccb43
-  YDMFindStore: 7d855c4f995bfa5464c4c80f59b352d8ccfa52c9
+  YDMFindStore: bb4e8c18f1458b928a0d67355e2bc54667dd52b3
   YDUtilities: 3085ab9236e8f51b4418092976dca1cfdc86f69d
 
 PODFILE CHECKSUM: 66b5269b6be06d75bf6ac3ddfc785a4049a96c18

@@ -33,7 +33,7 @@ class CustomSmallAnnotation: MKAnnotationView {
     backgroundColor = .clear
 
     let view = UIView(frame: frame)
-    let imageView = UIImageView(image: Images.storePin)
+    let imageView = UIImageView(image: Images.storePinFaded)
     imageView.frame = frame
     view.addSubview(imageView)
 
