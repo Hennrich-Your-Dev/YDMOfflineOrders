@@ -21,7 +21,11 @@ public class YDMOfflineOrdersViewController: UIViewController {
   var numberOfShimmers: Int?
   var canLoadMore = false
 
-  var feedbackMessageEmpty = "Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas."
+  var feedbackMessageEmpty = """
+  Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas.
+
+  Pro seu histórico aparecer aqui, lembre sempre de informar seu CPF na hora do pagamento em uma de nossas lojas :)
+  """
   var feedbackMessageError = "Ops! Falha ao carregar."
   var feedbackStateType: FeedbackStateViewType = .empty {
     didSet {

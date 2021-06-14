@@ -4,7 +4,6 @@
 //
 //  Created by Douglas Hennrich on 12/03/21.
 //
-
 import UIKit
 
 import YDExtensions
@@ -27,7 +26,7 @@ extension OrderDetailsViewController {
     createShadow(fromTop: false)
 
     let container = createTotalPriceContainer()
-    createNoteButton(parent: container)
+//    createNoteButton(parent: container)
     createValueLabel(order, parent: container)
   }
 
@@ -242,24 +241,23 @@ extension OrderDetailsViewController {
     return container
   }
 
-  func createNoteButton(parent: UIView) {
-    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
-    noteButton.setTitleColor(UIColor.Zeplin.redBranding, for: .normal)
-    noteButton.setTitle("ver nota fiscal", for: .normal)
-    parent.addSubview(noteButton)
-
-    noteButton.addTarget(self, action: #selector(onNoteAction), for: .touchUpInside)
-
-    noteButton.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      noteButton.topAnchor.constraint(equalTo: parent.topAnchor, constant: 13),
-      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -24),
-      noteButton.heightAnchor.constraint(equalToConstant: 35)
-    ])
-    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-  }
-
+//  func createNoteButton(parent: UIView) {
+//    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
+//    noteButton.setTitleColor(UIColor.Zeplin.redBranding, for: .normal)
+//    noteButton.setTitle("ver nota fiscal", for: .normal)
+//    parent.addSubview(noteButton)
+//
+//    noteButton.addTarget(self, action: #selector(onNoteAction), for: .touchUpInside)
+//
+//    noteButton.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      noteButton.topAnchor.constraint(equalTo: parent.topAnchor, constant: 13),
+//      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -24),
+//      noteButton.heightAnchor.constraint(equalToConstant: 35)
+//    ])
+//    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+//    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//  }
   func createValueLabel(_ order: YDOfflineOrdersOrder, parent: UIView) {
     let valueTotalLabel = UILabel()
     valueTotalLabel.font = .systemFont(ofSize: 12)
@@ -297,11 +295,14 @@ extension OrderDetailsViewController {
       ),
       priceLabel.leadingAnchor.constraint(equalTo: valueTotalLabel.trailingAnchor, constant: 3),
       priceLabel.trailingAnchor.constraint(
-        equalTo: noteButton.leadingAnchor,
-        constant: -10
+        equalTo: parent.trailingAnchor,
+        constant: -16
       ),
       priceLabel.heightAnchor.constraint(equalToConstant: 24)
     ])
-    priceLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    priceLabel.setContentCompressionResistancePriority(
+      .defaultLow,
+      for: .horizontal
+    )
   }
 }

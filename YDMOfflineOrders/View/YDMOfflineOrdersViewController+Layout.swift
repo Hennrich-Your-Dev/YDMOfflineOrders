@@ -4,7 +4,6 @@
 //
 //  Created by Douglas Hennrich on 22/02/21.
 //
-
 import UIKit
 
 import YDExtensions
@@ -22,6 +21,7 @@ extension YDMOfflineOrdersViewController {
     let layoutFlow = UICollectionViewFlowLayout()
     layoutFlow.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     layoutFlow.scrollDirection = .vertical
+    layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.minimumLineSpacing = 16
 
     collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layoutFlow)
@@ -93,7 +93,6 @@ extension YDMOfflineOrdersViewController {
 //      bottom: 0,
 //      right: 0
 //    )
-
 //    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 0)
 //    layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.scrollDirection = .vertical
@@ -181,14 +180,19 @@ extension YDMOfflineOrdersViewController {
     feedbackMessage.textColor = UIColor.Zeplin.grayLight
     feedbackMessage.textAlignment = .center
     feedbackMessage.numberOfLines = 0
-    feedbackMessage.text = "Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas."
+    feedbackMessage.text = """
+    Ops! Você ainda não possui um histórico de compras realizadas em nossas lojas físicas.
+    Pro seu histórico aparecer aqui, lembre sempre de informar seu CPF na hora do pagamento em uma de nossas lojas :)
+    """
     feedbackStateView.addSubview(feedbackMessage)
 
     feedbackMessage.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       feedbackMessage.topAnchor.constraint(equalTo: feedbackStateIcon.bottomAnchor, constant: 12),
-      feedbackMessage.leadingAnchor.constraint(equalTo: feedbackStateView.leadingAnchor, constant: 31),
-      feedbackMessage.trailingAnchor.constraint(equalTo: feedbackStateView.trailingAnchor, constant: -31)
+      feedbackMessage.leadingAnchor
+        .constraint(equalTo: feedbackStateView.leadingAnchor, constant: 20),
+      feedbackMessage.trailingAnchor
+        .constraint(equalTo: feedbackStateView.trailingAnchor, constant: -20)
     ])
   }
 
