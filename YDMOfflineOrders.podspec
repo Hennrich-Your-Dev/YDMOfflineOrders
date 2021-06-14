@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "YDMOfflineOrders"
-  spec.version      = "1.4.0"
+  spec.version      = "1.3.1"
   spec.summary      = "A short description of YDMOfflineOrders."
   spec.homepage     = "http://yourdev/YDMOfflineOrders"
 
@@ -17,13 +17,13 @@ Pod::Spec.new do |spec|
 
   spec.dependency "Cosmos"
 
-  spec.dependency "YDB2WIntegration", "~> 1.4.0"
-  spec.dependency "YDExtensions", "~> 1.4.0"
-  spec.dependency "YDUtilities", "~> 1.4.0"
-  spec.dependency "YDB2WAssets", "~> 1.4.0"
-  spec.dependency "YDB2WServices", "~> 1.4.0"
-  spec.dependency "YDB2WModels", "~> 1.4.0"
-  spec.dependency "YDB2WComponents", "~> 1.4.0"
-  spec.dependency "YDB2WDeepLinks", "~> 1.4.0"
-  spec.dependency "YDMFindStore", "~> 1.4.0"
+  spec.dependency "YDB2WIntegration", "~> 1.3.0"
+  spec.dependency "YDExtensions", "~> 1.3.0"
+  spec.dependency "YDUtilities", "~> 1.3.0"
+  spec.dependency "YDB2WAssets", "~> 1.3.0"
+  spec.dependency "YDB2WServices", "~> 1.3.0"
+  spec.dependency "YDB2WModels", "~> 1.3.0"
+  spec.dependency "YDB2WComponents", "~> 1.3.0"
+  spec.dependency "YDB2WDeepLinks", "~> 1.3.0"
+  spec.dependency "YDMFindStore", "~> 1.3.0"
 end

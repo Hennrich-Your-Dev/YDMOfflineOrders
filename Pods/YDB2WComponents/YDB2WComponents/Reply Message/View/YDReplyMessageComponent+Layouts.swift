@@ -102,10 +102,10 @@ extension YDReplyMessageComponent {
 
     actionButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      actionButton.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+      actionButton.topAnchor.constraint(equalTo: container.topAnchor),
+      actionButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -17),
       actionButton.widthAnchor.constraint(equalToConstant: 34),
-      actionButton.heightAnchor.constraint(equalToConstant: 34),
-      actionButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -17)
+      actionButton.bottomAnchor.constraint(equalTo: container.bottomAnchor)
     ])
 
     actionButton.addTarget(self, action: #selector(onActionButton), for: .touchUpInside)
@@ -125,20 +125,21 @@ extension YDReplyMessageComponent {
         equalTo: container.leadingAnchor,
         constant: -8
       ),
-      arrowIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
+      arrowIcon.topAnchor.constraint(equalTo: topAnchor, constant: 3),
       arrowIcon.widthAnchor.constraint(equalToConstant: 28),
-      arrowIcon.heightAnchor.constraint(equalToConstant: 28)
+      arrowIcon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -3)
     ])
   }
 }
 
 //
 private extension UIFont {
-
   //Add Traits
-  func withTraits(traits:UIFontDescriptor.SymbolicTraits) -> UIFont {
+  func withTraits(traits: UIFontDescriptor.SymbolicTraits) -> UIFont {
     let symTraits = fontDescriptor.symbolicTraits
-    let descriptor = fontDescriptor.withSymbolicTraits(UIFontDescriptor.SymbolicTraits(arrayLiteral: symTraits, traits))
+    let descriptor = fontDescriptor.withSymbolicTraits(
+      UIFontDescriptor.SymbolicTraits(arrayLiteral: symTraits, traits)
+    )
     return UIFont(descriptor: descriptor!, size: 0) //size 0 means keep the size as it is
   }
 

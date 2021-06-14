@@ -71,7 +71,7 @@ extension YDStoreNameAddressView {
     storeAddressLabel.font = .systemFont(ofSize: 14)
     storeAddressLabel.textAlignment = .left
     storeAddressLabel.textColor = UIColor.Zeplin.grayLight
-    storeAddressLabel.numberOfLines = 1
+    storeAddressLabel.numberOfLines = 2
     storeAddressLabel.text = .loremIpsum(ofLength: 50)
     container.addSubview(storeAddressLabel)
 
@@ -81,14 +81,22 @@ extension YDStoreNameAddressView {
         equalTo: storeNameLabel.bottomAnchor,
         constant: 3
       ),
-      storeAddressLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -16),
-      storeAddressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
-      storeAddressLabel.trailingAnchor.constraint(
-        equalTo: container.trailingAnchor,
-        constant: hasButton ? -73 : -8
-      ),
-      storeAddressLabel.heightAnchor.constraint(equalToConstant: 16)
+      storeAddressLabel.leadingAnchor
+        .constraint(equalTo: storeNameLabel.leadingAnchor),
+      storeAddressLabel.trailingAnchor
+        .constraint(
+          equalTo: container.trailingAnchor,
+          constant: hasButton ? -73 : -8
+        ),
+      storeAddressLabel.heightAnchor
+        .constraint(greaterThanOrEqualToConstant: 18),
+      storeAddressLabel.bottomAnchor
+        .constraint(equalTo: container.bottomAnchor, constant: -16)
     ])
+    storeAddressLabel.setContentCompressionResistancePriority(
+      .defaultHigh,
+      for: .vertical
+    )
   }
 
   private func createButton() {
@@ -127,16 +135,21 @@ extension YDStoreNameAddressView {
 
     shimmerContainer.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      shimmerContainer.topAnchor.constraint(equalTo: topAnchor),
-      shimmerContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
-      shimmerContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
-      shimmerContainer.bottomAnchor.constraint(equalTo: bottomAnchor)
+      shimmerContainer.topAnchor
+        .constraint(equalTo: container.topAnchor),
+      shimmerContainer.leadingAnchor
+        .constraint(equalTo: container.leadingAnchor),
+      shimmerContainer.trailingAnchor
+        .constraint(equalTo: container.trailingAnchor),
+      shimmerContainer.bottomAnchor
+        .constraint(equalTo: container.bottomAnchor)
     ])
   }
 
   func createShimmerStoreNameLabel() {
-    shimmerNameLabel.backgroundColor = .white
     shimmerContainer.addSubview(shimmerNameLabel)
+    shimmerNameLabel.backgroundColor = .white
+    shimmerNameLabel.layer.cornerRadius = 4
 
     shimmerNameLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -158,6 +171,7 @@ extension YDStoreNameAddressView {
 
   func createShimmerStoreAddressLabel() {
     shimmerAddressLabel.backgroundColor = .white
+    shimmerAddressLabel.layer.cornerRadius = 4
     shimmerContainer.addSubview(shimmerAddressLabel)
 
     shimmerAddressLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -166,13 +180,15 @@ extension YDStoreNameAddressView {
         equalTo: shimmerNameLabel.bottomAnchor,
         constant: 3
       ),
-      shimmerAddressLabel.bottomAnchor.constraint(equalTo: shimmerContainer.bottomAnchor, constant: -16),
-      shimmerAddressLabel.leadingAnchor.constraint(equalTo: shimmerNameLabel.leadingAnchor),
-      shimmerAddressLabel.trailingAnchor.constraint(
-        equalTo: container.trailingAnchor,
-        constant: hasButton ? -73 : -8
-      ),
-      shimmerAddressLabel.heightAnchor.constraint(equalToConstant: 16)
+      shimmerAddressLabel.bottomAnchor
+        .constraint(equalTo: shimmerContainer.bottomAnchor, constant: -16),
+      shimmerAddressLabel.leadingAnchor
+        .constraint(equalTo: shimmerNameLabel.leadingAnchor),
+      shimmerAddressLabel.trailingAnchor
+        .constraint(
+          equalTo: container.trailingAnchor,
+          constant: hasButton ? -73 : -8
+        )
     ])
   }
 
@@ -186,7 +202,8 @@ extension YDStoreNameAddressView {
     shimmerActionButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       shimmerActionButton.widthAnchor.constraint(equalToConstant: 50),
-      shimmerActionButton.topAnchor.constraint(equalTo: shimmerContainer.topAnchor, constant: 35),
+      shimmerActionButton.topAnchor
+        .constraint(equalTo: shimmerContainer.topAnchor, constant: 35),
       shimmerActionButton.bottomAnchor.constraint(
         equalTo: shimmerContainer.bottomAnchor,
         constant: -17

@@ -50,7 +50,7 @@ public class YDTextView: UIView {
   }
 
   // MARK: Init
-  init() {
+  public init() {
     let rect = CGRect(
       x: 0,
       y: 0,

@@ -13,13 +13,13 @@ target 'YDMOfflineOrders' do
 
   pod "Cosmos"
 
-  pod "YDB2WIntegration", "~> 1.4.0"
-  pod "YDUtilities", "~> 1.4.0"
-  pod "YDExtensions", "~> 1.4.0"
-  pod "YDB2WAssets", "~> 1.4.0"
-  pod "YDB2WServices", "~> 1.4.0"
-  pod "YDB2WModels", "~> 1.4.0"
-  pod "YDB2WComponents", "~> 1.4.0"
-  pod "YDB2WDeepLinks", "~> 1.4.0"
-  pod "YDMFindStore", "~> 1.4.0"
+  pod "YDB2WIntegration", "~> 1.3.0"
+  pod "YDUtilities", "~> 1.3.0"
+  pod "YDExtensions", "~> 1.3.0"
+  pod "YDB2WAssets", "~> 1.3.0"
+  pod "YDB2WServices", "~> 1.3.0"
+  pod "YDB2WModels", "~> 1.3.0"
+  pod "YDB2WComponents", "~> 1.3.0"
+  pod "YDB2WDeepLinks", "~> 1.3.0"
+  pod "YDMFindStore", "~> 1.3.0"
 end

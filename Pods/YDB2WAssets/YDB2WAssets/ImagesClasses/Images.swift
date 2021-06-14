@@ -86,6 +86,8 @@ public class Images {
 
   public static let qrCode = UIImage(named: "qrCode", in: podsBundle, compatibleWith: nil)
 
+  public static let store = UIImage(named: "store", in: podsBundle, compatibleWith: nil)
+
   public static let storePin = UIImage(named: "storePin", in: podsBundle, compatibleWith: nil)
 
   public static let storePinFaded = UIImage(named: "storePinFaded", in: podsBundle, compatibleWith: nil)

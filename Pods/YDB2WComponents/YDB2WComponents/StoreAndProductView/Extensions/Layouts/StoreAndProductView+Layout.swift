@@ -39,6 +39,10 @@ extension YDStoreAndProductView {
       storeNameAndAddressView.leadingAnchor.constraint(equalTo: leadingAnchor),
       storeNameAndAddressView.trailingAnchor.constraint(equalTo: trailingAnchor)
     ])
+    storeNameAndAddressView.setContentCompressionResistancePriority(
+      .defaultHigh,
+      for: .vertical
+    )
 
     storeNameAndAddressView.callback = { [weak self] in
       guard let self = self else { return }

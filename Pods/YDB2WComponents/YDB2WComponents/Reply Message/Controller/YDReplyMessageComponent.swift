@@ -22,7 +22,9 @@ public class YDReplyMessageComponent: UIView {
       changeUIState(with: stage)
     }
   }
-  public var callback: (() -> Void)?
+  public var onTapCallback: ((_ messageComponent: YDChatMessage?) -> Void)?
+  public var onCancelCallback: (() -> Void)?
+  var currentMessage: YDChatMessage?
 
   // MARK: Components
   let container = UIView()
@@ -45,6 +47,8 @@ public class YDReplyMessageComponent: UIView {
     super.init(frame: .zero)
 
     configureLayout()
+    let tap = UITapGestureRecognizer(target: self, action: #selector(onTapAction))
+    container.addGestureRecognizer(tap)
   }
 
   required init?(coder: NSCoder) {
@@ -55,10 +59,18 @@ public class YDReplyMessageComponent: UIView {
   public func configure(with messageComponent: YDChatMessage) {
     usernameLabel.text = messageComponent.sender.name
     messageLabel.text = messageComponent.message
+    currentMessage = messageComponent
   }
 
   @objc func onActionButton() {
-    callback?()
+    onCancelCallback?()
+    currentMessage = nil
+  }
+
+  @objc func onTapAction() {
+    if stage == .replied {
+      onTapCallback?(currentMessage)
+    }
   }
 
   func changeUIState(with stage: Stage) {

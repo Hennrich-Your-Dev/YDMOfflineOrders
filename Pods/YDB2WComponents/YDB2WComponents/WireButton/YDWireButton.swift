@@ -14,10 +14,14 @@ public class YDWireButton: UIButton {
   private var title = ""
 
   // MARK: Init
+  public init() {
+    super.init(frame: .zero)
+    self.title = ""
+    setUpStyle()
+  }
+
   public init(withTitle title: String) {
     super.init(frame: .zero)
-    translatesAutoresizingMaskIntoConstraints = false
-    heightAnchor.constraint(equalToConstant: 40).isActive = true
     self.title = title
 
     setUpStyle()
@@ -26,13 +30,13 @@ public class YDWireButton: UIButton {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     self.title = self.titleLabel?.text ?? ""
-    translatesAutoresizingMaskIntoConstraints = false
-    heightAnchor.constraint(equalToConstant: 40).isActive = true
     setUpStyle()
   }
 
   // MARK: Actions
   public func setUpStyle() {
+    translatesAutoresizingMaskIntoConstraints = false
+    heightAnchor.constraint(equalToConstant: 40).isActive = true
     layer.cornerRadius = 4
     layer.borderWidth = 1.5
     layer.borderColor = UIColor.Zeplin.redBranding.cgColor
