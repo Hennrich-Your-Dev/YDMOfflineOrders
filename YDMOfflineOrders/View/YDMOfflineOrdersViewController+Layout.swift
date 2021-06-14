@@ -69,7 +69,6 @@ extension YDMOfflineOrdersViewController {
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
       withReuseIdentifier: OrdersLoadingCollectionFooterReusableView.identifier
     )
-
   }
 
   func createShadowView() {
