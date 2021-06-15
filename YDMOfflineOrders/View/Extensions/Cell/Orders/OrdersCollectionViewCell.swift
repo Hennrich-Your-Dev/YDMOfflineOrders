@@ -61,10 +61,12 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   }()
 
   // Init
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   override init(frame: CGRect) {
     super.init(frame: frame)
-
-    backgroundColor = .clear
     contentView.translatesAutoresizingMaskIntoConstraints = false
     setUpLayout()
   }
@@ -80,10 +82,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     )
   }
 
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
   override func layoutSubviews() {
     super.layoutSubviews()
     containerView.layer.shadowPath = UIBezierPath(
@@ -93,11 +91,14 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   }
 
   override func prepareForReuse() {
-    if topStackView.subviews.count > 1 {
+    print("prepareForReuse start")
+    if !topStackView.subviews.isEmpty {
       topStackView.arrangedSubviews.last?.removeFromSuperview()
     }
 
-    stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+    if !stackView.arrangedSubviews.isEmpty {
+      stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+    }
 
     if topStackTrailingConstraint != nil {
       topStackTrailingConstraint.constant = -16
@@ -114,6 +115,7 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     noteCallback = nil
     changeUIState(with: .normal)
 
+    print("prepareForReuse success")
     super.prepareForReuse()
   }
 
@@ -202,12 +204,14 @@ extension OrdersCollectionViewCell {
 
     containerView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+      containerView.topAnchor
+        .constraint(equalTo: contentView.topAnchor, constant: 1),
       containerView.leadingAnchor
         .constraint(equalTo: contentView.leadingAnchor, constant: 24),
       containerView.trailingAnchor
         .constraint(equalTo: contentView.trailingAnchor, constant: -24),
-      containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+      containerView.bottomAnchor
+        .constraint(equalTo: contentView.bottomAnchor, constant: -1)
     ])
   }
 
@@ -758,7 +762,10 @@ extension OrdersCollectionViewCell: UIStateDelegate {
           guard let self = self else { return }
           self.containerView.isHidden = false
           self.shimmerContainerView.isHidden = true
-          self.shimmersViews.forEach { $0.stopShimmer() }
+
+          if !self.shimmersViews.isEmpty {
+            self.shimmersViews.forEach { $0.stopShimmer() }
+          }
         }
 
       case .loading:
@@ -766,7 +773,10 @@ extension OrdersCollectionViewCell: UIStateDelegate {
           guard let self = self else { return }
           self.containerView.isHidden = true
           self.shimmerContainerView.isHidden = false
-          self.shimmersViews.forEach { $0.startShimmer() }
+
+          if !self.shimmersViews.isEmpty {
+            self.shimmersViews.forEach { $0.startShimmer() }
+          }
         }
 
       default:

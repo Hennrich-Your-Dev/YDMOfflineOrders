@@ -10,6 +10,9 @@ import UIKit
 import YDExtensions
 
 class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
+  // MARK: Properties
+  var componentHidden = false
+
   // MARK: Components
   var contentView = UIView()
   var storeNameView = UIView()
@@ -20,7 +23,7 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
   var photoView = UIView()
   var productNameView = UIView()
   var productSubNameView = UIView()
-  var noteButton = UIButton()
+//  var noteButton = UIButton()
   var priceView = UIView()
 
   lazy var shimmersViews: [UIView] = {
@@ -60,6 +63,15 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
     startShimmer()
   }
 
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    contentView.layer.shadowPath = UIBezierPath(
+      roundedRect: contentView.bounds,
+      cornerRadius: 6
+    ).cgPath
+  }
+
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -69,14 +81,19 @@ class OrdersLoadingCollectionFooterReusableView: UICollectionReusableView {
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
       self.shimmersViews.forEach { $0.startShimmer() }
+      self.componentHidden = false
     }
   }
 
   func stopShimmerAndHide() {
     DispatchQueue.main.async { [weak self] in
       guard let self = self else { return }
-      self.self.shimmersViews.forEach { $0.stopShimmer() }
+
+      if !self.shimmersViews.isEmpty {
+        self.shimmersViews.forEach { $0.stopShimmer() }
+      }
       self.contentView.isHidden = true
+      self.componentHidden = true
     }
   }
 }
@@ -94,7 +111,7 @@ extension OrdersLoadingCollectionFooterReusableView {
     createProductCard()
 
     let separatorUnderStack = createSeparator(firstSeparator: false)
-    createNoteButton(parent: separatorUnderStack)
+    // createNoteButton(parent: separatorUnderStack)
     createValueLabel(parent: separatorUnderStack)
   }
 
@@ -250,21 +267,21 @@ extension OrdersLoadingCollectionFooterReusableView {
     ])
   }
 
-  func createNoteButton(parent: UIView) {
-    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
-    noteButton.setTitleColor(UIColor.Zeplin.redBranding.withAlphaComponent(0.3), for: .normal)
-    noteButton.setTitle("ver nota fiscal", for: .normal)
-    contentView.addSubview(noteButton)
-
-    noteButton.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
-      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-      noteButton.heightAnchor.constraint(equalToConstant: 35)
-    ])
-//    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-//    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-  }
+//  func createNoteButton(parent: UIView) {
+//    noteButton.titleLabel?.font = .systemFont(ofSize: 14)
+//    noteButton.setTitleColor(UIColor.Zeplin.redBranding.withAlphaComponent(0.3), for: .normal)
+//    noteButton.setTitle("ver nota fiscal", for: .normal)
+//    contentView.addSubview(noteButton)
+//
+//    noteButton.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      noteButton.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 10),
+//      noteButton.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
+//      noteButton.heightAnchor.constraint(equalToConstant: 35)
+//    ])
+////    noteButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+////    noteButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//  }
 
   func createValueLabel(parent: UIView) {
     priceView.backgroundColor = UIColor.Zeplin.black
@@ -280,7 +297,7 @@ extension OrdersLoadingCollectionFooterReusableView {
       ),
       priceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       priceView.trailingAnchor.constraint(
-        equalTo: noteButton.leadingAnchor,
+        equalTo: contentView.trailingAnchor,
         constant: -50
       ),
       priceView.heightAnchor.constraint(equalToConstant: 13)

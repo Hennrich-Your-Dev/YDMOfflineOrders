@@ -35,7 +35,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
   var noMoreOrderToLoad: Bool { get }
   var loadMoreError: Binder<String?> { get }
 
-  subscript(_ row: Int) -> OrderListConfig? { get }
+  subscript(_ item: Int) -> OrderListConfig? { get }
 
   func setNavigationController(_ navigation: UINavigationController?)
 
@@ -118,14 +118,22 @@ class YDMOfflineOrdersViewModel {
   }
 
   private func addOrdersToList(_ sorted: [YDOfflineOrdersOrder], append: Bool) {
-    if !sorted.isEmpty {
+    print("sorted.isEmpty", sorted.isEmpty)
+    if sorted.isEmpty {
+      noMoreOrderToLoad = true
+      newOrdersForList.value = false
+
+      if !append {
+        orderListFirstRequest.value = true
+      }
+    } else {
       for curr in sorted {
         guard let sectionDate = curr.formattedDateSection else { continue }
 
         if let lastIndex = orderList.value.lastIndex(
           where: { $0.type == .row && $0.headerString == sectionDate }
         ) {
-          curr.indexPath = IndexPath(row: lastIndex + 1, section: 0)
+          curr.indexPath = IndexPath(item: lastIndex + 1, section: 0)
           let newOrder = OrderListConfig(
             type: .row,
             headerString: sectionDate,
@@ -144,7 +152,7 @@ class YDMOfflineOrdersViewModel {
           orderList.value.append(newHeader)
 
           curr.indexPath = IndexPath(
-            row: orderList.value.count,
+            item: orderList.value.count,
             section: 0
           )
 
@@ -163,14 +171,6 @@ class YDMOfflineOrdersViewModel {
       } else {
         orderListFirstRequest.value = true
       }
-
-    } else {
-      noMoreOrderToLoad = true
-      newOrdersForList.value = false
-
-      if !append {
-        orderListFirstRequest.value = true
-      }
     }
   }
 
@@ -185,16 +185,12 @@ class YDMOfflineOrdersViewModel {
 
 // MARK: Extension
 extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
-  subscript(_ row: Int) -> OrderListConfig? {
-    return orderList.value.at(row)
+  subscript(_ item: Int) -> OrderListConfig? {
+    return orderList.value.at(item)
   }
 
   func setNavigationController(_ navigation: UINavigationController?) {
     self.navigation.setNavigationController(navigation)
-  }
-
-  func getAllOrdersConfigs() -> [OrderListConfig] {
-    return orderList.value
   }
 
   func login() {
@@ -259,12 +255,11 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     ) { [weak self] (result: Result<YDOfflineOrdersOrdersList, YDB2WServices.YDServiceError>) in
       guard let self = self else { return }
 
-      self.loading.value = false
-
       switch result {
         case .success(let orders):
           let sorted = self.sortOrdersList(orders)
           self.addOrdersToList(sorted, append: true)
+
 
         case .failure(let error):
           self.logger.error(error.message)
@@ -272,10 +267,6 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           self.loadMoreError.value = "Ops! Falha ao carregar mais compras realizadas nas lojas físicas."
       }
     }
-  }
-
-  func numberOfSections() -> Int {
-    return orderList.value.count
   }
 
   func openNote(withKey key: String?) {}

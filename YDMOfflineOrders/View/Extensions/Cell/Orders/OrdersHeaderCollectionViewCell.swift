@@ -9,6 +9,13 @@ import UIKit
 
 class OrdersHeaderCollectionViewCell: UICollectionViewCell {
   // MARK: Components
+  lazy var width: NSLayoutConstraint = {
+    let width = contentView.widthAnchor
+      .constraint(equalToConstant: bounds.size.width)
+    width.isActive = true
+    return width
+  }()
+  let dateContainer = UIView()
   let dateLabel = UILabel()
 
   // MARK: Init
@@ -16,25 +23,36 @@ class OrdersHeaderCollectionViewCell: UICollectionViewCell {
     super.init(frame: frame)
 
     contentView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      contentView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-      contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-    ])
-
     setUpLayout()
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  override func systemLayoutSizeFitting(
+    _ targetSize: CGSize,
+    withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
+    verticalFittingPriority: UILayoutPriority
+  ) -> CGSize {
+    width.constant = bounds.size.width
+    return contentView.systemLayoutSizeFitting(
+      CGSize(width: targetSize.width, height: 1)
+    )
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    dateContainer.layer.shadowPath = UIBezierPath(
+      roundedRect: dateContainer.bounds,
+      cornerRadius: 10
+    ).cgPath
+  }
 }
 
 // MARK: Layout
 extension OrdersHeaderCollectionViewCell {
   func setUpLayout() {
-    let dateContainer = UIView()
     dateContainer.backgroundColor = UIColor.Zeplin.white
     dateContainer.layer.cornerRadius = 10
     dateContainer.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
@@ -43,8 +61,11 @@ extension OrdersHeaderCollectionViewCell {
     dateContainer.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       dateContainer.heightAnchor.constraint(equalToConstant: 20),
-      dateContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-      dateContainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+      dateContainer.topAnchor
+        .constraint(equalTo: contentView.topAnchor, constant: 30),
+      dateContainer.bottomAnchor
+        .constraint(equalTo: contentView.bottomAnchor, constant: -8),
+      dateContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
     ])
 
     dateLabel.font = .systemFont(ofSize: 12)

@@ -36,8 +36,11 @@ extension YDMOfflineOrdersViewController {
       if hasMore {
         self.addNewOrders()
       } else {
-        self.loadMoreShimmer?.stopShimmerAndHide()
-        self.collectionView.collectionViewLayout.invalidateLayout()
+        if self.loadMoreShimmer?.componentHidden == false {
+          self.loadMoreShimmer?.componentHidden = true
+          self.loadMoreShimmer?.stopShimmerAndHide()
+          self.collectionView.collectionViewLayout.invalidateLayout()
+        }
       }
     }
 

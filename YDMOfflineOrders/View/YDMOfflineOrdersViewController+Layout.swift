@@ -24,7 +24,10 @@ extension YDMOfflineOrdersViewController {
     layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.minimumLineSpacing = 16
 
-    collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layoutFlow)
+    collectionView = UICollectionView(
+      frame: view.frame,
+      collectionViewLayout: layoutFlow
+    )
     collectionView.isHidden = true
 
     view.addSubview(collectionView)
@@ -86,18 +89,15 @@ extension YDMOfflineOrdersViewController {
 
   func createShimmerCollectionView() {
     let layoutFlow = UICollectionViewFlowLayout()
-//    layoutFlow.sectionInset = UIEdgeInsets(
-//      top: view.safeAreaInsets.top + 20,
-//      left: 0,
-//      bottom: 0,
-//      right: 0
-//    )
-//    layoutFlow.headerReferenceSize = CGSize(width: view.frame.size.width, height: 0)
-//    layoutFlow.itemSize = CGSize(width: view.frame.size.width, height: 235)
+    layoutFlow.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     layoutFlow.scrollDirection = .vertical
+    layoutFlow.estimatedItemSize = CGSize(width: view.frame.size.width, height: 235)
     layoutFlow.minimumLineSpacing = 16
 
-    shimmerCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layoutFlow)
+    shimmerCollectionView = UICollectionView(
+      frame: view.frame,
+      collectionViewLayout: layoutFlow
+    )
 
     view.addSubview(shimmerCollectionView)
     shimmerCollectionView.delegate = self
@@ -114,7 +114,9 @@ extension YDMOfflineOrdersViewController {
     ])
 
     // List height / cell  height
-    numberOfShimmers = Int((shimmerCollectionView.frame.size.height / 235).rounded(.up)) + 1
+    numberOfShimmers = Int(
+      (shimmerCollectionView.frame.size.height / 235).rounded(.up)
+    ) + 1
 
     // Shimmer cell
     shimmerCollectionView.register(

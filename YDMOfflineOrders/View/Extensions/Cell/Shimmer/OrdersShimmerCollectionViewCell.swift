@@ -11,7 +11,15 @@ import YDB2WAssets
 import YDB2WModels
 
 class OrdersShimmerCollectionViewCell: UICollectionViewCell {
-  // MARK: Properties
+  // MARK: Components
+  lazy var width: NSLayoutConstraint = {
+    let width = contentView.widthAnchor
+      .constraint(equalToConstant: bounds.size.width)
+    width.isActive = true
+    return width
+  }()
+
+  let containerView = UIView()
   var storeNameView = UIView()
   var addressView = UIView()
   var dateView = UIView()
@@ -39,25 +47,7 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
   // MARK: Init
   override init(frame: CGRect) {
     super.init(frame: frame)
-
-    backgroundColor = .clear
-
     contentView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-      contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-      contentView.topAnchor.constraint(equalTo: topAnchor),
-      contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      contentView.heightAnchor.constraint(equalToConstant: 235)
-    ])
-
-    contentView.backgroundColor = UIColor.Zeplin.white
-    contentView.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
-    contentView.layer.cornerRadius = 6
-    contentView.layer.masksToBounds = false
-
-    layer.masksToBounds = false
-
     setUpLayout()
   }
 
@@ -65,18 +55,29 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    contentView.layer.shadowPath = UIBezierPath(
-      roundedRect: contentView.bounds,
-      cornerRadius: 6
-    ).cgPath
-  }
-
   override func prepareForReuse() {
     shimmersViews.forEach { $0.stopShimmer() }
 
     super.prepareForReuse()
+  }
+
+  override func systemLayoutSizeFitting(
+    _ targetSize: CGSize,
+    withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
+    verticalFittingPriority: UILayoutPriority
+  ) -> CGSize {
+    width.constant = bounds.size.width
+    return contentView.systemLayoutSizeFitting(
+      CGSize(width: targetSize.width, height: 1)
+    )
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    containerView.layer.shadowPath = UIBezierPath(
+      roundedRect: containerView.bounds,
+      cornerRadius: 6
+    ).cgPath
   }
 
   // MARK: Actions
@@ -91,6 +92,7 @@ class OrdersShimmerCollectionViewCell: UICollectionViewCell {
 // MARK: Layout
 extension OrdersShimmerCollectionViewCell {
   func setUpLayout() {
+    configureContainerView()
     createStoreNameView()
     createAddressView()
     createDateView()
@@ -105,17 +107,36 @@ extension OrdersShimmerCollectionViewCell {
     createValueLabel(parent: separatorUnderStack)
   }
 
+  func configureContainerView() {
+    contentView.addSubview(containerView)
+    containerView.backgroundColor = UIColor.Zeplin.white
+    containerView.layer.applyShadow(alpha: 0.15, x: 0, y: 0, blur: 20)
+    containerView.layer.cornerRadius = 6
+
+    containerView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      containerView.topAnchor
+        .constraint(equalTo: contentView.topAnchor, constant: 1),
+      containerView.leadingAnchor
+        .constraint(equalTo: contentView.leadingAnchor, constant: 24),
+      containerView.trailingAnchor
+        .constraint(equalTo: contentView.trailingAnchor, constant: -24),
+      containerView.bottomAnchor
+        .constraint(equalTo: contentView.bottomAnchor, constant: -1)
+    ])
+  }
+
   func createStoreNameView() {
     storeNameView.backgroundColor = UIColor.Zeplin.black
     storeNameView.layer.cornerRadius = 6
     storeNameView.clipsToBounds = true
-    contentView.addSubview(storeNameView)
+    containerView.addSubview(storeNameView)
 
     storeNameView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      storeNameView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-      storeNameView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-      storeNameView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -54),
+      storeNameView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+      storeNameView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+      storeNameView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -54),
       storeNameView.heightAnchor.constraint(equalToConstant: 13)
     ])
   }
@@ -124,7 +145,7 @@ extension OrdersShimmerCollectionViewCell {
     addressView.backgroundColor = UIColor.Zeplin.grayLight
     addressView.layer.cornerRadius = 6
     addressView.clipsToBounds = true
-    contentView.addSubview(addressView)
+    containerView.addSubview(addressView)
 
     addressView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -134,7 +155,7 @@ extension OrdersShimmerCollectionViewCell {
       ),
       addressView.leadingAnchor.constraint(equalTo: storeNameView.leadingAnchor),
       addressView.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor,
+        equalTo: containerView.trailingAnchor,
         constant: -16
       ),
       addressView.heightAnchor.constraint(equalToConstant: 13)
@@ -145,7 +166,7 @@ extension OrdersShimmerCollectionViewCell {
     dateView.backgroundColor = UIColor.Zeplin.grayLight
     dateView.layer.cornerRadius = 6
     dateView.clipsToBounds = true
-    contentView.addSubview(dateView)
+    containerView.addSubview(dateView)
 
     dateView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -163,7 +184,7 @@ extension OrdersShimmerCollectionViewCell {
     topView.backgroundColor = UIColor.Zeplin.grayLight
     topView.layer.cornerRadius = 6
     topView.clipsToBounds = true
-    contentView.addSubview(topView)
+    containerView.addSubview(topView)
 
     topView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -172,7 +193,7 @@ extension OrdersShimmerCollectionViewCell {
         equalTo: dateView.trailingAnchor,
         constant: 38
       ),
-      topView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      topView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
       topView.heightAnchor.constraint(equalToConstant: 13)
     ])
   }
@@ -181,22 +202,28 @@ extension OrdersShimmerCollectionViewCell {
     let separatorView = UIView()
     separatorView.backgroundColor = firstSeparator ?
       UIColor.Zeplin.grayDisabled : UIColor.Zeplin.grayOpaque
-    contentView.addSubview(separatorView)
+    containerView.addSubview(separatorView)
 
     separatorView.translatesAutoresizingMaskIntoConstraints = false
     separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
 
     if firstSeparator {
       NSLayoutConstraint.activate([
-        separatorView.topAnchor.constraint(equalTo: dateView.bottomAnchor, constant: 13),
-        separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        separatorView.topAnchor
+          .constraint(equalTo: dateView.bottomAnchor, constant: 13),
+        separatorView.leadingAnchor
+          .constraint(equalTo: containerView.leadingAnchor),
+        separatorView.trailingAnchor
+          .constraint(equalTo: containerView.trailingAnchor)
       ])
     } else {
       NSLayoutConstraint.activate([
-        separatorView.topAnchor.constraint(equalTo: middleView.bottomAnchor, constant: 12),
-        separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-        separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        separatorView.topAnchor
+          .constraint(equalTo: middleView.bottomAnchor, constant: 12),
+        separatorView.leadingAnchor
+          .constraint(equalTo: containerView.leadingAnchor, constant: 16),
+        separatorView.trailingAnchor
+          .constraint(equalTo: containerView.trailingAnchor, constant: -16)
       ])
     }
 
@@ -205,13 +232,13 @@ extension OrdersShimmerCollectionViewCell {
 
   func createMiddleView(parent: UIView) {
     middleView.backgroundColor = UIColor.Zeplin.white
-    contentView.addSubview(middleView)
+    containerView.addSubview(middleView)
 
     middleView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       middleView.topAnchor.constraint(equalTo: parent.bottomAnchor, constant: 12),
-      middleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-      middleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      middleView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+      middleView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
       middleView.heightAnchor.constraint(equalToConstant: 50)
     ])
   }
@@ -237,7 +264,8 @@ extension OrdersShimmerCollectionViewCell {
 
     productNameView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productNameView.topAnchor.constraint(equalTo: middleView.topAnchor, constant: 8),
+      productNameView.topAnchor
+        .constraint(equalTo: middleView.topAnchor, constant: 8),
       productNameView.leadingAnchor
         .constraint(equalTo: photoView.trailingAnchor, constant: 10),
       productNameView.trailingAnchor
@@ -279,7 +307,7 @@ extension OrdersShimmerCollectionViewCell {
     priceView.backgroundColor = UIColor.Zeplin.black
     priceView.layer.cornerRadius = 6
     priceView.clipsToBounds = true
-    contentView.addSubview(priceView)
+    containerView.addSubview(priceView)
 
     priceView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -287,12 +315,14 @@ extension OrdersShimmerCollectionViewCell {
         equalTo: parent.bottomAnchor,
         constant: 22
       ),
-      priceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+      priceView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
       priceView.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor,
+        equalTo: containerView.trailingAnchor,
         constant: -16
       ),
-      priceView.heightAnchor.constraint(equalToConstant: 13)
+      priceView.heightAnchor.constraint(equalToConstant: 13),
+      priceView.bottomAnchor
+        .constraint(equalTo: containerView.bottomAnchor, constant: -16)
     ])
   }
 }
