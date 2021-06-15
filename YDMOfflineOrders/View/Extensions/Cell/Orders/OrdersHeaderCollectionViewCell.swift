@@ -40,14 +40,6 @@ class OrdersHeaderCollectionViewCell: UICollectionViewCell {
       CGSize(width: targetSize.width, height: 1)
     )
   }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    dateContainer.layer.shadowPath = UIBezierPath(
-      roundedRect: dateContainer.bounds,
-      cornerRadius: 10
-    ).cgPath
-  }
 }
 
 // MARK: Layout
