@@ -253,7 +253,7 @@ extension OrdersCollectionViewCell {
       ),
       addressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
       addressLabel.trailingAnchor.constraint(
-        equalTo: contentView.trailingAnchor,
+        equalTo: containerView.trailingAnchor,
         constant: -9.3
       ),
       addressLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
