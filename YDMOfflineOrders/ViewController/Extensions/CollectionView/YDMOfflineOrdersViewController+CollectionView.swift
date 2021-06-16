@@ -20,7 +20,6 @@ extension YDMOfflineOrdersViewController {
             !viewModel.noMoreOrderToLoad
       else { return }
 
-      print("addNewOrders")
       self.collectionView.reloadData()
       self.canLoadMore = !viewModel.noMoreOrderToLoad
       // self.collectionView.collectionViewLayout.invalidateLayout()
@@ -50,8 +49,6 @@ extension YDMOfflineOrdersViewController {
     else {
       fatalError("dequeueCell")
     }
-
-    print("###", indexPath.item, config.type, config.headerString)
 
     switch config.type {
       case .header:
@@ -164,7 +161,6 @@ extension YDMOfflineOrdersViewController {
 
       } else {
         if loadMoreShimmer?.componentHidden == false {
-          print("loadMoreShimmer?.componentHidden")
           loadMoreShimmer?.componentHidden = true
           // hide shimmer
           loadMoreShimmer?.stopShimmerAndHide()
@@ -202,8 +198,6 @@ extension YDMOfflineOrdersViewController: UICollectionViewDataSource {
     viewForSupplementaryElementOfKind kind: String,
     at indexPath: IndexPath
   ) -> UICollectionReusableView {
-    print("!!!", indexPath.item)
-
     switch kind {
       case UICollectionView.elementKindSectionHeader:
         guard let header = collectionView.dequeueReusableSupplementaryView(

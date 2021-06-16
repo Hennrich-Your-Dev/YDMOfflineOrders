@@ -31,8 +31,7 @@ extension YDMOfflineOrdersViewController {
 
     viewModel?.newOrdersForList.bind { [weak self] hasMore in
       guard let self = self else { return }
-      print("newOrdersForList \(hasMore)")
-      print("canLoadMore", self.canLoadMore)
+      
       if hasMore {
         self.addNewOrders()
       } else {

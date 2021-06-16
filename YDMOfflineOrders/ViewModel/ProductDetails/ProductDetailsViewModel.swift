@@ -13,6 +13,7 @@ import YDExtensions
 import YDB2WIntegration
 import YDB2WModels
 import YDB2WServices
+import YDB2WDeepLinks
 
 protocol ProductDetailsViewModelDelegate: AnyObject {
   var error: Binder<Bool> { get }
@@ -21,6 +22,7 @@ protocol ProductDetailsViewModelDelegate: AnyObject {
   var currentProductOnlineOffline: Binder<YDProductOnlineOffline?> { get }
 
   func changeAddress()
+  func openOnlineProduct()
 }
 
 class ProductDetailsViewModel {
@@ -149,5 +151,25 @@ extension ProductDetailsViewModel: ProductDetailsViewModelDelegate {
 
       self.getNewStoreAndProducts(with: coords)
     }
+  }
+
+  func openOnlineProduct() {
+    guard let product = currentProductOnlineOffline.value?.online,
+          let productId = product.id
+    else {
+      return
+    }
+
+    let formatedString = String(
+      format: YDDeepLinks.productClick.rawValue,
+      productId
+    )
+
+    guard let url = URL(string: formatedString),
+          !url.absoluteString.isEmpty else {
+      return
+    }
+
+    UIApplication.shared.open(url, options: [:], completionHandler: nil)
   }
 }

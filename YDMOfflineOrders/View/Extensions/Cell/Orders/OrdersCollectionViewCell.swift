@@ -91,7 +91,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
   }
 
   override func prepareForReuse() {
-    print("prepareForReuse start")
     if !topStackView.subviews.isEmpty {
       topStackView.arrangedSubviews.last?.removeFromSuperview()
     }
@@ -115,7 +114,6 @@ class OrdersCollectionViewCell: UICollectionViewCell {
     noteCallback = nil
     changeUIState(with: .normal)
 
-    print("prepareForReuse success")
     super.prepareForReuse()
   }
 

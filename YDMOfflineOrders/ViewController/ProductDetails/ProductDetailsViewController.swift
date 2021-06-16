@@ -43,6 +43,10 @@ class ProductDetailsViewController: UIViewController {
       guard let self = self else { return }
       self.viewModel?.changeAddress()
     }
+
+    onlineProductView.addGestureRecognizer(
+      UITapGestureRecognizer(target: self, action: #selector(onOnlineProductViewTap))
+    )
   }
 }
 
@@ -86,5 +90,9 @@ extension ProductDetailsViewController {
 
     productOnlineOffline = products
     self.store = store
+  }
+
+  @objc func onOnlineProductViewTap() {
+    viewModel?.openOnlineProduct()
   }
 }

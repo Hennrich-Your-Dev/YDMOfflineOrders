@@ -118,7 +118,6 @@ class YDMOfflineOrdersViewModel {
   }
 
   private func addOrdersToList(_ sorted: [YDOfflineOrdersOrder], append: Bool) {
-    print("sorted.isEmpty", sorted.isEmpty)
     if sorted.isEmpty {
       noMoreOrderToLoad = true
       newOrdersForList.value = false
