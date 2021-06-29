@@ -39,6 +39,8 @@ public class Icons {
 
   public static let imagePlaceHolder = UIImage(named: "iconImagePlaceHolder", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
+  public static let info = UIImage(named: "iconInfo", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+
   public static let leftArrow = UIImage(named: "iconLeftArrow", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
   public static let locationPin = UIImage(named: "location-pin", in: podsBundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
@@ -80,6 +82,8 @@ public class Images {
 
   public static let basket = UIImage(named: "basket", in: podsBundle, compatibleWith: nil)
 
+  public static let booklet = UIImage(named: "booklet", in: podsBundle, compatibleWith: nil)
+
   public static let clipboard = UIImage(named: "clipboard", in: podsBundle, compatibleWith: nil)
   
   public static let map = UIImage(named: "map", in: podsBundle, compatibleWith: nil)
@@ -91,6 +95,8 @@ public class Images {
   public static let storePin = UIImage(named: "storePin", in: podsBundle, compatibleWith: nil)
 
   public static let storePinFaded = UIImage(named: "storePinFaded", in: podsBundle, compatibleWith: nil)
+
+  public static let storeWithPin = UIImage(named: "storeWithPin", in: podsBundle, compatibleWith: nil)
 
   public static let starYellow = UIImage(named: "starYellow", in: podsBundle, compatibleWith: nil)
 

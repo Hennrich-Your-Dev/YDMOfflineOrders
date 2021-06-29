@@ -301,13 +301,15 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     onCompletion completion: @escaping (Bool) -> Void
   ) {
     guard let order = orderList.value.at(index)?.order,
+          order.alreadySearchOnAPI == false,
           let products = order.products,
-          products.firstIndex(where: { $0.products != nil }) == nil,
           let storeId = order.storeId
     else {
       completion(false)
       return
     }
+
+    orderList.value[index].order?.alreadySearchOnAPI = true
 
     let eans = Array(products.map { $0.ean }.compactMap { $0 }.prefix(3))
 
@@ -338,9 +340,8 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           }
           completion(true)
 
-        case .failure(let error):
-          print(error.message)
-          completion(false)
+        case .failure:
+          completion(true)
       }
     }
   }

@@ -29,7 +29,7 @@ public enum YDDeepLinksParser {
 
     if let parameters = url.queryParameters {
       for (key, value) in parameters {
-        params[key.lowercased()] = value
+        params[key] = value
       }
     }
 
@@ -45,6 +45,5 @@ public enum YDDeepLinksParserTypes: String {
 }
 
 public enum YDDeepLinksParserParameters: String {
-  case storeId = "storeid"
-  case eTag = "etag"
+  case storeId = "storeId"
 }

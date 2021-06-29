@@ -19,7 +19,7 @@ public class YDProductCardView: UIView {
       updateLayoutWithProduct()
     }
   }
-
+  var itsOnline = false
   var shimmers: [UIView] = []
 
   // MARK: Components
@@ -28,6 +28,7 @@ public class YDProductCardView: UIView {
   let photoImageMask = UIView()
   let productNameLabel = UILabel()
   let productPriceLabel = UILabel()
+  let shippingLabel = UILabel()
   let ratingView = CosmosView()
 
   let shimmerContainer = UIView()
@@ -49,6 +50,15 @@ public class YDProductCardView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
+  public init(fromOnline: Bool) {
+    super.init(frame: .zero)
+    itsOnline = fromOnline
+    backgroundColor = UIColor.Zeplin.white
+    layer.applyShadow(x: 0, y: 0, blur: 20)
+    heightAnchor.constraint(equalToConstant: 120).isActive = true
+    setUpLayout()
+  }
+
   // MARK: Actions
   private func updateLayoutWithProduct() {
     guard let product = self.product else { return }
@@ -56,6 +66,8 @@ public class YDProductCardView: UIView {
     photoImageView.setImage(product.image, placeholder: Icons.imagePlaceHolder)
     productNameLabel.text = product.name?.lowercased()
     productPriceLabel.text = product.formatedPrice
+
+    if itsOnline { return }
 
     if let rate = product.rating?.average,
        rate > 0,

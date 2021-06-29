@@ -107,14 +107,15 @@ extension YDMOfflineOrdersViewController {
 
     cell.config(with: order)
 
-    cell.changeUIState(with: .loading)
-
-    viewModel?.getProductsForOrder(at: indexPath.item) { success in
-      cell.changeUIState(with: .normal)
-      if success {
-        DispatchQueue.main.async { [weak self] in
-          guard let self = self else { return }
-          self.collectionView.reloadItems(at: [indexPath])
+    if !order.alreadySearchOnAPI {
+      cell.changeUIState(with: .loading)
+      viewModel?.getProductsForOrder(at: indexPath.item) { success in
+        cell.changeUIState(with: .normal)
+        if success {
+          DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.collectionView.reloadItems(at: [indexPath])
+          }
         }
       }
     }

@@ -7,8 +7,6 @@
 
 import Foundation
 
-import YDUtilities
-
 public typealias YDOfflineOrdersOrdersList = [YDOfflineOrdersOrder]
 
 public class YDOfflineOrdersOrder: Decodable {
@@ -27,6 +25,7 @@ public class YDOfflineOrdersOrder: Decodable {
 
   // products
   public var products: [YDOfflineOrdersProduct]?
+  public var alreadySearchOnAPI = false
 
   // IndexPath
   public var indexPath: IndexPath?

@@ -47,7 +47,8 @@ public class YDDialogCoordinator {
     customTitle: String? = nil,
     customMessage: String? = nil,
     customButton: String? = nil,
-    customCancelButton: String? = nil
+    customCancelButton: String? = nil,
+    messageLink: [String: String]? = nil
   ) {
     guard let viewController = YDDialogViewController.initializeFromStoryboard() else {
       fatalError("YDDialogViewController.initializeFromStoryboard")
@@ -65,6 +66,7 @@ public class YDDialogCoordinator {
     viewController.customMessage = customMessage
     viewController.customButton = customButton
     viewController.customCancelButton = customCancelButton
+    viewController.messageLink = messageLink
 
     navigationController.viewControllers = [viewController]
     navigationController.modalPresentationStyle = .overCurrentContext

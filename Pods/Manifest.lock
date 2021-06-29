@@ -17,55 +17,57 @@ PODS:
   - libwebp/mux (1.2.0):
     - libwebp/demux
   - libwebp/webp (1.2.0)
-  - YDB2WAssets (1.3.1)
-  - YDB2WComponents (1.3.10):
+  - YDB2WAssets (1.4.3)
+  - YDB2WComponents (1.4.30):
     - Cosmos
-    - YDB2WAssets (~> 1.3.0)
-    - YDB2WModels (~> 1.3.0)
-    - YDExtensions (~> 1.3.0)
-    - YDUtilities (~> 1.3.0)
-  - YDB2WDeepLinks (1.3.1):
-    - YDExtensions (~> 1.3.0)
-  - YDB2WIntegration (1.3.4):
-    - YDB2WModels (~> 1.3.0)
-    - YDExtensions (~> 1.3.0)
-  - YDB2WModels (1.3.12):
-    - YDExtensions (~> 1.3.0)
-    - YDUtilities (~> 1.3.0)
-  - YDB2WServices (1.3.1):
+    - YDB2WAssets (~> 1.4.0)
+    - YDB2WModels (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
+    - YDUtilities (~> 1.4.0)
+  - YDB2WDeepLinks (1.4.3):
+    - YDExtensions (~> 1.4.0)
+  - YDB2WIntegration (1.4.5):
+    - YDB2WModels (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
+  - YDB2WModels (1.4.16):
+    - YDExtensions (~> 1.4.0)
+  - YDB2WServices (1.4.4):
     - Alamofire (~> 4.0)
-    - YDB2WIntegration (~> 1.3.0)
-    - YDB2WModels (~> 1.3.0)
-  - YDExtensions (1.3.1):
+    - YDB2WIntegration (~> 1.4.0)
+    - YDB2WModels (~> 1.4.0)
+    - YDUtilities (~> 1.4.0)
+  - YDExtensions (1.4.2):
     - Kingfisher (~> 5.0)
     - KingfisherWebP (= 1.0.0)
   - YDLocationModule (1.0.5)
-  - YDMFindStore (1.3.1):
+  - YDMFindStore (1.4.1):
     - Alamofire (= 4.9.1)
     - curvyRoute
-    - YDB2WAssets (~> 1.3.0)
-    - YDB2WComponents (~> 1.3.0)
-    - YDB2WDeepLinks (~> 1.3.0)
-    - YDB2WIntegration (~> 1.3.0)
-    - YDB2WModels (~> 1.3.0)
-    - YDB2WServices (~> 1.3.0)
-    - YDExtensions (~> 1.3.0)
+    - YDB2WAssets (~> 1.4.0)
+    - YDB2WComponents (~> 1.4.0)
+    - YDB2WDeepLinks (~> 1.4.0)
+    - YDB2WIntegration (~> 1.4.0)
+    - YDB2WModels (~> 1.4.0)
+    - YDB2WServices (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
     - YDLocationModule (~> 1.0.5)
-    - YDUtilities (~> 1.3.0)
-  - YDUtilities (1.3.0):
+    - YDUtilities (~> 1.4.0)
+  - YDUtilities (1.4.1):
     - Alamofire (~> 4.0)
+    - YDB2WModels (~> 1.4.0)
+    - YDExtensions (~> 1.4.0)
 
 DEPENDENCIES:
   - Cosmos
-  - YDB2WAssets (~> 1.3.0)
-  - YDB2WComponents (~> 1.3.0)
-  - YDB2WDeepLinks (~> 1.3.0)
-  - YDB2WIntegration (~> 1.3.0)
-  - YDB2WModels (~> 1.3.0)
-  - YDB2WServices (~> 1.3.0)
-  - YDExtensions (~> 1.3.0)
-  - YDMFindStore (~> 1.3.0)
-  - YDUtilities (~> 1.3.0)
+  - YDB2WAssets (~> 1.4.0)
+  - YDB2WComponents (~> 1.4.0)
+  - YDB2WDeepLinks (~> 1.4.0)
+  - YDB2WIntegration (~> 1.4.0)
+  - YDB2WModels (~> 1.4.0)
+  - YDB2WServices (~> 1.4.0)
+  - YDExtensions (~> 1.4.0)
+  - YDMFindStore (~> 1.4.0)
+  - YDUtilities (~> 1.4.0)
 
 SPEC REPOS:
   "git@github.com:Hennrich-Your-Dev/YourDev-Pods.git":
@@ -94,17 +96,17 @@ SPEC CHECKSUMS:
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   KingfisherWebP: b1ed1dbc5e52547c5bf5f583dd5c46346f97320f
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
-  YDB2WAssets: 264e08acb4a62f3f79ec5b920e0bdf3d45e57c43
-  YDB2WComponents: 35e53f6e5729ec48aee342f0220cf9271f062099
-  YDB2WDeepLinks: 47e1fda472d418fa02df38ffa556a8290fa680e8
-  YDB2WIntegration: 884efe5ddf0412ffcb0d0defaa24e67f5eee2cdd
-  YDB2WModels: 0b9f31379091679eb7605c0243c6ec0959393cb4
-  YDB2WServices: 718e0edb2751206a37842fda207abe2f5c97f0b2
-  YDExtensions: 7c52103615ceb945339af861e2c90516af926bf4
+  YDB2WAssets: 0b203f5b6578f675e13b9825a9fcfe07ef5d429b
+  YDB2WComponents: 490ff7b51d28dd6933bb2e3bb8f4403186c6a2d7
+  YDB2WDeepLinks: 62366366f002469c2b4b370e2fa480d4cfa0ddc4
+  YDB2WIntegration: 1c9cd2a33e031ad2a4f9fd914176827d43d41b7a
+  YDB2WModels: 83f89daf5d17fb51e87b825b3b4187d2c39e9575
+  YDB2WServices: f5a135c3a377046f850d658d1b367f2c27b9a5d0
+  YDExtensions: fa093c67b72c07da4621a8132e79a1e84d9eed15
   YDLocationModule: 35cddec317442e18078cb64e1542d7cd360ccb43
-  YDMFindStore: 19c86eda96513c68bd0086c6f7e1ff9ceecf75f8
-  YDUtilities: eece03b4133d2860eb9fb152a64a7e1358b01a35
+  YDMFindStore: fd9ea4f73130bc2884f22774c12cbf5cc48b7a68
+  YDUtilities: e9e2f5e12ded589bed406ad4d6d00d357bca65e2
 
-PODFILE CHECKSUM: 754fb4a296330b1175d226722071bc1b66329584
+PODFILE CHECKSUM: 555f9768b3acad51f0b13088273c65cbdf63d0de
 
 COCOAPODS: 1.10.1

@@ -12,7 +12,7 @@ import YDB2WModels
 public class YDSpaceyCardView: UIView {
   // MARK: Properties
   public var callback: ((_ selectedId: String?) -> Void)?
-  var currentItems: [YDSpaceyInnerCard] = []
+  var currentItems: [YDSpaceyComponentLiveNPSCardQuestion] = []
 
   // MARK: Components
   let titleLabel = UILabel()
@@ -35,8 +35,8 @@ public class YDSpaceyCardView: UIView {
   }
 
   // MARK: Actions
-  public func configure(with card: YDSpaceyCard) {
-    currentItems = card.cards
+  public func configure(with card: YDSpaceyComponentLiveNPSCard) {
+    currentItems = card.children
 
     titleLabel.text = card.title
 
@@ -68,8 +68,8 @@ public class YDSpaceyCardView: UIView {
 // MARK: UI
 extension YDSpaceyCardView {
   func configureUI() {
-    configureTitleLabel()
     configureSkipButton()
+    configureTitleLabel()
     configureStackView()
   }
 
@@ -82,10 +82,10 @@ extension YDSpaceyCardView {
 
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+      titleLabel.centerYAnchor.constraint(equalTo: skipButton.centerYAnchor),
       titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
       titleLabel.trailingAnchor
-        .constraint(equalTo: trailingAnchor, constant: 86),
+        .constraint(equalTo: skipButton.leadingAnchor, constant: -10),
       titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22)
     ])
     titleLabel.setContentCompressionResistancePriority(
@@ -124,7 +124,7 @@ extension YDSpaceyCardView {
 
     vStackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      vStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+      vStackView.topAnchor.constraint(equalTo: skipButton.bottomAnchor, constant: 9),
       vStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
       vStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
       vStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)

@@ -18,7 +18,11 @@ extension YDProductCardView {
     createPhotoImageView()
     createProductNameLabel()
     createValueLabel()
-    createRatingView()
+    if itsOnline {
+      createShippingLabel()
+    } else {
+      createRatingView()
+    }
 
     // Shimmer
     createShimmerContainerView()
@@ -109,7 +113,6 @@ extension YDProductCardView {
 
     productPriceLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      productPriceLabel.bottomAnchor.constraint(equalTo: photoImageMask.bottomAnchor),
       productPriceLabel.leadingAnchor.constraint(
         equalTo: photoImageMask.trailingAnchor,
         constant: 16
@@ -121,7 +124,30 @@ extension YDProductCardView {
       productPriceLabel.heightAnchor.constraint(equalToConstant: 24)
     ])
 
+    if itsOnline {
+      productPriceLabel.topAnchor
+        .constraint(equalTo: productNameLabel.bottomAnchor, constant: 10).isActive = true
+    } else {
+      productPriceLabel.bottomAnchor
+        .constraint(equalTo: photoImageMask.bottomAnchor).isActive = true
+    }
+
     productPriceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+  }
+
+  private func createShippingLabel() {
+    container.addSubview(shippingLabel)
+    shippingLabel.font = .systemFont(ofSize: 13)
+    shippingLabel.textColor = Zeplin.grayLight
+    shippingLabel.textAlignment = .left
+    shippingLabel.text = "consulte o valor do frete"
+
+    shippingLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      shippingLabel.topAnchor.constraint(equalTo: productPriceLabel.bottomAnchor, constant: 6),
+      shippingLabel.leadingAnchor
+        .constraint(equalTo: photoImageMask.trailingAnchor, constant: 16)
+    ])
   }
 
   private func createRatingView() {
