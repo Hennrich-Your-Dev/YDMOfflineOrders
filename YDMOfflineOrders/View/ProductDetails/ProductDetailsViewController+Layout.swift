@@ -65,9 +65,12 @@ extension ProductDetailsViewController {
     compareProductsView.backgroundColor = UIColor.Zeplin.white
     view.addSubview(compareProductsView)
 
+    let heighSize: CGFloat = (UIDevice.hasNotch ?
+                                184 : 154) + view.safeAreaInsets.bottom
+
     compareProductsView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      compareProductsView.heightAnchor.constraint(equalToConstant: 144 + view.safeAreaInsets.bottom),
+      compareProductsView.heightAnchor.constraint(equalToConstant: heighSize),
       compareProductsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       compareProductsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       compareProductsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
