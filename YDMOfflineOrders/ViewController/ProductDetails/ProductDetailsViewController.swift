@@ -29,7 +29,7 @@ class ProductDetailsViewController: UIViewController {
   let storeAndProductView = YDStoreAndProductView()
   let compareProductsView = UIView()
   let compareProductsViewShadow = UIView()
-  let onlineProductView = YDProductCardView()
+  let onlineProductView = YDProductCardView(fromOnline: true)
 
   // MARK: Life cycle
   override func viewDidLoad() {
