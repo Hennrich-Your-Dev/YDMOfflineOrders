@@ -4,7 +4,6 @@
 //
 //  Created by Douglas Hennrich on 21/02/21.
 //
-
 import UIKit
 
 import YDUtilities
@@ -218,7 +217,6 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     // Mock
 //    fromMock()
 //    return;
-
     service.offlineOrdersGetOrders(
       userToken: userToken,
       page: currentPage,
@@ -246,7 +244,6 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     // From mock
 //    getMoreOrdersFromMock()
 //    return;
-
     service.offlineOrdersGetOrders(
       userToken: userToken,
       page: currentPage,
@@ -275,7 +272,6 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     withinOrder order: YDOfflineOrdersOrder
   ) {
 //    product.products?.online?.isAvailable = false
-
     if product.products?.online?.isAvailable == false {
       snackBar.value = ("Ops! O produto escolhido está indisponível no momento.", "ok, entendi")
       return
@@ -301,13 +297,15 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     onCompletion completion: @escaping (Bool) -> Void
   ) {
     guard let order = orderList.value.at(index)?.order,
+          order.alreadySearchOnAPI == false,
           let products = order.products,
-          products.firstIndex(where: { $0.products != nil }) == nil,
           let storeId = order.storeId
     else {
       completion(false)
       return
     }
+
+    orderList.value[index].order?.alreadySearchOnAPI = true
 
     let eans = Array(products.map { $0.ean }.compactMap { $0 }.prefix(3))
 
@@ -338,9 +336,8 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
           }
           completion(true)
 
-        case .failure(let error):
-          print(error.message)
-          completion(false)
+        case .failure:
+          completion(true)
       }
     }
   }

@@ -30,7 +30,10 @@ public class YDWireButton: UIButton {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     self.title = self.titleLabel?.text ?? ""
-    setUpStyle()
+
+    DispatchQueue.main.async {
+      self.setUpStyle()
+    }
   }
 
   // MARK: Actions
@@ -67,7 +70,9 @@ public class YDWireButton: UIButton {
       ]
     )
 
-    setAttributedTitle(attributedString, for: state)
+    DispatchQueue.main.async {
+      self.setAttributedTitle(attributedString, for: state)
+    }
   }
 
   @objc func onButtonAction(_ sender: UIButton) {

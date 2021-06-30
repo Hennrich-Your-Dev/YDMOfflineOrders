@@ -12,7 +12,7 @@ import YDB2WModels
 public class YDSpaceyCardView: UIView {
   // MARK: Properties
   public var callback: ((_ selectedId: String?) -> Void)?
-  var currentItems: [YDSpaceyInnerCard] = []
+  var currentItems: [YDSpaceyComponentLiveNPSCardQuestion] = []
 
   // MARK: Components
   let titleLabel = UILabel()
@@ -35,8 +35,8 @@ public class YDSpaceyCardView: UIView {
   }
 
   // MARK: Actions
-  public func configure(with card: YDSpaceyCard) {
-    currentItems = card.cards
+  public func configure(with card: YDSpaceyComponentLiveNPSCard) {
+    currentItems = card.children
 
     titleLabel.text = card.title
 

@@ -18,21 +18,17 @@ class YDSpaceyInnerCardView: UIView {
   let titleLabel = UILabel()
 
   // MARK: Init
-  init(with card: YDSpaceyInnerCard) {
+  init(with card: YDSpaceyComponentLiveNPSCardQuestion) {
     super.init(frame: .zero)
     configureUI()
 
     titleLabel.text = card.title
-
-    if let icon = card.icon {
-      iconImageView.image = icon
-    }
+    iconImageView.setImage(card.image, placeholder: Icons.imagePlaceHolder)
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
 }
 
 // MARK: UI

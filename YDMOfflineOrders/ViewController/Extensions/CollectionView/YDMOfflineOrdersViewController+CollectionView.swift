@@ -4,7 +4,6 @@
 //
 //  Created by Douglas Hennrich on 22/02/21.
 //
-
 import UIKit
 
 import YDExtensions
@@ -107,14 +106,15 @@ extension YDMOfflineOrdersViewController {
 
     cell.config(with: order)
 
-    cell.changeUIState(with: .loading)
-
-    viewModel?.getProductsForOrder(at: indexPath.item) { success in
-      cell.changeUIState(with: .normal)
-      if success {
-        DispatchQueue.main.async { [weak self] in
-          guard let self = self else { return }
-          self.collectionView.reloadItems(at: [indexPath])
+    if !order.alreadySearchOnAPI {
+      cell.changeUIState(with: .loading)
+      viewModel?.getProductsForOrder(at: indexPath.item) { success in
+        cell.changeUIState(with: .normal)
+        if success {
+          DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.collectionView.reloadItems(at: [indexPath])
+          }
         }
       }
     }
@@ -289,7 +289,6 @@ extension YDMOfflineOrdersViewController: UICollectionViewDelegateFlowLayout {
 //      CGSize(width: view.frame.size.width, height: 40) :
 //      CGSize(width: view.frame.size.width, height: 235)
 //  }
-
   // Footer Size
   public func collectionView(
     _ collectionView: UICollectionView,

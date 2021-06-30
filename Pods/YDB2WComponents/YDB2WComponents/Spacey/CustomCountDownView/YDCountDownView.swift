@@ -10,6 +10,9 @@ import YDExtensions
 import YDB2WModels
 
 public class YDCountDownView: UIView {
+  // MARK: Properties
+  public var updateTimer: Timer?
+
   // MARK: Components
   let titleLabel = UILabel()
   let vStackView = UIStackView()
@@ -31,14 +34,76 @@ public class YDCountDownView: UIView {
 
   // MARK: Actions
   public func start(with date: Date) {
-    //
-    hoursView.rightNumberLabel.text = "3"
+    updateTimer?.invalidate()
 
-    minutesView.leftNumberLabel.text = "2"
-    minutesView.rightNumberLabel.text = "3"
+    updateTimer = Timer.scheduledTimer(
+      withTimeInterval: 1,
+      repeats: true
+    ) { [weak self] _ in
+      guard let self = self else {
+        self?.updateTimer?.invalidate()
+        return
+      }
 
-    secondsView.leftNumberLabel.text = "5"
-    secondsView.rightNumberLabel.text = "8"
+      self.updateCountDown(with: date)
+    }
+  }
+
+  public func stopTimer() {
+    updateTimer?.invalidate()
+    daysView.resetComponent()
+    hoursView.resetComponent()
+    minutesView.resetComponent()
+    secondsView.resetComponent()
+  }
+
+  @objc func updateCountDown(with date: Date) {
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+
+      let now = Date()
+
+      if date < now {
+        self.stopTimer()
+        return
+      }
+
+      let diff = Calendar.current.dateComponents(
+        [.day, .hour, .minute, .second],
+        from: now,
+        to: date
+      )
+
+      if diff.second != nil {
+        let (first, last) = self.getFirstAndLast(from: diff.second ?? 0)
+        self.secondsView.update(left: first, right: last)
+      }
+
+      if diff.minute != nil {
+        let (first, last) = self.getFirstAndLast(from: diff.minute ?? 0)
+        self.minutesView.update(left: first, right: last)
+      }
+
+      if diff.hour != nil {
+        let (first, last) = self.getFirstAndLast(from: diff.hour ?? 0)
+        self.hoursView.update(left: first, right: last)
+      }
+
+      if diff.day != nil {
+        let (first, last) = self.getFirstAndLast(from: diff.day ?? 0)
+        self.daysView.update(left: first, right: last)
+      }
+    }
+  }
+
+  private func getFirstAndLast(from number: Int) -> (first: String?, last: String?) {
+    if number >= 10,
+       let firstNumber = "\(number)".first,
+       let lastNumber = "\(number)".last {
+      return (String(firstNumber), String(lastNumber))
+    } else {
+      return ("0", "\(number)")
+    }
   }
 }
 
@@ -85,7 +150,7 @@ extension YDCountDownView {
     vStackView.addArrangedSubview(stackView)
     stackView.alignment = .center
     stackView.axis = .horizontal
-    stackView.spacing = 8
+    stackView.spacing = 5
     stackView.distribution = .fillProportionally
 
     //
