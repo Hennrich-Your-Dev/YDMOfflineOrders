@@ -102,7 +102,7 @@ extension ProductDetailsViewController {
     label.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       label.topAnchor.constraint(equalTo: compareProductsView.topAnchor, constant: 12),
-      label.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 40),
+      label.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 30),
       label.heightAnchor.constraint(equalToConstant: 18)
     ])
 
@@ -118,8 +118,8 @@ extension ProductDetailsViewController {
       onlineProductView.topAnchor.constraint(
         equalTo: parent.bottomAnchor
       ),
-      onlineProductView.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 24),
-      onlineProductView.trailingAnchor.constraint(equalTo: compareProductsView.trailingAnchor, constant: -24)
+      onlineProductView.leadingAnchor.constraint(equalTo: compareProductsView.leadingAnchor, constant: 10),
+      onlineProductView.trailingAnchor.constraint(equalTo: compareProductsView.trailingAnchor, constant: -10)
     ])
   }
 }
