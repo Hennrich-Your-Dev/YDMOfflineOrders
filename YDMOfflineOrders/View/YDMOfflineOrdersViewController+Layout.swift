@@ -171,8 +171,8 @@ extension YDMOfflineOrdersViewController {
         constant: 32
       ),
       feedbackStateIcon.centerXAnchor.constraint(equalTo: feedbackStateView.centerXAnchor),
-      feedbackStateIcon.widthAnchor.constraint(equalToConstant: 59),
-      feedbackStateIcon.heightAnchor.constraint(equalToConstant: 73)
+      feedbackStateIcon.widthAnchor.constraint(equalToConstant: 72),
+      feedbackStateIcon.heightAnchor.constraint(equalToConstant: 72)
     ])
   }
 
