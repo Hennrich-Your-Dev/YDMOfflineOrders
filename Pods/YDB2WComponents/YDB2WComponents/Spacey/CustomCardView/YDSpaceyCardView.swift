@@ -8,17 +8,31 @@
 import UIKit
 import YDExtensions
 import YDB2WModels
+import YDUtilities
+import YDB2WAssets
 
 public class YDSpaceyCardView: UIView {
   // MARK: Properties
-  public var callback: ((_ selectedId: String?) -> Void)?
+  public var callback: ((_ card: YDSpaceyComponentLiveNPSCard?, _ cardTag: Int) -> Void)?
+  public var stateView: UIStateEnum = .normal {
+    didSet {
+      changeUIState(with: stateView)
+    }
+  }
+  public var card: YDSpaceyComponentLiveNPSCard?
   var currentItems: [YDSpaceyComponentLiveNPSCardQuestion] = []
+  var components: [UIView] = []
+  var emptyComponents: [UIView] = []
 
   // MARK: Components
   let titleLabel = UILabel()
-  let skipButton = UIButton()
+  public let skipButton = UIButton()
   let vStackView = UIStackView()
   let stackView = UIStackView()
+
+  let emptyIconImageView = UIImageView()
+  let emptyTitleLabel = UILabel()
+  let emptyBodyLabel = UILabel()
 
   // MARK: Init
   public init() {
@@ -36,8 +50,9 @@ public class YDSpaceyCardView: UIView {
 
   // MARK: Actions
   public func configure(with card: YDSpaceyComponentLiveNPSCard) {
-    currentItems = card.children
-
+    self.card = card
+    self.currentItems = card.children
+    self.stateView = .normal
     titleLabel.text = card.title
 
     for (index, item) in currentItems.enumerated() {
@@ -50,18 +65,18 @@ public class YDSpaceyCardView: UIView {
   }
 
   public func cleanUpCard() {
+    callback = nil
+    card = nil
     titleLabel.text = nil
     stackView.subviews.forEach { $0.removeFromSuperview() }
-  }
-
-  @objc func onSkipButton() {
-    callback?(nil)
+    stateView = .normal
   }
 
   @objc func onAction(_ sender: UIGestureRecognizer) {
     guard let index = sender.view?.tag,
       let selectedItem = currentItems.at(index) else { return }
-    callback?(selectedItem.id)
+    card?.storedValue = selectedItem.title
+    callback?(card, skipButton.tag)
   }
 }
 
@@ -71,10 +86,16 @@ extension YDSpaceyCardView {
     configureSkipButton()
     configureTitleLabel()
     configureStackView()
+
+    configureEmptyIcon()
+    configureEmptyTitleLabel()
+    configureEmptyBodyLabel()
   }
 
   func configureTitleLabel() {
     addSubview(titleLabel)
+    components.append(titleLabel)
+
     titleLabel.textColor = Zeplin.black
     titleLabel.textAlignment = .left
     titleLabel.font = .boldSystemFont(ofSize: 14)
@@ -119,6 +140,8 @@ extension YDSpaceyCardView {
 
   func configureStackView() {
     addSubview(vStackView)
+    components.append(vStackView)
+
     vStackView.alignment = .center
     vStackView.axis = .vertical
 
@@ -134,5 +157,74 @@ extension YDSpaceyCardView {
     stackView.alignment = .center
     stackView.axis = .horizontal
     stackView.spacing = 16
+  }
+
+  func configureEmptyIcon() {
+    addSubview(emptyIconImageView)
+    emptyComponents.append(emptyIconImageView)
+
+    emptyIconImageView.tintColor = Zeplin.grayNight
+    emptyIconImageView.image = Icons.thumbUpWired
+
+    emptyIconImageView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      emptyIconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 21),
+      emptyIconImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+      emptyIconImageView.widthAnchor.constraint(equalToConstant: 90),
+      emptyIconImageView.heightAnchor.constraint(equalToConstant: 90)
+    ])
+  }
+
+  func configureEmptyTitleLabel() {
+    addSubview(emptyTitleLabel)
+    emptyComponents.append(emptyTitleLabel)
+
+    emptyTitleLabel.textColor = Zeplin.black
+    emptyTitleLabel.font = .boldSystemFont(ofSize: 16)
+    emptyTitleLabel.textAlignment = .center
+    emptyTitleLabel.text = "Obrigada pela sua contibuição!"
+
+    emptyTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      emptyTitleLabel.topAnchor.constraint(equalTo: emptyIconImageView.bottomAnchor, constant: 10),
+      emptyTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+    ])
+  }
+
+  func configureEmptyBodyLabel() {
+    addSubview(emptyBodyLabel)
+    emptyComponents.append(emptyBodyLabel)
+
+    emptyBodyLabel.textColor = Zeplin.grayLight
+    emptyBodyLabel.font = .systemFont(ofSize: 14)
+    emptyBodyLabel.textAlignment = .center
+    emptyBodyLabel.text = "Suas respostas foram enviadas ao nosso time"
+
+    emptyBodyLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      emptyBodyLabel.topAnchor.constraint(equalTo: emptyTitleLabel.bottomAnchor, constant: 2),
+      emptyBodyLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+    ])
+  }
+}
+
+// MARK: UIState Delegate
+extension YDSpaceyCardView: UIStateDelegate {
+  public func changeUIState(with type: UIStateEnum) {
+    DispatchQueue.main.async { [weak self] in
+      guard let self = self else { return }
+
+      self.components.forEach { $0.isHidden = type == .empty }
+      self.emptyComponents.forEach { $0.isHidden = type == .normal }
+
+      let attributedString = NSAttributedString(
+        string: type == .normal ? "PULAR" : "FECHAR",
+        attributes: [
+          NSAttributedString.Key.foregroundColor: UIColor.Zeplin.grayLight,
+          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+        ]
+      )
+      self.skipButton.setAttributedTitle(attributedString, for: .normal)
+    }
   }
 }

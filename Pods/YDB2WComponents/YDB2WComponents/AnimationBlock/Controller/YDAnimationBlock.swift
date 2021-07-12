@@ -11,9 +11,9 @@ import YDExtensions
 public class YDAnimationBlock: UIView {
   // MARK: Properties
   var icons: [UIImage?] = []
-  let sizes: [CGFloat] = [24, 20, 18, 12]
+  let sizes: [CGFloat] = [24, 20, 18]
   var columns: [CGFloat] = [-10, 10, 20, 30, 40, 50]
-  public var iconTintColor: UIColor? = UIColor.Zeplin.colorPrimaryLight
+  public var iconTintColor: UIColor? = Zeplin.colorPrimaryLight
 
   // MARK: Init
   public init() {

@@ -51,7 +51,10 @@ public enum YDConfigProperty: String {
   case checkForLiveTimerConfig
   case liveHotsiteId = "liveHotsite"
   case liveChatEnabled = "chatEnabled"
+
   case liveChatLikesEnabled = "chatLikesEnabled"
+  case liveChatLikesSpeed = "liveChatLikeSpeed"
+
   case liveChatPolling
   case liveChatPollingError
   case liveChatLimit

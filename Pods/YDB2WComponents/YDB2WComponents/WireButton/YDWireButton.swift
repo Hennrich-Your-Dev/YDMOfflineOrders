@@ -52,7 +52,16 @@ public class YDWireButton: UIButton {
       ]
     )
 
+    let attributedStringDisabled = NSAttributedString(
+      string: self.title,
+      attributes: [
+        NSAttributedString.Key.foregroundColor: Zeplin.redBranding.withAlphaComponent(0.6),
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+      ]
+    )
+
     setAttributedTitle(attributedString, for: .normal)
+    setAttributedTitle(attributedStringDisabled, for: .disabled)
     titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
@@ -70,8 +79,29 @@ public class YDWireButton: UIButton {
       ]
     )
 
+    let attributedStringSelected = NSAttributedString(
+      string: self.title,
+      attributes: [
+        NSAttributedString.Key.foregroundColor: Zeplin.redBranding.withAlphaComponent(0.6),
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .medium)
+      ]
+    )
+
     DispatchQueue.main.async {
       self.setAttributedTitle(attributedString, for: state)
+      self.setAttributedTitle(attributedStringSelected, for: .disabled)
+    }
+  }
+
+  public func setEnabled(_ enabled: Bool) {
+    DispatchQueue.main.async {
+      self.isEnabled = enabled
+
+      if enabled {
+        self.layer.borderColor = UIColor.Zeplin.redBranding.cgColor
+      } else {
+        self.layer.borderColor = UIColor.Zeplin.redBranding.withAlphaComponent(0.6).cgColor
+      }
     }
   }
 

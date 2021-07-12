@@ -16,11 +16,12 @@ import YDLocationModule
 import YDB2WServices
 import YDB2WDeepLinks
 
-// MARK: Delegates
+// MARK: Navigation
 protocol YDMFindStoreNavigationDelegate {
   func onExit()
 }
 
+// MARK: Delegate
 protocol YDMFindStoreViewModelDelegate {
   var error: Binder<Bool> { get }
   var loading: Binder<Bool> { get }
@@ -36,6 +37,8 @@ protocol YDMFindStoreViewModelDelegate {
   func onGetCurrentLocation()
   func onStoreCardAction(type: OnStoreCardActionEnum, store: YDStore)
   func refreshRequest()
+  func annotationMetric()
+  func productMetric()
 }
 
 // MARK: View Model
@@ -44,6 +47,7 @@ class YDMFindStoreViewModel {
   lazy var logger = Logger.forClass(Self.self)
   let navigation: YDMFindStoreNavigationDelegate
   let service: YDB2WServiceDelegate
+  let integration = YDIntegrationHelper.shared
 
   var error: Binder<Bool> = Binder(false)
   var loading: Binder<Bool> = Binder(false)
@@ -77,11 +81,11 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
   }
 
   func trackMetric() {
-    YDIntegrationHelper.shared.trackEvent(withName: .findStoreView, ofType: .state)
+    integration.trackEvent(withName: .findStoreView, ofType: .state)
   }
 
   func getPreviousAddress() {
-    YDIntegrationHelper.shared.getAddress { [weak self] currentAddress in
+    integration.getAddress { [weak self] currentAddress in
       guard let self = self else { return }
       guard let address = currentAddress,
             let coordinates = address.coords
@@ -138,6 +142,7 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
         return
       }
 
+      productMetric()
       UIApplication.shared.open(url, options: [:], completionHandler: nil)
 
     case .whatsapp: break
@@ -150,5 +155,17 @@ extension YDMFindStoreViewModel: YDMFindStoreViewModelDelegate {
       givingAddress: latestAddress,
       givingType: latestType
     )
+  }
+
+  func annotationMetric() {
+    let parameters = TrackEvents.findStore.parameters(body: ["action": "map icon"])
+
+    integration.trackEvent(withName: .findStore, ofType: .action, withParameters: parameters)
+  }
+
+  func productMetric() {
+    let parameters = TrackEvents.findStore.parameters(body: ["action": "ver produto"])
+
+    integration.trackEvent(withName: .findStore, ofType: .action, withParameters: parameters)
   }
 }

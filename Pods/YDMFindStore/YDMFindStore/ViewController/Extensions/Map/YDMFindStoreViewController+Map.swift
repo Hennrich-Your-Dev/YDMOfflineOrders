@@ -213,6 +213,7 @@ extension YDMFindStoreViewController: MKMapViewDelegate {
       return
     }
 
+    viewModel?.annotationMetric()
     redrawPins(highlightAt: index, shouldCenterMap: true)
     collectionView.scrollToItem(
       at: IndexPath(row: index, section: 0),

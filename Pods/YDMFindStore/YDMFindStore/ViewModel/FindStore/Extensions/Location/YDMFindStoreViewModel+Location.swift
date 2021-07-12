@@ -15,7 +15,7 @@ import YDB2WServices
 
 extension YDMFindStoreViewModel {
   func callAddressModuleFromB2W() {
-    YDIntegrationHelper.shared.onAddressModule { [weak self] addressComponentOpt in
+    integration.onAddressModule { [weak self] addressComponentOpt in
       guard let self = self else { return }
       guard let addressComponent = addressComponentOpt,
             let coordinates = addressComponent.coords
@@ -116,7 +116,7 @@ extension YDMFindStoreViewModel: YDLocationDelegate {
             givingType: .location
           )
 
-          YDIntegrationHelper.shared.setNewAddress(
+          self.integration.setNewAddress(
             withCoords: location.coordinate,
             withAddress: address.formatAddress,
             withType: .location

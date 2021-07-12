@@ -29,6 +29,7 @@ public class YDProductCardView: UIView {
   let productNameLabel = UILabel()
   let productPriceLabel = UILabel()
   let shippingLabel = UILabel()
+  let buyButton = UIButton()
   let ratingView = CosmosView()
 
   let shimmerContainer = UIView()

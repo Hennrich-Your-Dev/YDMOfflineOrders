@@ -8,7 +8,7 @@
 import Foundation
 
 public enum YDQuizType {
-  case options
+  case choices
   case unknow
 }
 
@@ -16,36 +16,38 @@ public class YDQuiz: Codable {
   // MARK: Properties
   public var id: String?
   public var title: String?
-  public var options: [YDQuizOptions]
+  public var choices: [YDQuizChoice]
 
   // MARK: Computed variables
-  public var type: YDQuizType = .options
+  public var type: YDQuizType = .choices
   public var storedValue: Any?
 
   // MARK: CodingKeys
   enum CodingKeys: String, CodingKey {
     case id = "_id"
     case title
-    case options = "children"
+    case choices = "children"
   }
 
   // MARK: Init
   public init(
     id: String?,
     title: String?,
-    options: [YDQuizOptions],
-    type: YDQuizType = .options
+    choices: [YDQuizChoice],
+    type: YDQuizType = .choices
   ) {
     self.id = id
     self.title = title
-    self.options = options
+    self.choices = choices
     self.type = type
   }
 }
 
-public class YDQuizOptions: Codable {
-  var id: String?
-  var title: String?
+public class YDQuizChoice: Codable {
+  public var id: String?
+  public var title: String?
+
+  public var selected = false
 
   public init(id: String?, title: String?) {
     self.id = id

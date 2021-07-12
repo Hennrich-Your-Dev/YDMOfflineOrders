@@ -58,7 +58,7 @@ protocol YDMOfflineOrdersViewModelDelegate: AnyObject {
 class YDMOfflineOrdersViewModel {
   // MARK: Properties
   lazy var logger = YDUtilities.Logger.forClass(Self.self)
-  let service: YDB2WServiceDelegate = YDB2WService()
+  let service: YDB2WServiceDelegate
   let navigation: OfflineOrdersNavigationDelegate
   var hasPreviousAddressFromIntegration = YDIntegrationHelper.shared.currentAddres != nil
 
@@ -80,10 +80,12 @@ class YDMOfflineOrdersViewModel {
   // MARK: Init
   init(
     navigation: OfflineOrdersNavigationDelegate,
+    service: YDB2WServiceDelegate = YDB2WService(),
     currentUser: YDCurrentCustomer,
     lazyLoadingOrders: Int
   ) {
     self.navigation = navigation
+    self.service = service
     self.currentUser = currentUser
     self.lazyLoadingOrders = lazyLoadingOrders
 
@@ -196,7 +198,8 @@ extension YDMOfflineOrdersViewModel: YDMOfflineOrdersViewModelDelegate {
     loading.value = true
 
     service.getLasaClientLogin(
-      user: currentUser
+      user: currentUser,
+      socialSecurity: nil
     ) { [weak self] (response: Result<YDLasaClientLogin, YDServiceError>) in
       guard let self = self else { return }
 
